@@ -1,0 +1,8 @@
+{
+  "name": "ionic3-feathers-try1",
+  "app_id": "",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
