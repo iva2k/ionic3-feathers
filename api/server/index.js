@@ -3,7 +3,8 @@ const logger = require('./logger');
 const app = require('./app');
 const port = app.get('port');
 
-// Data seeder:
+// Data seeder. see https://github.com/thosakwe/feathers-seeder
+// Also see possible data patterns: https://github.com/marak/Faker.js
 const seeder = require('feathers-seeder');
 const TODOS = {
   path: 'todos',
