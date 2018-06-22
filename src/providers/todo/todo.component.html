@@ -1,0 +1,10 @@
+<div>
+  <ng-content></ng-content>
+  <ion-list inset>
+    <ion-item *ngFor="let todo of todos">
+      <h2>{{todo.title}}</h2>
+      <p>{{todo.notes}}</p>
+      <p><small>{{todo.id}}</small></p>
+    </ion-item>
+  </ion-list>
+</div>
