@@ -24,3 +24,71 @@ add files ./src/providers/todo/:  todo.component.html, todo.component.ts, todo.s
 modify src/app/app.modue.ts to load todo provider and component
 modify src/pages/home.html to use <app-todos/> component
 
+## Step 3. Create Feathers server
+https://docs.feathersjs.com/guides/chat/readme.html
+
+```bash
+$ npm install @feathersjs/cli -g
+$ mkdir api
+$ cd api
+$ feathers generate app
+```
+
+Answer some questions:
+? Project name api
+? Description
+? What folder should the source files live in? server
+? Which package manager are you using (has to be installed globally)? npm
+? What type of API are you making? REST, Realtime via Socket.io
+
+Start server:
+```bash
+$ npm start
+```
+
+Run tests:
+```bash
+$ npm test
+```
+
+Now let's create a service to respond to the client in the Ionic app:
+```bash
+$ feathers generate service
+```
+? What kind of service is it? NeDB
+? What is the name of the service? todos
+? Which path should the service be registered on? /todos
+? What is the database connection string? nedb://../data
+
+(Skip authentication for now)
+
+```bash
+$ feathers generate hook
+```
+? What is the name of the hook? process-todo
+? What kind of hook should it be? before
+? What service(s) should this hook be for (select none to add it yourself)?
+ todos
+? What methods should the hook be for (select none to add it yourself)? create
+
+### Fix tests
+Use in-memory DB:
+```bash
+$ npm install feathers-memory --save-dev
+```
+see use in: https://docs.feathersjs.com/guides/chat/testing.html
+
+More test goodies
+```bash
+$ npm install shx cross-env --save-dev
+$ npm install istanbul@1.1.0-alpha.1 --save-dev
+```
+- change scripts to wipe out data
+- measure code coverage
+
+### Add data seeder for development
+```bash
+$ npm install --save feathers-seeder
+```
+
+
