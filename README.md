@@ -7,6 +7,8 @@ $ sudo npm install -g cordova
 $ ionic start ionic3-feathers blank
 ```
 
+Fix error when running without cordova, in src/app/app.component.ts add guard "if (platform.is('cordova')) { ... }" around statusBar and splashScreen.
+
 ## Step 2. Add Feathers to Ionic 3
 https://berndsgn.ch/posts/observables-with-angular-and-feathersjs/
 
