@@ -28,7 +28,7 @@ export class TodoComponent implements OnDestroy, OnInit {
   public ngOnInit(): void {
     this.subscription = this.todoProvider.todos$.subscribe(
       (todos: Todo[]) => {
-        this.todos = todos;
+        this.todos = todos.data;
         this.ref.markForCheck();
       },
       err => {
