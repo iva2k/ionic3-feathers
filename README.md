@@ -118,11 +118,17 @@ More test goodies:
 
 ```bash
 $ npm install shx cross-env --save-dev
-$ npm install istanbul@1.1.0-alpha.1 --save-dev
 ```
 
-- change scripts to wipe out data
-- measure code coverage
+Test Coverage:
+
+```bash
+$ npm install nyc --save-dev
+```
+Change scripts in package.json to:
+
+- wipe out data
+- measure code coverage with nyc
 
 ### Add data seeder for development
 
@@ -135,5 +141,6 @@ $ npm install --save feathers-seeder
  * Remove seeder in production, establish consistent Environment settings (dev/prod/staging)
  * Implement authentication
  * Apply security fix when available, track https://github.com/ionic-team/ionic-app-scripts/issues/1425 https://github.com/sass/node-sass/issues/2355
+ * Unify eslint/tslint between Ionic and Feathers server parts.
  
 ##END

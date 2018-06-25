@@ -23,11 +23,22 @@
   },
   "scripts": {
     "test": "npm run eslint && npm run coverage",
-    "coverage": "npm run clean && cross-env NODE_ENV=test istanbul cover node_modules/mocha/bin/_mocha -- test/ --recursive --exit",
+    "coverage": "npm run clean && cross-env NODE_ENV=test nyc npm run mocha && nyc report --reporter=html",
     "eslint": "eslint server/. test/. --config .eslintrc.json",
     "start": "node server/",
     "clean": "shx rm -rf test/data",
-    "mocha": "npm run clean && cross-env NODE_ENV=test mocha test/ --recursive --exit"
+    "mocha": "mocha test/ --recursive --exit"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js"
+    ],
+    "watermarks": {
+      "lines": [70, 95],
+      "functions": [70, 95],
+      "branches": [70, 95],
+      "statements": [70, 95]
+    }
   },
   "dependencies": {
     "@feathersjs/configuration": "^1.0.2",
@@ -48,8 +59,8 @@
     "cross-env": "^5.2.0",
     "eslint": "^4.8.0",
     "feathers-memory": "^2.1.3",
-    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "shx": "^0.3.0"
