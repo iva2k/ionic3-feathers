@@ -25,13 +25,17 @@
     "test": "npm run eslint && npm run coverage",
     "coverage": "npm run clean && cross-env NODE_ENV=test nyc npm run mocha && nyc report --reporter=html",
     "eslint": "eslint server/. test/. --config .eslintrc.json",
-    "start": "node server/",
+    "start"        : "npm run start:dev",
+    "start:dev"    : "cross-env NODE_ENV=dev     node server/",
+    "start:prod"   : "cross-env NODE_ENV=prod    node server/",
+    "start:staging": "cross-env NODE_ENV=staging node server/",
     "clean": "shx rm -rf test/data",
     "mocha": "mocha test/ --recursive --exit"
   },
   "nyc": {
     "exclude": [
-      "**/*.spec.js"
+      "**/*.spec.js",
+      "**/*.test.js"
     ],
     "watermarks": {
       "lines": [70, 95],

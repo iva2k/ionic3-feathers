@@ -21,14 +21,14 @@ describe('Feathers application tests', function() {
     this.server.close(done);
   });
 
-  it('starts and shows the index page', () => {
-    return rp(getUrl()).then(body =>
-      assert.ok(body.indexOf('<html>') !== -1)
-    );
+  it('starts and shows the index page', function() {
+    return rp(getUrl()).then(body => {
+      assert.ok(body.indexOf('<html>') !== -1);
+    });
   });
 
   describe('404', function() {
-    it('shows a 404 HTML page', () => {
+    it('shows a 404 HTML page', function() {
       return rp({
         url: getUrl('path/to/nowhere'),
         headers: {
@@ -40,7 +40,7 @@ describe('Feathers application tests', function() {
       });
     });
 
-    it('shows a 404 JSON error without stack trace', () => {
+    it('shows a 404 JSON error without stack trace', function() {
       return rp({
         url: getUrl('path/to/nowhere'),
         json: true
