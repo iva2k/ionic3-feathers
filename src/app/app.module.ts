@@ -6,7 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { TodoProvider } from '../providers/todo/todo.service';
+import { TodoProvider } from '../providers/todo/todo.provider';
 import { TodoComponent } from '../providers/todo/todo.component';
 
 @NgModule({

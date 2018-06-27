@@ -1,11 +1,11 @@
 # ionic3-feathers app
 Demo of Ionic 3 app with FeathersJS backend services. Implements a simple list of todo items.
 
-# Get complete code
+# Get Started - Get complete code
 
 Get complete app code on Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
 
-# Step-by-Step Instructions
+# Get Started - Step-by-Step Instructions
 
 Create app from scratch following step-by-step. See source code edits as you go on Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
 
@@ -31,6 +31,8 @@ $ npm install --save @feathersjs/client
 $ npm install --save socket.io-client @types/socket.io-client
 ```
 
+Note: What in Angular is called a "service", In Ionic is called a "provider", otherwise they are the same.
+
 ```bash
 $ ionic generate provider Todo
 ```
@@ -39,7 +41,7 @@ Add files to folder ./src/providers/todo/ (see code on Github):
 
  * todo.component.html
  * todo.component.ts
- * todo.service.ts
+ * todo.provider.ts
  * todo.ts 
 
 Modify src/app/app.module.ts to load the provider and component (see code on Github).
@@ -78,7 +80,7 @@ To run tests:
 $ npm test
 ```
 
-Now let's create a service to respond to the client in the Ionic app, answer some questions:
+Now let's create a backend service using Feathers to respond to the client in the Ionic app. Call the command and answer some questions:
 
 ```bash
 $ feathers generate service
@@ -137,10 +139,10 @@ $ npm install --save feathers-seeder
 ```
 
 # TODO:
- * Cleanup Ionic provider vs. Angular service
+
  * Remove seeder in production, establish consistent Environment settings (dev/prod/staging)
- * Implement authentication
- * Apply security fix when available, track https://github.com/ionic-team/ionic-app-scripts/issues/1425 https://github.com/sass/node-sass/issues/2355
+ * Implement Feathers authentication
+ * Vulnerability - Apply security fix when available, track https://github.com/ionic-team/ionic-app-scripts/issues/1425 https://github.com/sass/node-sass/issues/2355
  * Unify eslint/tslint between Ionic and Feathers server parts.
- 
+
 ##END

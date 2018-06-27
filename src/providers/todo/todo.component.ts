@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 
-import { TodoProvider } from "./todo.service";
+import { TodoProvider } from "./todo.provider";
 import { Todo } from "./todo";
 
 @Component({
@@ -17,7 +17,7 @@ import { Todo } from "./todo";
   templateUrl: "todo.component.html"
 })
 export class TodoComponent implements OnDestroy, OnInit {
-  private todos: Todo[] = [];
+  protected todos: Todo[] = [];
   private subscription: Subscription;
 
   constructor(
