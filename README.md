@@ -13,6 +13,11 @@ Demo of Ionic 3 app with FeathersJS backend services.
  - Uses FeathersJS for a NodeJS backend server and a client in the app
  - Debugging in VSCode
 
+There are two ways to get started:
+
+1. get the code from Github
+2. follow step-by-step instructions (and get the relevant code from the Github)
+
 # Get Started - Get complete code
 
 Get complete code from Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
