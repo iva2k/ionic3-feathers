@@ -12,15 +12,13 @@
             "runtimeArgs": [
                 "run",
                 "start:dev"
-            ],
-            "port": 3030
+            ]
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/server/index.js",
-            "port": 3030
         }
     ]
 }

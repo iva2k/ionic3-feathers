@@ -1,13 +1,25 @@
 # ionic3-feathers app
-Demo of Ionic 3 app with FeathersJS backend services. Implements a simple list of todo items.
+
+Demo of Ionic 3 app with FeathersJS backend services. 
+
+## Features
+
+ - A simple list of todo items stored on a backend server
+ - Uses Ionic 3 for the app that can be delivered on multiple platforms: 
+   - Webserver 
+   - iOS native app
+   - Android native app
+   - Windows/MacOS/Linux desktop app (with addition of Electron, not covered here)
+ - Uses FeathersJS for a NodeJS backend server and a client in the app
+ - Debugging in VSCode
 
 # Get Started - Get complete code
 
-Get complete app code on Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
+Get complete code from Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
 
 # Get Started - Step-by-Step Instructions
 
-Create app from scratch following step-by-step. See source code edits as you go on Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
+Create app from scratch following these step by step. See source code edits as you go on Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
 
 ## Step 1. Blank Ionic 3 app
 From https://ionicframework.com/getting-started
@@ -23,7 +35,46 @@ $ cd ionic3-feathers
 
 Fix an error when running without cordova, in src/app/app.component.ts add guard ```if (platform.is('cordova')) { ... }``` around statusBar.styleDefault() and splashScreen.hide().
 
-## Step 2. Add Feathers to Ionic 3
+### VSCode
+
+To debug Ionic 3 app using **VSCode**, see [this link](http://www.damirscorner.com/blog/posts/20161122-DebuggingIonic2AppsInChromeFromVisualStudioCode.html). In summary, add to package.json:
+
+```
+"config" : {
+  "ionic_source_map": "source-map"
+},
+```
+
+Create ```launch.json``` file for VSCode (use VSCode shortcuts in Debug ribbon):
+
+```
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch in Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8100",
+      "sourceMaps": true,
+      "webRoot": "${workspaceRoot}/www"
+    }
+  ]
+}
+```
+
+For debugging, first, run in the VSCode terminal:
+
+```
+ionic serve -b
+```
+
+Next, start debug with "Launch in Chrome" configuration.
+
+For debugging on Android emulator, see [this link](http://www.damirscorner.com/blog/posts/20170113-DebugIonic2AppsInVsEmulatorForAndroid.html), it uses [Microsoft's Android Emulator](https://visualstudio.microsoft.com/vs/msft-android-emulator/).
+
+
+## Step 2. Add Feathers Client to Ionic 3
 Inspired by https://berndsgn.ch/posts/observables-with-angular-and-feathersjs/
 
 ```bash
@@ -48,8 +99,10 @@ Modify src/app/app.module.ts to load the provider and component (see code on Git
 
 Modify src/pages/home.html to use <app-todos/> component (see code on Github).
 
+With all the source code in place, but no server running, the app will fill few dummy items into the Todo list. This will be changed in the next section.
+
 ## Step 3. Create Feathers server
-From https://docs.feathersjs.com/guides/chat/readme.html
+From Feathers guide https://docs.feathersjs.com/guides/chat/readme.html
 
 ```bash
 $ npm install @feathersjs/cli -g
@@ -90,7 +143,7 @@ $ feathers generate service
   ? What is the database connection string? nedb://../data
 ```
 
-(Skip authentication service for now)
+(Skip authentication service in the guide for now)
 
 Add hooks to check and fulfill the incoming data:
 
@@ -137,6 +190,18 @@ Change scripts in package.json to:
 ```bash
 $ npm install --save feathers-seeder
 ```
+
+With all the added source code in place, the app will fetch some todo items from the server. These items are auto-generated, which will be changed in the next sections.
+
+## Step 4. Create user registration and authentication
+
+To be continued...
+
+
+## Step 5. Create todo items from the app
+
+To be continued...
+
 
 # TODO:
 
