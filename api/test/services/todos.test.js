@@ -2,10 +2,11 @@ const assert = require('assert');
 const app = require('../../server/app');
 
 describe('\'todos\' service', function() {
-  it('registered the service', function() {
+  it('registered the service', function(done) {
     const service = app.service('todos');
 
     assert.ok(service, 'Registered the service');
+    done();
   });
 
   it('creates and processes todo, adds user information', async function() {

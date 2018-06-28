@@ -9,7 +9,7 @@ describe('\'process-todo\' hook', function() {
   const user = { _id: 'test' }; // A user stub with just an `_id`
   const params = { user }; // Provide the user for service method calls
 
-  beforeEach(function() {
+  beforeEach(function(done) {
     app = feathers();
 
     // Register a dummy custom service that just return the message data back
@@ -24,6 +24,7 @@ describe('\'process-todo\' hook', function() {
     //app.service('todos').hooks({
     //  before: processTodo()
     //});
+    done();
   });
 
   it('processes the todo as expected', function () {
