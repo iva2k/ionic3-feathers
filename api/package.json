@@ -26,9 +26,9 @@
     "coverage": "npm run clean && cross-env NODE_ENV=test nyc npm run mocha && nyc report --reporter=html",
     "eslint": "eslint server/. test/. --config .eslintrc.json",
     "start"        : "npm run start:dev",
-    "start:dev"    : "cross-env NODE_ENV=dev        node server/",
-    "start:prod"   : "cross-env NODE_ENV=production node server/",
-    "start:staging": "cross-env NODE_ENV=staging    node server/",
+    "start:dev"    : "cross-env NODE_ENV=development node server/",
+    "start:prod"   : "cross-env NODE_ENV=production  node server/",
+    "start:staging": "cross-env NODE_ENV=staging     node server/",
     "clean": "shx rm -rf test/data",
     "mocha": "mocha test/ --recursive --exit"
   },

@@ -210,7 +210,7 @@ To be continued...
 
 # TODO:
 
- * Remove seeder in production, establish consistent Environment settings (dev/prod/staging)
+ * Remove seeder in production
  * Implement Feathers authentication
  * Vulnerability - Apply security fix when available, track https://github.com/ionic-team/ionic-app-scripts/issues/1425 https://github.com/sass/node-sass/issues/2355
  * Unify eslint/tslint between Ionic and Feathers server parts.
