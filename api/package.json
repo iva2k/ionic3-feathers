@@ -24,11 +24,13 @@
   "scripts": {
     "test": "npm run eslint && npm run coverage",
     "coverage": "npm run clean && cross-env NODE_ENV=test nyc npm run mocha && nyc report --reporter=html",
+    "test:debug": "npm run clean && cross-env NODE_ENV=test mocha test/ --recursive --exit",
     "eslint": "eslint server/. test/. --config .eslintrc.json",
-    "start"        : "npm run start:dev",
-    "start:dev"    : "cross-env NODE_ENV=development node server/",
-    "start:prod"   : "cross-env NODE_ENV=production  node server/",
-    "start:staging": "cross-env NODE_ENV=staging     node server/",
+    "start"            : "npm run start:dev",
+    "start:dev"        : "cross-env NODE_ENV=development node server/",
+    "start:dev:vscode" : "cross-env NODE_ENV=development node",
+    "start:prod"       : "cross-env NODE_ENV=production  node server/",
+    "start:staging"    : "cross-env NODE_ENV=staging     node server/",
     "clean": "shx rm -rf test/data",
     "mocha": "mocha test/ --recursive --exit"
   },
@@ -38,13 +40,29 @@
       "**/*.test.js"
     ],
     "watermarks": {
-      "lines": [70, 95],
-      "functions": [70, 95],
-      "branches": [70, 95],
-      "statements": [70, 95]
+      "lines": [
+        70,
+        95
+      ],
+      "functions": [
+        70,
+        95
+      ],
+      "branches": [
+        70,
+        95
+      ],
+      "statements": [
+        70,
+        95
+      ]
     }
   },
   "dependencies": {
+    "@feathersjs/authentication": "^2.1.6",
+    "@feathersjs/authentication-jwt": "^2.0.1",
+    "@feathersjs/authentication-local": "^1.2.1",
+    "@feathersjs/authentication-oauth2": "^1.1.0",
     "@feathersjs/configuration": "^1.0.2",
     "@feathersjs/errors": "^3.3.0",
     "@feathersjs/express": "^1.2.3",
@@ -56,6 +74,8 @@
     "feathers-seeder": "^1.0.10",
     "helmet": "^3.12.1",
     "nedb": "^1.8.0",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth20": "^1.0.0",
     "serve-favicon": "^2.5.0",
     "winston": "^3.0.0"
   },

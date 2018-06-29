@@ -1,34 +1,57 @@
 const assert = require('assert');
 const feathers = require('@feathersjs/feathers');
+const memory = require('feathers-memory');
+//const processTodo = require('../../server/hooks/process-todo');
 const appHooks = require('../../server/app.hooks');
 const hooks = require('../../server/services/todos/todos.hooks');
-//const processTodo = require('../../server/hooks/process-todo');
 
 describe('\'process-todo\' hook', function() {
   let app;
-  const user = { _id: 'test' }; // A user stub with just an `_id`
-  const params = { user }; // Provide the user for service method calls
+  let user;
+  let params;
 
-  beforeEach(function(done) {
+  beforeEach(async function() {
+    // Database adapter options
+    const options = {
+      id: '_id', // Enforce _id usage for consistency, must be used for all services, so they are interchangeable.
+      paginate: {
+        default: 10,
+        max: 25
+      }
+    };
+
     app = feathers();
 
-    // Register a dummy custom service that just return the message data back
+    // Register `users` service in-memory
+    app.use('/users', memory(options));
+
+    // Register a dummy custom service that just return the todo data back
     app.use('/todos', {
       async create(data) {
         return data;
       }
     });
 
-    app.hooks(appHooks);
-    app.service('todos').hooks(hooks);
+    //// Register the `processTodo` hook on that service - bad, can hide broken inter-dependencies.
     //app.service('todos').hooks({
-    //  before: processTodo()
+    //  before: {
+    //    create: processTodo()
+    //  }
     //});
-    done();
+
+    // Load all appHooks, to increase test coverage (e.g. for log.js)
+    app.hooks(appHooks);
+
+    // Load actual hooks file to increase test coverage - good, verifies actual inter-dependencies.
+    app.service('todos').hooks(hooks);
+
+    user = await app.service('users').create({ email: 'test@example.com' });
+    params = { user: user }; // Provide the user for service method calls
+
   });
 
-  it('processes the todo as expected', function () {
-    // Create a new message
+  it('processes the todo as expected', function() {
+    // Create a new todo
     return app.service('todos').create({
       title: 'Test task',
       additional: 'should be removed',
@@ -36,14 +59,14 @@ describe('\'process-todo\' hook', function() {
     }, params)
       .then(todo => {
         assert.equal(todo.title, 'Test task');
-        //TODO:    assert.equal(todo.userId, 'test'); // `userId` was set
+        assert.equal(todo.userId, user._id); // `userId` was set
         assert.ok(!todo.additional); // `additional` property has been removed
         assert.equal(todo.notes, 'should be passed');
       });
   });
 
   it('rejects the todo without title as expected', function() {
-    // Try to create a new message without title
+    // Try to create a new todo without title
     return app.service('todos').create({
       // no title
       notes: 'does not matter'
@@ -55,7 +78,7 @@ describe('\'process-todo\' hook', function() {
   });
 
   it('processes the todo without notes as expected', function() {
-    // Create a new message without notes
+    // Create a new todo without notes
     return app.service('todos').create({
       title: 'Test task 2',
       additional: 'should be removed'
@@ -63,7 +86,7 @@ describe('\'process-todo\' hook', function() {
     }, params)
       .then(todo => {
         assert.equal(todo.title, 'Test task 2');
-        //TODO:    assert.equal(todo.userId, 'test'); // `userId` was set
+        assert.equal(todo.userId, user._id); // `userId` was set
         assert.ok(!todo.additional); // `additional` property has been removed
         assert.equal(todo.notes, ''); // empty `notes` property has been created
       });

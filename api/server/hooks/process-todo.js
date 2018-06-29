@@ -6,7 +6,7 @@ module.exports = function (options = {}) {
   return async context => {
 
     // Our data model:
-    //  id: string;
+    //  _id: string;
     //  title: string;
     //  notes: string;
     // TODO: implement data-driven approach (based on schema?)
@@ -19,25 +19,22 @@ module.exports = function (options = {}) {
       context.data.notes = '';
     }
 
+    // The authenticated user. If no user, it is important for the seeder to pass given userId.
+    const userId = context.params.user ? context.params.user._id : context.data.userId;
+
     const title = context.data.title
       // Titles can't be longer than 400 characters
       .substring(0, 400);
 
     const notes = context.data.notes
-      // Titles can't be longer than 4096 characters
+      // Notes can't be longer than 4096 characters
       .substring(0, 4096);
-
-    // TODO:
-    //    // The authenticated user
-    //    const user = context.params.user;
-    //    // The actual message text
 
     // Override the original data (so that people can't submit additional stuff)
     context.data = {
       title,
       notes,
-      //      // Set the user id
-      //      userId: user._id,
+      userId: userId,
       // Add the current date
       createdAt: new Date().getTime()
     };

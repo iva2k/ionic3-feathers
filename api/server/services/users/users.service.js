@@ -1,7 +1,7 @@
-// Initializes the `todos` service on path `/todos`
+// Initializes the `users` service on path `/users`
 const createService = require('feathers-nedb');
-const createModel = require('../../models/todos.model');
-const hooks = require('./todos.hooks');
+const createModel = require('../../models/users.model');
+const hooks = require('./users.hooks');
 
 module.exports = function (app) {
   const Model = createModel(app);
@@ -14,10 +14,10 @@ module.exports = function (app) {
   };
 
   // Initialize our service with any options it requires
-  app.use('/todos', createService(options));
+  app.use('/users', createService(options));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('todos');
+  const service = app.service('users');
 
   service.hooks(hooks);
 };

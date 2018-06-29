@@ -19,34 +19,54 @@ function run() {
 logger.info('NODE_ENV = %s', process.env.NODE_ENV);
 logger.info('app.get(\'env\') = %s', app.get('env'));
 
-if (app.get('env') === 'production') {
-  run();
-} else {
+async function seedDB() {
   // Data seeder. see https://github.com/thosakwe/feathers-seeder
   // Also see possible data patterns: https://github.com/marak/Faker.js
   const seeder = require('feathers-seeder');
-  const TODOS = {
-    path: 'todos',
-    delete: true,
-    count: 3,
-    templates: [
-      {title: 'Task A', notes: 'Perform task A, then chill.'},
-      {title: 'Task B', notes: 'Perform task B, then nap.'},
-      {title: 'Task C', notes: '{{lorem.sentence}}'}
-    ]
+  const USERS = {
+    path: 'users',
+    count: 2,
+    template: {
+      email: '{{internet.email}}',
+      //username: '{{internet.userName}}',
+      //name: '{{name.firstName}} {{name.lastName}}',
+      password: '{{internet.password}}',
+      //TODO: lastLogin: () => moment().subtract(7, 'days').format()
+    },
+    callback(user, seed) {
+      // Create todos for each user
+      return seed({
+        delete: false,
+        count: 1,
+        path: 'todos',
+        template: { title: 'Task {{commerce.productName}}', notes: 'Perform {{company.catchPhrase}}, then {{hacker.verb}}.', userId: user._id },
+        // Note that hooks must be setup to pass given userId if no user is authenticated.
+        params: {
+          userId: user._id
+        }
+      });
+    }
   };
   const services = [];
-  services.push(TODOS);
-  logger.info('Seeding the database.');
-  app.configure(seeder(
+  services.push(USERS);
+  logger.info('Seeding the database...');
+  await app.configure(seeder(
     {
+      delete: true,
       services
     }
-  //  app.get('seeder')
-  ))
-    .seed()
-    .then(() => {
-      run();
-    })
-  ;
+    //  app.get('seeder')
+  )).seed();
+  logger.info('Done seeding the database.');
 }
+
+if (app.get('env') === 'production' || app.get('env') === 'test') {
+  // No seeding
+  run();
+} else {
+  // 'development', 'staging'
+  seedDB().then( () =>
+    run()
+  ).catch( () => {} );
+}
+
