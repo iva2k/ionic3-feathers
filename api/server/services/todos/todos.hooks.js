@@ -1,5 +1,3 @@
-
-
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
 const processTodo = require('../../hooks/process-todo');
