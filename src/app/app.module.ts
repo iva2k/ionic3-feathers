@@ -5,15 +5,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+
 import { TodoProvider } from '../providers/todo/todo.provider';
-import { TodoComponent } from '../providers/todo/todo.component';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    TodoComponent
   ],
   imports: [
     BrowserModule,
@@ -21,12 +18,11 @@ import { TodoComponent } from '../providers/todo/todo.component';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   providers: [
-    StatusBar,
     SplashScreen,
+    StatusBar,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     TodoProvider
   ]

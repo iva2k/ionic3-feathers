@@ -16,8 +16,8 @@ Demo of Ionic 3 app with FeathersJS backend services.
 
 There are two ways to get started:
 
-1. get the code from Github
-2. follow step-by-step instructions (and get the relevant code from the Github)
+1. Get the code from Github
+2. Follow step-by-step instructions (and get the relevant code from the Github)
 
 # Get Started - Get complete code
 
@@ -406,6 +406,14 @@ With all the added source code in place, the server will have authentication ser
  
 ## Step 5. Create User Login in the app
 
+First we will modify Home page and Todo component to lazy-loading modules, showing how all pages and components will be done for faster app responsiveness:
+
+  - Add file src/pages/home/home.module.ts
+  - Add ```@IonicPage()``` and related import from ionic-angular to src/pages/home/home.ts
+  - Change usages of HomePage component to string 'HomePage' and remove all imports of HomePage.
+  
+Do the same for Todo component, import it in home.module.ts and list in "imports" section.
+
 To be continued...
 
 ## Step 6. Create todo items from the app
@@ -421,6 +429,8 @@ For all additions:
  * [_] All hook tests should use service hooks file, not direct instantiation of a single hook (to verify subtle inter-dependencies).
  * [_] All hook tests should use app.hooks (to verify inter-dependencies, and increase coverage).
  * [_] All tests produced by ```feathers generate``` should be converted from '() => {...}' to 'function() {...}' in describe() and it() functions (Mocha requirement and feathers bug, causes done() race conditions).
+ * [_] All new pages should be converted to lazy-loading modules (add file src/pages/XX/XX.module.ts, add ```import {IonicPage} from 'ionic-angular';``` and decorator ```@IonicPage()``` before @Component in src/pages/XX/XX.ts file, and change all usages of component XX to string 'XX', remove all imports of XX component).
+ * [_] All new components should be converted to lazy-loading modules (add file .../XX.component.module.ts, add import of XX_ComponentModule to each page module that uses it and remove all imports of XX component).
  
 # TODO:
 
@@ -428,5 +438,6 @@ For all additions:
  * Vulnerability - Apply security fix when available, track https://github.com/ionic-team/ionic-app-scripts/issues/1425 https://github.com/sass/node-sass/issues/2355
  * Unify eslint/tslint between Ionic and Feathers server parts.
  * Tests for Ionic app.
+ * Reorganize folders so that Ionic app is built into Feathers api/public folder.
 
 ##END
