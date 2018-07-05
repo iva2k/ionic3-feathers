@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Nav, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, Nav, NavController, NavParams, Tabs, Tab } from 'ionic-angular';
 
 export interface IMenuItem {
   title: string;
