@@ -11,7 +11,7 @@ import feathers from "@feathersjs/client";
 @Injectable()
 export class FeathersProvider {
 
-  const apiUrl = 'http://localhost:3030';
+  apiUrl = 'http://localhost:3030';
 //  apiUrl = 'https://jsonplaceholder.example.com';
 
   private _feathers = feathers();
