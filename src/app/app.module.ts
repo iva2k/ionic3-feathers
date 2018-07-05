@@ -10,11 +10,18 @@ import { TodoProvider } from '../providers/todo/todo.provider';
 
 @NgModule({
   declarations: [
-    MyApp,
+    MyApp
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {
+      menuType: 'overlay', // 'push' - slide out pushing the page, 'reveal' - slide out pushing the page (iOS), 'overlay' - slide out covering the page (MD and Windows)
+      platforms: {
+        ios: {
+          menuType: 'reveal',
+        }
+      }
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

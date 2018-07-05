@@ -7,7 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = 'HomePage';
+  rootPage: any = 'MenuPage'; // Insert menu component as root.
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {

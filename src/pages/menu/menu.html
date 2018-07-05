@@ -1,0 +1,36 @@
+<ion-menu [content]="content" persistent="true">
+
+  <ion-header>
+    <ion-toolbar>
+      <!-- ion-buttons left
+        <button ion-button menuClose icon-only>
+          <ion-icon name="arrow-back"></ion-icon>
+        </button>
+      </ion-buttons-->
+  
+      <ion-title>
+        Menu
+      </ion-title>
+
+      <!-- ion-buttons end
+        <button ion-button icon-only (click)="openModal()">
+          <ion-icon name="settings"></ion-icon>
+        </button>
+      </ion-buttons-->
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <button ion-item menuClose *ngFor="let item of menuItems" (click)="onClick(item)">
+        <ion-icon item-start [name]="item.icon" [color]="item.type === 'nav' && isActive(item.page, item.tabPage)"></ion-icon>
+        {{item.title}}
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<!-- main navigation -->
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content [swipeBackEnabled]="false"></ion-nav>

@@ -373,7 +373,7 @@ Copy the code from Github to api/server/hooks/populate-user.js and api/test/serv
 
 ### Fix / Add More Tests
 
-See the sources in Github. The changes add tests and improve generated code.
+See the sources on Github. The changes add tests and improve generated code.
 
 ### Summary
 
@@ -412,7 +412,20 @@ First we will modify Home page and Todo component to lazy-loading modules, showi
   - Add ```@IonicPage()``` and related import from ionic-angular to src/pages/home/home.ts
   - Change usages of HomePage component to string 'HomePage' and remove all imports of HomePage.
   
-Do the same for Todo component, import it in home.module.ts and list in "imports" section.
+Do the same for Todo component, import it in home.module.ts and list in its "imports" section.
+
+Next we will create a side menu, similar to "super" and "sidemenu" ionic templates. We will implement it in a separate menu page, and wire it for both navigation and actions using a data table.
+
+```bash
+$ ionic g page menu
+```
+
+See code on Github for the edits of src/pages/menu files and changes to existing files:
+
+ - src/app/app.component.ts (change rootPage to the new 'MenuPage')
+ - src/app/app.module.ts (add menuType)
+ - src/pages/*/*.html (add menu button to all HTML pages)
+
 
 To be continued...
 
