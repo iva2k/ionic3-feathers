@@ -2,20 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from "rxjs/Observable";
 import { Observer } from "rxjs/Observer";
-import io from "socket.io-client";
 
-//import feathers from "@feathersjs/rest-client";
-//import feathers from "@feathersjs/primus-client";
-//import socketio from "@feathersjs/socketio-client";
-import feathers from "@feathersjs/client";
+import { FeathersProvider } from "../../providers/feathers/feathers";
 
 import { Todo } from "./todo";
 
 @Injectable()
 export class TodoProvider {
-
-  apiUrl = 'http://localhost:3030';
-//  apiUrl = 'https://jsonplaceholder.example.com';
 
   public todos$: Observable<Todo[]>;
   private todosObserver: Observer<Todo[]>;
@@ -24,19 +17,12 @@ export class TodoProvider {
     todos: Todo[];
   };
 
-  constructor() {
+  constructor(
+    feathersProvider: FeathersProvider
+  ) {
     console.log('Hello from TodoProvider');
     //super();
-    const socket = io(this.apiUrl, {
-//      transports: ['websocket'],
-//      forceNew: true
-    });
-    const client = feathers();
-    client.configure(feathers.socketio(socket));
-
-//    client.configure(feathers.authentication());
-
-    this.feathersService = client.service("todos");
+    this.feathersService = feathersProvider.service("todos");
 
     this.feathersService.on("created", todo => this.onCreated(todo));
     this.feathersService.on("updated", todo => this.onUpdated(todo));

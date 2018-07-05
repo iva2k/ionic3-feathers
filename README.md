@@ -417,14 +417,25 @@ Do the same for Todo component, import it in home.module.ts and list in its "imp
 Next we will create a side menu, similar to "super" and "sidemenu" ionic templates. We will implement it in a separate menu page, and wire it for both navigation and actions using a data table.
 
 ```bash
-$ ionic g page menu
+$ ionic generate page menu
 ```
 
-See code on Github for the edits of src/pages/menu files and changes to existing files:
+See code on Github for the edits of src/pages/menu/ files and changes to existing files:
 
  - src/app/app.component.ts (change rootPage to the new 'MenuPage')
  - src/app/app.module.ts (add menuType)
  - src/pages/*/*.html (add menu button to all HTML pages)
+
+Next we will refactor todos provider - move Feathers client into a new provider, so a single service / API connection is used by all various services we will need from Feathers backend.
+
+```bash
+$ ionic generate provider Feathers
+```
+
+See code on Github for the edits of src/providers/feathers/feathers.ts file and changes to existing files:
+
+ - src/app/app.module.ts (added provider by ionic generate)
+ - src/providers/todo/todo.provider.ts (refactored to use Feathersprovider)
 
 
 To be continued...
