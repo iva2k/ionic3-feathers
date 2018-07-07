@@ -1,11 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, Nav, NavController, NavParams, Tabs, Tab } from 'ionic-angular';
 
+import { FeathersProvider } from "../../providers/feathers/feathers";
+
 export interface IMenuItem {
   title: string;
   type: 'nav' | 'action';
   icon: string;
-  action?: () => void;
+  action?: (that) => void;
   page?: string;
   tabPage?: any;
   tabIndex?: number; // Equal to the order of our tabs inside tabs.ts
@@ -23,7 +25,7 @@ export class MenuPage {
     // Example of tabbed page: { title: 'Home', type: 'nav', icon: 'home', page: 'TabsPage', tabPage: 'Tab1Page', tabIndex: 0 },
     //{ title: 'Tab 2'      , type: 'nav'   , icon: 'contacts', page: 'TabsPage', tabPage: 'Tab2Page', tabIndex: 1 },
     //{ title: 'Settings'   , type: 'nav'   , icon: 'settings', page: 'SettingsPage' },
-    { title: 'Logout'     , type: 'action', icon: 'log-out' , action() { /*TODO: Implement logout.*/ } },
+    { title: 'Logout'     , type: 'action', icon: 'log-out' , action(that) { that.logout(); } },
   ];
 
   // Reference to the app's root nav
@@ -32,7 +34,11 @@ export class MenuPage {
   // Basic root for our content view
   public rootPage: any = 'HomePage';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public feathersProvider: FeathersProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams
+  ) {
   }
 
   ionViewDidLoad() {
@@ -42,7 +48,7 @@ export class MenuPage {
   public onClick(menuItem: IMenuItem) {
 
     if (menuItem.type === 'action') {
-      return menuItem.action();
+      return menuItem.action(this);
     }
 
     // The active child nav is our Tabs Navigation
@@ -83,4 +89,14 @@ export class MenuPage {
     return;
   }
 
+  public logout() {
+    this.feathersProvider.logout(this.navCtrl)
+      .then(() => {
+        this.nav.setRoot('LoginPage'); // return to '/' (TODO: how to return to page defined in app.component.ts?)
+      })
+      .catch(() => {
+        this.nav.setRoot('LoginPage'); // return to '/' (TODO: how to return to page defined in app.component.ts?)
+      })
+    ;
+  }
 }

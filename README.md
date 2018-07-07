@@ -420,7 +420,7 @@ Next we will create a side menu, similar to "super" and "sidemenu" ionic templat
 $ ionic generate page menu
 ```
 
-See code on Github for the edits of src/pages/menu/ files and changes to existing files:
+See code on Github for the edits of generated src/pages/menu/ files and changes to existing files:
 
  - src/app/app.component.ts (change rootPage to the new 'MenuPage')
  - src/app/app.module.ts (add menuType)
@@ -432,13 +432,33 @@ Next we will refactor todos provider - move Feathers client into a new provider,
 $ ionic generate provider Feathers
 ```
 
-See code on Github for the edits of src/providers/feathers/feathers.ts file and changes to existing files:
+See code on Github for the edits of generated src/providers/feathers/feathers.ts file and changes to existing files:
 
  - src/app/app.module.ts (added provider by ionic generate)
  - src/providers/todo/todo.provider.ts (refactored to use Feathersprovider)
 
+Finally, we will create login/registration page and use Feathers client authentication. 
+We will also add some guards to redirect pages that require auth to login page.
 
-To be continued...
+Note that Ionic 3 NavController has very limited guarding functionality, see discussion in [ionic#11459](https://github.com/ionic-team/ionic/issues/11459).
+Using ionViewCanEnter() in Ionic 3 is very unreliable, and does not support redirects. Ionic 4 will be using Angular router with robust guard system, but it is not yet released.
+To solve this issue we use postponed redirects with setTimeout() in guard functions and move guard logic into FeathersProvider to have streamlined guards code.
+
+```bash
+$ ionic generate page login
+```
+
+See code on Github for the edits of generated src/pages/login/ files and changes to existing files:
+
+ - config.xml (added <preference name="KeyboardDisplayRequiresUserAction" value="false" /> to allow keyboard)
+ - package.json and package-lock.json (cordova plugins)
+ - src/app/app.component.ts (guard redirect calback functions)
+ - src/app/app.html (added #navCtrl for app.component.ts NavController)
+ - src/pages/home/home.ts (added ionViewCanEnter() with auth guard)
+ - src/pages/menu/menu.ts (logout implementation)
+ - src/providers/feathers/feathers.ts (login and registration functionality)
+
+With all the added source code in place, the app will have authentication service, login and registration functions. The app will show all todos by all users. The todos create and edit functions will be added to the app in the next sections.
 
 ## Step 6. Create todo items from the app
 
@@ -458,7 +478,13 @@ For all additions:
  
 # TODO:
 
- * Implement Feathers authentication in the app.
+ * Revisit: save login persistently (app, browser, desktop)
+ * Detect and reconnect Feathers client if connection fails, keep retrying.
+ * If persistent login is saved but rejected, show appropriate message (e.g. re-login)
+ * todo's find failing due to hooks error, somehow todos leave tasks behind with userId of deleted users -> Fix seeder (does not delete todos).
+ * forgot password
+ * Goolge/FB login?
+ * Figure out disappearing menu when navigating to .../#/menu/home (not anymore? after changing to setRoot instead of reassigning rootPage)
  * Vulnerability - Apply security fix when available, track https://github.com/ionic-team/ionic-app-scripts/issues/1425 https://github.com/sass/node-sass/issues/2355
  * Unify eslint/tslint between Ionic and Feathers server parts.
  * Tests for Ionic app.
