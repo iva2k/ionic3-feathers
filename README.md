@@ -14,14 +14,30 @@ Demo of Ionic 3 app with FeathersJS backend services.
  - Debugging in VSCode (both the app and server back-end)
  - Automated tests of the server code
 
-There are two ways to get started:
+There are two ways to get started (Assuming node/npm and git is already installed, if not, google it):
 
-1. Get the code from Github
+1. Get the complete code from Github
 2. Follow step-by-step instructions (and get the relevant code from the Github)
 
 # Get Started - Get complete code
 
 Get complete code from Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
+
+```bash
+$ sudo npm install -g ionic cordova
+$ git clone https://github.com/iva2k/ionic3-feathers
+$ cd ionic3-feathers
+$ npm i
+$ cd api
+$ npm i
+$ npm start
+```
+
+and in a separate terminal run:
+
+```bash
+$ ionic serve
+```
 
 # Get Started - Step-by-Step Instructions
 
@@ -33,8 +49,7 @@ From https://ionicframework.com/getting-started
 First, install [NodeJS](http://nodejs.org/). Then in a terminal / command line:
 
 ```bash
-$ sudo npm install -g ionic
-$ sudo npm install -g cordova
+$ sudo npm install -g ionic cordova
 $ ionic start ionic3-feathers blank
 $ cd ionic3-feathers
 ```
