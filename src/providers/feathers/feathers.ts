@@ -24,6 +24,7 @@ export class FeathersProvider {
       console.log('Feathers reauthentication-error, re-authenticating...');
       this.authenticate(this.reauth);
     } else {
+      this.reauth = null;
       console.log('DEBUG: Feathers reauthentication-error, but no credentials saved.');
     }
   };

@@ -12,7 +12,6 @@ import { Todo } from "./todo";
 
 @Component({
   selector: "app-todos",
-  providers: [TodoProvider],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "todo.component.html"
 })
@@ -32,10 +31,13 @@ export class TodoComponent implements OnDestroy, OnInit {
         this.ref.markForCheck();
       },
       err => {
-        console.error(err);
+        console.error('Error in subscribe to TodoProvider: ', err);
       }
     );
-    this.todoProvider.find();
+    this.todoProvider.find({
+      $sort: {createdAt: -1},
+      $limit: 25
+    });
   }
 
   public ngOnDestroy() {

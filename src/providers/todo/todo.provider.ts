@@ -58,9 +58,9 @@ export class TodoProvider {
 //    this.feathersService.create(data);
 //  }
 
-  public find() {
+  public find(query) {
     this.feathersService.find({
-      query: {}
+      query: query
     })
     .then( (todos: Todo[]) => {
       this.dataStore.todos = todos;
@@ -68,7 +68,7 @@ export class TodoProvider {
     })
     .catch( (err) => {
       this.dataStore.todos = [{ id: '1qwe', title: "Task1", notes: "Oxo numa lupaer hicka" }, { id: '2wer', title: "Task2", notes: "Didal vensi minaf wisa" }, { id: '3ert', title: "Task3", notes: "Plofer dular mendi fiser" } ]; this.todosObserver.next(this.dataStore.todos); // DEBUG only
-      console.error(err);
+      console.error('Error in FeathersService find: ', err);
     });
   }
 
