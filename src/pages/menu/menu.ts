@@ -21,7 +21,7 @@ export interface IMenuItem {
 export class MenuPage {
 
   protected menuItems: IMenuItem[] = [
-    { title: 'Home'       , type: 'nav'   , icon: 'home'    , page: 'HomePage' },
+    { title: 'Todos'       , type: 'nav'   , icon: 'home'    , page: 'TodosListPage' },
     // Example of tabbed page: { title: 'Home', type: 'nav', icon: 'home', page: 'TabsPage', tabPage: 'Tab1Page', tabIndex: 0 },
     //{ title: 'Tab 2'      , type: 'nav'   , icon: 'contacts', page: 'TabsPage', tabPage: 'Tab2Page', tabIndex: 1 },
     //{ title: 'Settings'   , type: 'nav'   , icon: 'settings', page: 'SettingsPage' },
@@ -32,7 +32,7 @@ export class MenuPage {
   @ViewChild(Nav) nav: Nav;
 
   // Basic root for our content view
-  public rootPage: any = 'HomePage';
+  public rootPage: any = 'TodosListPage';
 
   constructor(
     public feathersProvider: FeathersProvider,

@@ -475,7 +475,10 @@ See code on Github for the edits of generated src/pages/login/ files and changes
 
 With all the added source code in place, the app will have authentication service, login and registration functions. The app will show all todos by all users. The todos create and edit functions will be added to the app in the next sections.
 
-## Step 6. Create todo items from the app
+## Step 6. Create todo items from the app and update todos list dynamically
+
+First we will refactor a bit: rename 'HomePage' to 'TodoListPage'.
+
 
 To be continued...
 
