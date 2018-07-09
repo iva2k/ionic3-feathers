@@ -477,7 +477,10 @@ With all the added source code in place, the app will have authentication servic
 
 ## Step 6. Create todo items from the app and update todos list dynamically
 
-First we will refactor a bit: rename 'HomePage' to 'TodoListPage'.
+First we will refactor a bit:
+
+ 1. Rename 'HomePage' to 'TodosListPage' class and file names and all related strings in the code.
+ 2. Rename todo.component files to todosList.component (we will use todo.component name later for single item component)
 
 
 To be continued...

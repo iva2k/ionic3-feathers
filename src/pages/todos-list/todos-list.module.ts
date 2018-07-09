@@ -3,18 +3,15 @@ import { IonicPageModule } from 'ionic-angular';
 
 import { TodosListPage } from './todos-list';
 
-import { TodoComponentModule } from '../../providers/todo/todo.component.module';
+import { TodosListComponentModule } from '../../providers/todo/todosList.component.module';
 
 @NgModule({
   declarations: [
     TodosListPage,
   ],
   imports: [
-    TodoComponentModule,
+    TodosListComponentModule,
     IonicPageModule.forChild(TodosListPage),
   ],
-  exports: [
-    TodosListPage
-  ]
 })
 export class TodosListPageModule { }

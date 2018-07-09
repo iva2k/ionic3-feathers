@@ -11,11 +11,11 @@ import { TodoProvider } from "./todo.provider";
 import { Todo } from "./todo";
 
 @Component({
-  selector: "app-todos",
+  selector: "app-todos-list",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "todo.component.html"
+  templateUrl: "todosList.component.html"
 })
-export class TodoComponent implements OnDestroy, OnInit {
+export class TodosListComponent implements OnDestroy, OnInit {
   protected todos: Todo[] = [];
   private subscription: Subscription;
 

@@ -1,16 +1,16 @@
 import { IonicModule } from 'ionic-angular';
-import { TodoComponent } from './todo.component';
+import { TodosListComponent } from './todosList.component';
 import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [
-    TodoComponent
+    TodosListComponent
   ],
   imports: [
     IonicModule
   ],
   exports: [
-    TodoComponent
+    TodosListComponent
   ]
 })
-export class TodoComponentModule {}
+export class TodosListComponentModule {}
