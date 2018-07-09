@@ -7,13 +7,13 @@ import {
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 
-import { TodoProvider } from "./todo.provider";
-import { Todo } from "./todo";
+import { TodoProvider } from "../../providers/todo/todo.provider";
+import { Todo } from "../../providers/todo/todo";
 
 @Component({
-  selector: "app-todos-list",
+  selector: 'todos-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "todosList.component.html"
+  templateUrl: 'todos-list.html'
 })
 export class TodosListComponent implements OnDestroy, OnInit {
   protected todos: Todo[] = [];
@@ -22,7 +22,8 @@ export class TodosListComponent implements OnDestroy, OnInit {
   constructor(
     private todoProvider: TodoProvider,
     private ref: ChangeDetectorRef
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     this.subscription = this.todoProvider.todos$.subscribe(

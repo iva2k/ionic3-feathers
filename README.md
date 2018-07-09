@@ -480,7 +480,20 @@ With all the added source code in place, the app will have authentication servic
 First we will refactor a bit:
 
  1. Rename 'HomePage' to 'TodosListPage' class and file names and all related strings in the code.
- 2. Rename todo.component files to todosList.component (we will use todo.component name later for single item component)
+ 2. Rename todo.component files to todos-list and move them to src/components/todos-list folder.
+
+Then let's implement new feature to view, edit and add todo items:
+
+```bash
+$ ionic generate component TodoItem
+$ ionic generate page TodoDetail
+```
+
+See code on Github for the edits of generated src/pages/todo-detail/ files and changes to existing files:
+
+ - src/app/app.component.ts ()
+ - src/app/app.module.ts ()
+
 
 
 To be continued...

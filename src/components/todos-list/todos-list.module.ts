@@ -1,5 +1,5 @@
 import { IonicModule } from 'ionic-angular';
-import { TodosListComponent } from './todosList.component';
+import { TodosListComponent } from './todos-list';
 import { NgModule } from '@angular/core';
 
 @NgModule({

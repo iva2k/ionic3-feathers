@@ -3,7 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 
 import { TodosListPage } from './todos-list';
 
-import { TodosListComponentModule } from '../../providers/todo/todosList.component.module';
+import { TodosListComponentModule } from '../../components/todos-list/todos-list.module';
 
 @NgModule({
   declarations: [
