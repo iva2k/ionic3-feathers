@@ -76,7 +76,7 @@ export class TodoProvider {
     let foundIndex = -1;
 
     for (let i = 0; i < this.dataStore.todos.length; i++) {
-      if (this.dataStore.todos[i].id === id) {
+      if (this.dataStore.todos[i]._id === id) {
         foundIndex = i;
       }
     }
@@ -90,14 +90,14 @@ export class TodoProvider {
   }
 
   private onUpdated(todo: Todo) {
-    const index = this.getIndex(todo.id);
+    const index = this.getIndex(todo._id);
 
     this.dataStore.todos[index] = todo;
     this.todosObserver.next(this.dataStore.todos);
   }
 
   private onRemoved(todo) {
-    const index = this.getIndex(todo.id);
+    const index = this.getIndex(todo._id);
 
     this.dataStore.todos.splice(index, 1);
     this.todosObserver.next(this.dataStore.todos);
