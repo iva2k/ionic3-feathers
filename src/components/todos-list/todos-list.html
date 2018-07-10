@@ -4,7 +4,10 @@
     <ion-item *ngFor="let todo of todos">
       <h2>{{todo.title}}</h2>
       <p>{{todo.notes}}</p>
-      <p><small>{{todo.id}}</small></p>
+      <p><small>{{todo._id}}</small></p>
+      <button ion-button icon-only (click)="edit(todo._id)">
+        <ion-icon name="create"></ion-icon>
+      </button >
     </ion-item>
   </ion-list>
 </div>

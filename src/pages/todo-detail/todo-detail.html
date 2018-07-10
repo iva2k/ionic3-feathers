@@ -4,16 +4,13 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      Todos
+      Todo
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <todos-list (edit)="edit($event)">
-    <h1>Todo's</h1>
-  </todos-list>
-  <button ion-button icon-only (click)="add()">
-    <ion-icon name="add"></ion-icon>
-  </button >
+  <todo-item [todoId]="todoId">
+    <h1>Todo</h1>
+  </todo-item>
 </ion-content>

@@ -9,6 +9,89 @@ import io from "socket.io-client";
 //?import feathersAuthClient from '@feathersjs/authentication-client';
 import feathers from "@feathersjs/client";
 
+import { Observable } from "rxjs/Observable";
+import { Observer } from "rxjs/Observer";
+import { Subscription } from "rxjs/Subscription";
+
+// Base type for all record data types, used by DataSubscriber.
+export interface Record {
+    _id: string;
+}
+
+export class DataSubscriber<T extends Record> {
+  dataStore:{
+    records: T[];
+  };
+  records$: Observable<T[]>;
+  observer: Observer<T[]>;
+  feathersService: any;
+  subscription: Subscription;
+
+  constructor(feathersService: any, cbData: (records: any) => void, cbErr: (err: any) => void) {
+    this.feathersService = feathersService;
+    this.feathersService.on('created', record => this.subscribeOnCreated(record));
+    this.feathersService.on('updated', record => this.subscribeOnUpdated(record));
+    this.feathersService.on('removed', record => this.subscribeOnRemoved(record));
+
+    this.records$ = new Observable(observer => (this.observer = observer));
+    this.dataStore = { records: [] };
+    this.subscription = this.records$.subscribe(cbData, cbErr);
+  }
+
+  public find(query) {
+    return this.feathersService.find({ query: query })
+      .then( (records: T[]) => {
+        this.dataStore.records = records;
+        this.observer.next(this.dataStore.records);
+      })
+      .catch( (err) => {
+        console.error('Error in FeathersService find: %o query: %o', err, query);
+      })
+    ;
+  }
+
+  public unsubscribe() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+    }
+  }
+
+  getIndex(id: string): number {
+    let foundIndex = -1;
+
+    for (let i = 0; i < this.dataStore.records.length; i++) {
+      if (this.dataStore.records[i]._id === id) {
+        foundIndex = i;
+      }
+    }
+
+    return foundIndex;
+  }
+
+  private subscribeOnCreated(record: T) {
+    this.dataStore.records.push(record);
+    this.observer.next(this.dataStore.records);
+  }
+
+  private subscribeOnUpdated(record: T) {
+    const index = this.getIndex(record._id);
+    if (index >= 0) {
+      this.dataStore.records[index] = record;
+      this.observer.next(this.dataStore.records);
+    }
+  }
+
+  private subscribeOnRemoved(record: T) {
+    const index = this.getIndex(record._id);
+    if (index >= 0) {
+      this.dataStore.records.splice(index, 1);
+      this.observer.next(this.dataStore.records);
+    }
+  }
+
+}
+
 @Injectable()
 export class FeathersProvider {
 
@@ -193,4 +276,38 @@ export class FeathersProvider {
       })
     ;
   }
+
+  // Observable Service API
+  // Usage:
+  //  import { FeathersProvider, DataSubscriber } from "../../providers/feathers/feathers";
+  //  ...
+  //  class ... {
+  //    private subscription: DataSubscriber;
+  //    constructor(feathersProvider: FeathersProvider) {} ...
+  //    ngOninit() {
+  //      this.subscription = this.feathersProvider.subscribe('todos', query,
+  //        (records: any) => {
+  //          this.records = records.data;
+  //          this.ref.markForCheck();
+  //        },
+  //        err => {
+  //          console.error('Error in subscribe to feathersProvider.subscribe(): ', err);
+  //        });
+  //    }
+  //    ngOnDestroy() {
+  //      if (this.subscription) this.subscription.unsubscribe();
+  //    }
+  //  }
+
+  //?private subscribers[]: DataSubscriber<any>[];
+  public subscribe<T extends Record>(service: string, query: any, cbData: (records: any) => void, cbErr: (err: any) => void): any {
+    let subscriber = new DataSubscriber<T>(this.service(service), cbData, cbErr);
+    subscriber.find(query)
+      .catch(err => { cbErr(err); })
+    ;
+    //?this.subscribers.push(subscriber);
+    return subscriber;
+  }
+
+
 }

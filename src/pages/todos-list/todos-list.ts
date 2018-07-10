@@ -22,4 +22,20 @@ export class TodosListPage {
     // Must be logged in. If not - will redirect to login page internally.
     return this.feathersProvider.enforceValidIdToken('TodosListPage', this.navCtrl);
   }
+
+  // Edit button click
+  public edit(itemId: string) {
+    console.log('TodosListPage Edit button, itemId: %s', itemId); // DEBUG
+    if (itemId) {
+      let params = { todoId: itemId };
+      this.navCtrl.push('TodoDetailPage', params);
+    }
+  }
+
+  // Add button click
+  public add() {
+    console.log('TodosListPage Add button');
+    let params = {};
+    this.navCtrl.push('TodoDetailPage', params);
+  }
 }

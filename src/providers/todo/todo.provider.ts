@@ -22,11 +22,11 @@ export class TodoProvider {
   ) {
     console.log('Hello from TodoProvider');
     //super();
-    this.feathersService = feathersProvider.service("todos");
+    this.feathersService = feathersProvider.service('todos');
 
-    this.feathersService.on("created", todo => this.onCreated(todo));
-    this.feathersService.on("updated", todo => this.onUpdated(todo));
-    this.feathersService.on("removed", todo => this.onRemoved(todo));
+    this.feathersService.on('created', todo => this.onCreated(todo));
+    this.feathersService.on('updated', todo => this.onUpdated(todo));
+    this.feathersService.on('removed', todo => this.onRemoved(todo));
 
     this.todos$ = new Observable(observer => (this.todosObserver = observer));
     this.dataStore = { todos: [] };
@@ -67,7 +67,7 @@ export class TodoProvider {
       this.todosObserver.next(this.dataStore.todos);
     })
     .catch( (err) => {
-      this.dataStore.todos = [{ id: '1qwe', title: "Task1", notes: "Oxo numa lupaer hicka" }, { id: '2wer', title: "Task2", notes: "Didal vensi minaf wisa" }, { id: '3ert', title: "Task3", notes: "Plofer dular mendi fiser" } ]; this.todosObserver.next(this.dataStore.todos); // DEBUG only
+      this.dataStore.todos = [{ _id: '1qwe', title: "Task1", notes: "Oxo numa lupaer hicka" }, { _id: '2wer', title: "Task2", notes: "Didal vensi minaf wisa" }, { _id: '3ert', title: "Task3", notes: "Plofer dular mendi fiser" } ]; this.todosObserver.next(this.dataStore.todos); // DEBUG only
       console.error('Error in FeathersService find: ', err);
     });
   }
@@ -91,16 +91,18 @@ export class TodoProvider {
 
   private onUpdated(todo: Todo) {
     const index = this.getIndex(todo._id);
-
-    this.dataStore.todos[index] = todo;
-    this.todosObserver.next(this.dataStore.todos);
+    if (index >= 0) {
+      this.dataStore.todos[index] = todo;
+      this.todosObserver.next(this.dataStore.todos);
+    }
   }
 
   private onRemoved(todo) {
     const index = this.getIndex(todo._id);
-
-    this.dataStore.todos.splice(index, 1);
-    this.todosObserver.next(this.dataStore.todos);
+    if (index >= 0) {
+      this.dataStore.todos.splice(index, 1);
+      this.todosObserver.next(this.dataStore.todos);
+    }
   }
 
 }

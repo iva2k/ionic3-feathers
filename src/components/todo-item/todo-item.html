@@ -1,0 +1,41 @@
+<div>
+  <ng-content></ng-content>
+  <p>{{todoId}}</p>
+
+  <h2>{{todo.title}}</h2>
+  <p>{{todo.notes}}</p>
+  <p><small>{{todo._id}}</small></p>
+
+  <div class="todo-box">
+    <form #todoForm="ngForm">
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
+            <ion-item>
+              <ion-input placeholder="Title" name="title" id="titleField" type="text" required [(ngModel)]="todo.title" #title></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input placeholder="Notes" name="notes" id="notesField" type="text" required [(ngModel)]="todo.notes" #title></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="add-col" [hidden]="!newItem">
+          <button ion-button class="add-btn" full type="button" [disabled]="!todoForm.form.valid" (click)="add()">Add</button>
+        </ion-col>
+        <ion-col class="update-col" [hidden]="newItem">
+          <button ion-button class="update-btn" full type="button" [disabled]="!todoForm.form.valid" (click)="update()">Update</button>
+        </ion-col>
+        <ion-col class="delete-col" [hidden]="newItem">
+          <button ion-button class="delete-btn" full type="button" [disabled]="!todoForm.form.valid" (click)="delete()">Delete</button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</div>

@@ -480,16 +480,17 @@ With all the added source code in place, the app will have authentication servic
 First we will refactor a bit:
 
  1. Rename 'HomePage' to 'TodosListPage' class and file names and all related strings in the code.
- 2. Rename todo.component files to todos-list and move them to src/components/todos-list folder.
+ 2. Rename src/providers/todo/todo.component files and move to components/todos-list/todos-list.
 
 Then let's implement new feature to view, edit and add todo items:
 
 ```bash
+$ npm install --save clone-deep deep-object-diff
 $ ionic generate component TodoItem
 $ ionic generate page TodoDetail
 ```
 
-See code on Github for the edits of generated src/pages/todo-detail/ files and changes to existing files:
+See code on Github for the edits of generated src/components/todo-item and src/pages/todo-detail/ files and changes to existing files:
 
  - src/app/app.component.ts ()
  - src/app/app.module.ts ()
@@ -508,7 +509,7 @@ For all additions:
  * [_] All hook tests should use app.hooks (to verify inter-dependencies, and increase coverage).
  * [_] All tests produced by ```feathers generate``` should be converted from '() => {...}' to 'function() {...}' in describe() and it() functions (Mocha requirement and feathers bug, causes done() race conditions).
  * [_] All new pages should be converted to lazy-loading modules (add file src/pages/XX/XX.module.ts, add ```import {IonicPage} from 'ionic-angular';``` and decorator ```@IonicPage()``` before @Component in src/pages/XX/XX.ts file, and change all usages of component XX to string 'XX', remove all imports of XX component).
- * [_] All new components should be converted to lazy-loading modules (add file .../XX.component.module.ts, add import of XX_ComponentModule to each page module that uses it and remove all imports of XX component).
+ * [_] All new components should be converted to lazy-loading modules (add file .../XX.module.ts, add import of XX_ComponentModule to each page module that uses it and remove all imports of XX component).
  
 # TODO:
 
