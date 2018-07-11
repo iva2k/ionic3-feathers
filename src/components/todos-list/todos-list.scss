@@ -1,3 +1,23 @@
 todos-list {
 
+  /* TODO: spinner is dropping classes so we have to use ids: https://github.com/ionic-team/ionic/issues/7087 */
+  #delete-spinner,
+  .deleting .action-hide {
+    display: none;
+  }
+
+  /* TODO: spinner doesn't have a good way to do this yet: https://github.com/ionic-team/ionic/issues/7087 */
+  #delete-spinner.spinner-ios line,
+  #delete-spinner.spinner-crescent circle {
+    stroke: #fff;
+  }
+
+  #delete-spinner.spinner-circles circle {
+    fill: #fff;
+  }
+
+  .deleting #delete-spinner {
+    display: block;
+  }
+
 }

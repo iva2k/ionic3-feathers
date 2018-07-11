@@ -1,16 +1,28 @@
 <div>
   <ng-content></ng-content>
   <ion-list inset>
-    <ion-item *ngFor="let todo of todos">
-      <h2>{{todo.title}}</h2>
-      <p>{{todo.notes}}</p>
-      <p><small>{{todo._id}}</small></p>
-      <button ion-button icon-only (click)="edit(todo._id)">
-        <ion-icon name="create"></ion-icon>
-      </button >
-      <button ion-button icon-only (click)="remove(todo._id)">
-        <ion-icon name="trash"></ion-icon>
-      </button >
-    </ion-item>
+    <ion-item-sliding *ngFor="let todo of todos" #item>
+      <ion-item>
+        <h2>{{todo.title}}</h2>
+        <p>{{todo.notes}}</p>
+        <p><small>{{todo._id}}</small></p>
+      </ion-item>
+
+      <ion-item-options side="left" (ionSwipe)="edit(todo._id)">
+        <button ion-button color="primary" expandable (click)="edit(todo._id, item)">
+          <ion-icon class="action-hide" name="create"></ion-icon>
+          <div class="action-hide">Edit</div>
+        </button >
+      </ion-item-options>
+
+      <ion-item-options side="right" (ionSwipe)="remove(todo._id, item)">
+        <button ion-button color="danger" expandable (click)="remove(todo._id, item)">
+          <ion-icon class="action-hide" name="trash"></ion-icon>
+          <div class="action-hide">Delete</div>
+          <ion-spinner id="delete-spinner"></ion-spinner>
+        </button >
+      </ion-item-options>
+
+    </ion-item-sliding>
   </ion-list>
 </div>

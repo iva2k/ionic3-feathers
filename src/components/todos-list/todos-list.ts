@@ -7,6 +7,7 @@ import {
   OnInit,
   Output
 } from "@angular/core";
+import { ItemSliding } from "ionic-angular";
 
 import { Todo } from "../../providers/todo/todo";
 import { FeathersProvider } from "../../providers/feathers/feathers";
@@ -51,22 +52,30 @@ export class TodosListComponent implements OnDestroy, OnInit {
   }
 
   // Edit button click
-  edit(itemId) {
+  edit(itemId: string, item: ItemSliding) {
     console.log('TodoListComponent Edit button, itemId: %s', itemId);
     this.editRequest.emit(itemId);
   }
 
   // Delete button click
-  remove(itemId) {
+  remove(itemId: string, item: ItemSliding) {
+    item.setElementClass('deleting', true);
+
     console.log('TodoListComponent Remove button, itemId: %s', itemId);
     //?this.removeRequest.emit(itemId);
+    //setTimeout(() => { // DEBUG
     this.feathersProvider.remove<Todo>('todos', <Todo>{ _id: itemId })
       .then(res => {
+        item.setElementClass('deleting', false);
+        item.close();
         console.log('FeathersProvider.remove result: %o', res); // DEBUG
         this.doneEvent.emit({action: 'removed', item: res});
       })
       .catch(err => {
+        item.setElementClass('deleting', false);
+        item.close();
         console.error('Error in FeathersProvider.remove: %o', err);
       });
+    //}, 2000); // DEBUG
   }
 }
