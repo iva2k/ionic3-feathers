@@ -6,7 +6,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 
-import { TodoProvider } from '../providers/todo/todo.provider';
 import { FeathersProvider } from '../providers/feathers/feathers';
 
 @NgModule({
@@ -32,7 +31,6 @@ import { FeathersProvider } from '../providers/feathers/feathers';
     SplashScreen,
     StatusBar,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    TodoProvider,
     FeathersProvider
   ]
 })

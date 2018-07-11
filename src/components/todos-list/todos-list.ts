@@ -7,46 +7,44 @@ import {
   OnInit,
   Output
 } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
 
-import { TodoProvider } from "../../providers/todo/todo.provider";
 import { Todo } from "../../providers/todo/todo";
+import { FeathersProvider } from "../../providers/feathers/feathers";
 
 @Component({
-  selector: 'todos-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'todos-list',
   templateUrl: 'todos-list.html'
 })
 export class TodosListComponent implements OnDestroy, OnInit {
   @Output('edit') editRequest = new EventEmitter<string>();
   protected todos: Todo[] = [];
-  private subscription: Subscription;
+  private subscription: any; //TODO: DataSubscriber<Todo>;
 
   constructor(
-    private todoProvider: TodoProvider,
+    private feathersProvider: FeathersProvider,
     private ref: ChangeDetectorRef
-  ) {
-    //console.log('Hello TodosListComponent Component');
-  }
+  ) {}
 
   public ngOnInit(): void {
-    this.subscription = this.todoProvider.todos$.subscribe(
+    this.subscription = this.feathersProvider.subscribe<Todo>('todos', {
+        $sort: {createdAt: -1},
+        $limit: 25
+      },
       (todos: any) => {
         this.todos = todos.data;
         this.ref.markForCheck();
       },
       err => {
-        console.error('Error in subscribe to TodoProvider: ', err);
-      }
-    );
-    this.todoProvider.find({
-      $sort: {createdAt: -1},
-      $limit: 25
-    });
+        console.error('Error in FeathersProvider.subscribe(): ', err);
+      });
   }
 
   public ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+    }
   }
 
   // Edit button click

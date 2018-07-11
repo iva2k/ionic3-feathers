@@ -492,9 +492,51 @@ $ ionic generate page TodoDetail
 
 See code on Github for the edits of generated src/components/todo-item and src/pages/todo-detail/ files and changes to existing files:
 
- - src/app/app.component.ts ()
- - src/app/app.module.ts ()
+ - src/components/todos-list/todos-list.html, src/components/todos-list/todos-list.ts ("Edit" button)
+ - src/pages/todos-list/todos-list.html, src/pages/todos-list/todos-list.ts ("Add" button and "Edit" button click)
+ - src/providers/feathers/feathers.ts (Implemented DataSubscriber)
 
+### DataSubscriber
+
+DataSubscriber added to FeathersProvider is a very powerful wrapper on top of Feathers client. It makes it a breeze to use Feathers in list and detail components and views.
+
+We will next convert TodosListComponent to DataSubscriber to showcase how much simpler the code becomes, see below snippet and full code on Github.
+
+First, we can remove TodoProvider, and all further providers that we might need if we continue using the pattern like TodoProvider. Next we modify TodosListComponent:
+
+```
+  public ngOnInit(): void {
+    this.subscription = this.feathersProvider.subscribe<Todo>('todos', {
+        $sort: {createdAt: -1},
+        $limit: 25
+      },
+      (todos: any) => { // cbData
+        this.todos = todos.data;
+        this.ref.markForCheck();
+      },
+      err => { // cbErr
+        console.error('Error in FeathersProvider.subscribe(): ', err);
+      });
+  }
+
+  public ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+```
+
+FeathersProvider.subscribe() takes data model type, e.g. <Todo>, the name of the service (e.g. 'todos') and a query object, and creates a provider on the fly, subscribes to its observable and connects it to our callbacks (cbData and cbErr), all in few lines of code in ngOnInit().
+
+### Performance
+
+We should be always concerned about performance. We already using lazy loading, so only smaller chunks of the app are downloaded from the server as needed. 
+
+We also utilized "ChangeDetectionStrategy.OnPush" with explicit calls to ChangeDetectorRef.markForCheck(), s Angular  engine does not need to scan for changes. 
+
+It will make performance improvments cumulative and more noticeabe as the app grows in size.
+
+### Wrapping up
+
+We only wired few command buttons, but did not complete the worker code. We still need to wrap up few things, like saving updated and created todo itmes, and deleting them.
 
 
 To be continued...
