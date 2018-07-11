@@ -6,6 +6,9 @@
         <h2>{{todo.title}}</h2>
         <p>{{todo.notes}}</p>
         <p><small>{{todo._id}}</small></p>
+        <ion-note item-end>
+          {{todo.createdAt | date:'short'}}
+        </ion-note>
       </ion-item>
 
       <ion-item-options side="left" (ionSwipe)="edit(todo._id)">

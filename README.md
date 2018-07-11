@@ -577,6 +577,7 @@ We can make a lot of small and big improvements. Not in any particular order...
  b. [UX] Add "Delete" button to TodosListPage items
  c. [UX] Implement Toast for completed actions/commands
  d. [UX] Move buttons on TodosListPage into slide drawers / swipe
+ e. [UX] Show created  date/time on TasksListPage
  
  
 # CHECKLIST
