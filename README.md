@@ -598,20 +598,20 @@ For all additions:
 # TODO:
 
  * Organize models (move from src/providers/todo/todo.ts to /src/models/)
+ * forgot password
+ * Goolge/FB login?
+ * [UX] Annotate input fields for keyboard domain (e.g. email, password, title->capitalize words, etc.)
+ * [UX] Forms should have default button (Enter on keyboard, done on mobile pop up keyboard)
+
  * Revisit: save login persistently (app, browser, desktop)
  * Detect and reconnect Feathers client if connection fails, keep retrying.
  * If persistent login is saved but rejected, show appropriate message (e.g. re-login)
- * todo's find failing due to hooks error, somehow todos leave tasks behind with userId of deleted users -> Fix seeder (does not delete todos).
- * forgot password
- * Goolge/FB login?
  * Figure out disappearing menu when navigating to .../#/menu/home (not anymore? after changing to setRoot instead of reassigning rootPage)
  * Add :id URL/route for detail page; Add add URL/route for detail page; Redirect to master page when linking to detail page without :id/add URL. WHen no router stack in detail page, use setRoot();
- * [UX] Annotate input fields for keyboard domain (e.g. email, password, title->capitalize words, etc.)
- * [UX] Forms should have default button (Enter on keyboard, done on mobile pop up keyboard)
  * [UX] Undo (e.g. Toast: task removed -> undo button). May need to allow "create" with same ID. Or undo on DB backend?
  * Vulnerability - Apply security fix when available, track https://github.com/ionic-team/ionic-app-scripts/issues/1425 and https://github.com/sass/node-sass/issues/2355
  * Unify eslint/tslint between Ionic and Feathers server parts.
  * Tests for Ionic app.
- * Reorganize folders and scripts so that Ionic app is built into Feathers api/public folder.
+ * Reorganize folders and scripts so that Ionic app (cordova browser) is built into Feathers api/public folder.
 
 ##END
