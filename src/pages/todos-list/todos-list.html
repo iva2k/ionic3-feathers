@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content padding>
-  <todos-list (edit)="edit($event)">
+  <todos-list (edit)="edit($event)" (done)="done($event)">
     <h1>Todo's</h1>
   </todos-list>
   <ion-fab bottom end>

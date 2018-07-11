@@ -18,6 +18,9 @@ import { FeathersProvider } from "../../providers/feathers/feathers";
 })
 export class TodosListComponent implements OnDestroy, OnInit {
   @Output('edit') editRequest = new EventEmitter<string>();
+  //@Output('remove') removeRequest = new EventEmitter<string>();
+  @Output('done') doneEvent = new EventEmitter<{action: string, item: Todo}>();
+
   protected todos: Todo[] = [];
   private subscription: any; //TODO: DataSubscriber<Todo>;
 
@@ -49,7 +52,21 @@ export class TodosListComponent implements OnDestroy, OnInit {
 
   // Edit button click
   edit(itemId) {
-    console.log('TodoListComponent edit button, itemId: %s', itemId);
+    console.log('TodoListComponent Edit button, itemId: %s', itemId);
     this.editRequest.emit(itemId);
+  }
+
+  // Delete button click
+  remove(itemId) {
+    console.log('TodoListComponent Remove button, itemId: %s', itemId);
+    //?this.removeRequest.emit(itemId);
+    this.feathersProvider.remove<Todo>('todos', <Todo>{ _id: itemId })
+      .then(res => {
+        console.log('FeathersProvider.remove result: %o', res); // DEBUG
+        this.doneEvent.emit({action: 'removed', item: res});
+      })
+      .catch(err => {
+        console.error('Error in FeathersProvider.remove: %o', err);
+      });
   }
 }
