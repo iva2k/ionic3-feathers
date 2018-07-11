@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 
 import { FeathersProvider } from "../../providers/feathers/feathers";
 
@@ -13,9 +13,10 @@ export class TodoDetailPage {
   protected todoId: string;
 
   constructor(
-    public feathersProvider: FeathersProvider,
-    public navCtrl: NavController,
-    public navParams: NavParams
+    private feathersProvider: FeathersProvider,
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private toastCtrl: ToastController
   ) {
     this.todoId = <string>navParams.get('todoId') || '';
     this.newItem = !this.todoId;
@@ -35,10 +36,16 @@ export class TodoDetailPage {
   // Command completed
   public done(event) {
     console.log('TodoDetailPage command done. event: %o', event);
-    console.log(`Task "${event.item.title}" ${event.action}.`);
-    // TODO: Implement Toast e.g. `Item "${event.item.title}" ${event.action}.` => 'Item "Task 1" removed.'
-    //let params = {};
+    this.toaster(`Task "${event.item.title}" ${event.action}.`);
     this.navCtrl.pop();
+  }
+
+  private toaster(text: string, time: number = 3000) {
+    const toast = this.toastCtrl.create({
+      message: text
+    });
+    toast.present();
+    setTimeout(() => toast.dismiss(), time);
   }
 
 }

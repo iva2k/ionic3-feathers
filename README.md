@@ -575,6 +575,7 @@ We can make a lot of small and big improvements. Not in any particular order...
 
  a. [UX] Convert "Add" button on TodosListPage to material style FAB (floating action button)
  b. [UX] Add "Delete" button to TodosListPage items
+ c. [UX] Implement Toast for completed actions/commands
  
  
 # CHECKLIST
@@ -604,7 +605,6 @@ For all additions:
  * Figure out disappearing menu when navigating to .../#/menu/home (not anymore? after changing to setRoot instead of reassigning rootPage)
  * Add :id URL/route for detail page; Add add URL/route for detail page; Redirect to master page when linking to detail page without :id/add URL. WHen no router stack in detail page, use setRoot();
  * [UX] move commands on TodosListPage into items; use item slide drawer; allow configuring (e.g. slide left|right = drawer left | drawer right | mark "done" | delete | edit);
- * [UX] Implement Toast for completed actions/commands.
  * [UX] Annotate input fields for keyboard domain (e.g. email, password, title->capitalize words, etc.)
  * [UX] Forms should have default button (Enter on keyboard, done on mobile pop up keyboard)
  * [UX] Undo (e.g. Toast: task removed -> undo button). May need to allow "create" with same ID. Or undo on DB backend?
