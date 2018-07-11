@@ -13,7 +13,9 @@
   <todos-list (edit)="edit($event)">
     <h1>Todo's</h1>
   </todos-list>
-  <button ion-button icon-only (click)="add()">
-    <ion-icon name="add"></ion-icon>
-  </button >
+  <ion-fab bottom end>
+    <button ion-fab icon-only (click)="add()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

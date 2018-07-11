@@ -569,7 +569,13 @@ We only wired few command buttons so far, but did not complete the worker code. 
 
 With all the added source code in place, the app has all functions to create, edit and delete todo items, once the user registers or logs in.
 
+## Step 7. Improvements
 
+We can make a lot of small and big improvements. Not in any particular order...
+
+ a. [UX] Convert "Add" button on TodosListPage to material style FAB (floating action button)
+ 
+ 
 # CHECKLIST
 
 This checklist was created while working on this app code as a guidance for continuing development of the app.
@@ -595,9 +601,11 @@ For all additions:
  * forgot password
  * Goolge/FB login?
  * Figure out disappearing menu when navigating to .../#/menu/home (not anymore? after changing to setRoot instead of reassigning rootPage)
+ * Add :id URL/route for detail page; Add add URL/route for detail page; Redirect to master page when linking to detail page without :id/add URL. WHen no router stack in detail page, use setRoot();
+ * [UX] move commands on TodosListPage into items; use item slide drawer; allow configuring (e.g. slide left|right = drawer left | drawer right | mark "done" | delete | edit);
  * Vulnerability - Apply security fix when available, track https://github.com/ionic-team/ionic-app-scripts/issues/1425 and https://github.com/sass/node-sass/issues/2355
  * Unify eslint/tslint between Ionic and Feathers server parts.
  * Tests for Ionic app.
- * Reorganize folders so that Ionic app is built into Feathers api/public folder.
+ * Reorganize folders and scripts so that Ionic app is built into Feathers api/public folder.
 
 ##END
