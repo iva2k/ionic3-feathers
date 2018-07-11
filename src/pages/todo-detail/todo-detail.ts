@@ -32,4 +32,13 @@ export class TodoDetailPage {
     console.log('ionViewDidLoad TodoDetailPage');
   }
 
+  // Command completed
+  public done(event) {
+    console.log('TodoDetailPage command done. event: %o', event);
+    console.log(`Task "${event.item.title}" ${event.action}.`);
+    // TODO: Implement Toast e.g. `Item "${event.item.title}" ${event.action}.` => 'Item "Task 1" removed.'
+    //let params = {};
+    this.navCtrl.pop();
+  }
+
 }

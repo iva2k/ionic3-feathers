@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content padding>
-  <todo-item [todoId]="todoId">
+  <todo-item [todoId]="todoId" (done)="done($event)">
     <h1>Todo</h1>
   </todo-item>
 </ion-content>

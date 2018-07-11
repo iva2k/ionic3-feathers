@@ -19,13 +19,14 @@ export interface Record {
 }
 
 export class DataSubscriber<T extends Record> {
-  dataStore:{
+  private dataStore:{
     records: T[];
   };
-  records$: Observable<T[]>;
-  observer: Observer<T[]>;
-  feathersService: any;
-  subscription: Subscription;
+  private records$: Observable<T[]>;
+  private observer: Observer<T[]>;
+  private feathersService: any;
+  private subscription: Subscription;
+  //protected query: {};
 
   constructor(feathersService: any, cbData: (records: any) => void, cbErr: (err: any) => void) {
     this.feathersService = feathersService;
@@ -39,9 +40,10 @@ export class DataSubscriber<T extends Record> {
   }
 
   public find(query) {
+    //this.query = query;
     return this.feathersService.find({ query: query })
-      .then( (records: T[]) => {
-        this.dataStore.records = records;
+      .then( (records: any) => { // records.data: T[]
+        this.dataStore.records = records.data;
         this.observer.next(this.dataStore.records);
       })
       .catch( (err) => {
@@ -57,7 +59,7 @@ export class DataSubscriber<T extends Record> {
     }
   }
 
-  getIndex(id: string): number {
+  private getIndex(id: string): number {
     let foundIndex = -1;
 
     for (let i = 0; i < this.dataStore.records.length; i++) {
@@ -106,9 +108,10 @@ export class FeathersProvider {
     if (this.reauth) {
       console.log('Feathers reauthentication-error, re-authenticating...');
       this.authenticate(this.reauth);
-    } else {
-      this.reauth = null;
-      console.log('DEBUG: Feathers reauthentication-error, but no credentials saved.');
+    //} else {
+    //  this.reauth = null;
+    //  this._feathers.removeListener('reauthentication-error', this.errorHandler);
+    //  console.log('DEBUG: Feathers reauthentication-error, but no credentials saved.');
     }
   };
 
@@ -146,6 +149,7 @@ export class FeathersProvider {
   // Expose authentication
   public authenticate(credentials?): Promise<any> {
     this.reauth = null; // Remove stored credentials
+    this._feathers.removeListener('reauthentication-error', this.errorHandler);
     if (credentials && credentials.email) {
       credentials.strategy = credentials.strategy || 'local';
     }
@@ -180,6 +184,7 @@ export class FeathersProvider {
       return Promise.reject(new Error('No credentials'));
     }
     this.reauth = null;
+    this._feathers.removeListener('reauthentication-error', this.errorHandler);
     return this._feathers.service('users').create(credentials)
       .then(() => this.authenticate(credentials))
     ;
@@ -260,6 +265,7 @@ export class FeathersProvider {
   // Expose logout
   public logout(nav: any): Promise<any> {
     this.reauth = null;
+    this._feathers.removeListener('reauthentication-error', this.errorHandler);
     return this._feathers.logout()
       .then((result) => {
         if (this.guardCallback && this.guardCallback[1]) {
@@ -285,9 +291,9 @@ export class FeathersProvider {
   //    private subscription: DataSubscriber;
   //    constructor(feathersProvider: FeathersProvider) {} ...
   //    ngOninit() {
-  //      this.subscription = this.feathersProvider.subscribe('todos', query,
-  //        (records: any) => {
-  //          this.records = records.data;
+  //      this.subscription = this.feathersProvider.subscribe<Todo>('todos', query,
+  //        (records: Todo[]) => {
+  //          this.records = records;
   //          this.ref.markForCheck();
   //        },
   //        err => {
@@ -309,5 +315,25 @@ export class FeathersProvider {
     return subscriber;
   }
 
+  public create<T extends Record>(service: string, record: T): Promise<T> {
+    record._id = null; // Create should not try to set _id.
+    return this.service(service)
+      .create(record)
+    ;
+  }
+
+  public update<T extends Record>(service: string, record: T): Promise<T> {
+    if (!record._id) return Promise.reject('_id must be set');
+    return this.service(service)
+      .update(record._id, record)
+    ;
+  }
+
+  public remove<T extends Record>(service: string, record: T): Promise<T> {
+    if (!record._id) return Promise.reject('_id must be set');
+    return this.service(service)
+      .remove(record._id)
+    ;
+  }
 
 }

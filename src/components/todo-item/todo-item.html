@@ -33,7 +33,7 @@
           <button ion-button class="update-btn" full type="button" [disabled]="!todoForm.form.valid" (click)="update()">Update</button>
         </ion-col>
         <ion-col class="delete-col" [hidden]="newItem">
-          <button ion-button class="delete-btn" full type="button" [disabled]="!todoForm.form.valid" (click)="delete()">Delete</button>
+          <button ion-button class="delete-btn" full type="button" [disabled]="!todoForm.form.valid" (click)="remove()">Delete</button>
         </ion-col>
       </ion-row>
     </form>
