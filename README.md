@@ -584,6 +584,7 @@ We can make a lot of small and big improvements. Not in any particular order...
  i. [UX] Make Update button on TodoDetailsPage return to the list if entries are unchanged
  j. [UX] Close slide drawer upon transition to next view (so the drawer is closed upon returning)
  k. [Misc] Organize models (move from src/providers/todo/todo.ts to /src/models/)
+ l. [UX] Annotate input fields for keyboard domain (e.g. type="email", "password", "tel", "date", etc.)
  
  
 # CHECKLIST
@@ -600,12 +601,12 @@ For all additions:
  * [ ] All new pages should be converted to lazy-loading modules (add file src/pages/XX/XX.module.ts, add ```import {IonicPage} from 'ionic-angular';``` and decorator ```@IonicPage()``` before @Component in src/pages/XX/XX.ts file, and change all usages of component XX to string 'XX', remove all imports of XX component).
  * [ ] All new components should be converted to lazy-loading modules (add file .../XX.module.ts, add import of XXComponentModule to each page module that uses it and remove all imports of XX component).
  * [ ] All new components should use ChangeDetectionStrategy.OnPush and invoke ChangeDetectorRef.markForCheck() on mutated data.
+ * [ ] All UI input fields should be annotated for correct keyboard domain (e.g. type="email", "password", "tel", "date", etc.)
  
 # TODO:
 
  * forgot password
  * Goolge/FB login?
- * [UX] Annotate input fields for keyboard domain (e.g. email, password, title->capitalize words, etc.)
  * [UX] Forms should have default button (Enter on keyboard, done on mobile pop up keyboard)
  * [UX] TodoDetailsPage form buttons are not activated upon load.
  
