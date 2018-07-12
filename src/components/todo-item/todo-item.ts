@@ -101,6 +101,9 @@ export class TodoItemComponent implements OnDestroy, OnInit {
         .catch(err => {
           console.error('Error in FeathersProvider.update: %o', err);
         });
+    } else {
+      // No changes made, emit "not updated", so page can return to master
+      this.doneEvent.emit({action: 'updated (no changes made)', item: this.todo});
     }
   }
 
