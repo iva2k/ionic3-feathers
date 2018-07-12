@@ -579,7 +579,8 @@ We can make a lot of small and big improvements. Not in any particular order...
  d. [UX] Move buttons on TodosListPage into slide drawers / swipe
  e. [UX] Show created  date/time on TasksListPage
  f. [UX] Show avatar on TasksListPage items, on TaskDetailPage (implemented in underlying components)
- g. [UX] Rearrange and aligned column widths in TodosListPage items (use ion-col)
+ g. [UX] Rearrange and align column widths in TodosListPage items (use ion-col)
+ h. [UX] Rearrange and align elements on TodoDetailPage items
  
  
 # CHECKLIST

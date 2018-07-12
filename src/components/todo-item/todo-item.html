@@ -1,12 +1,12 @@
 <div>
   <ng-content></ng-content>
-  <p>{{todoId}}</p>
+  <div class="todo-preview">
+    <h2>{{todo.title}}</h2>
+    <p>{{todo.notes}}</p>
+    <p><small>{{todo._id}}</small></p>
+  </div>
 
-  <h2>{{todo.title}}</h2>
-  <p>{{todo.notes}}</p>
-  <p><small>{{todo._id}}</small></p>
-
-  <div class="todo-box">
+  <div class="todo-form">
     <form #todoForm="ngForm">
       <ion-row>
         <ion-col>
@@ -38,4 +38,21 @@
       </ion-row>
     </form>
   </div>
+  
+  <div class="todo-user">
+    <ion-row>
+      <ion-col col-auto>
+        <ion-avatar>
+          <img src="{{todo.user ? todo.user.avatar : ''}}">
+        </ion-avatar>
+      </ion-col>
+      <ion-note ion-col>
+        Created <br/>
+        {{todo.createdAt | date:'M/d/yy h:mm a'}} <br/>
+        {{todo.user ? todo.user.email : ''}} <br/>
+        <small>{{todo._id}}</small> <br/>
+      </ion-note>
+    </ion-row>
+  </div>
+  
 </div>
