@@ -19,20 +19,20 @@ function run() {
 logger.info('NODE_ENV = %s', process.env.NODE_ENV);
 logger.info('app.get(\'env\') = %s', app.get('env'));
 
-async function seedDB(args = {dropDB: true, usersCount: 3, todosPerUserCount: 6, createAdmins: true}) {
+async function seedDB(args = {dropDB: true, usersCount: 3, todosPerUserCount: 3, createAdmins: true}) {
   // Data seeder. see https://github.com/thosakwe/feathers-seeder
   // Also see possible data patterns: https://github.com/marak/Faker.js
   const seeder = require('feathers-seeder');
   const TODOS = {
-    //delete: false,
+    delete: false,
     path: 'todos',
-    count: args.todosPerUserCount || 6,
+    count: args.todosPerUserCount || 3,
     template: { title: '{{commerce.productName}}', notes: 'Perform {{company.catchPhrase}}, then {{hacker.verb}}.' },
   };
   const TODOS_IT = {
-    //delete: false,
+    delete: false,
     path: 'todos',
-    count: args.todosPerUserCount || 6,
+    count: args.todosPerUserCount || 3,
     template: { title: 'Improve {{commerce.productAdjective}} {{commerce.product}}', notes: 'Provision {{name.jobTitle}}, then {{company.bsNoun}}.' },
   };  
   const ADMINS = [
@@ -90,7 +90,7 @@ async function seedDB(args = {dropDB: true, usersCount: 3, todosPerUserCount: 6,
   }
   logger.info('Seeding the database...');
   await app.configure(seeder({
-    //delete: false, // This only sets default for 'delete' in root seeder services, but not anything in the seeder callbacks.
+    delete: false, // This only sets default for 'delete' in root seeder services, but not anything in the seeder callbacks.
     services
   })).seed();
   logger.info('Done seeding the database.');
