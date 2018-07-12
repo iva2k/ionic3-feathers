@@ -54,6 +54,7 @@ export class TodosListComponent implements OnDestroy, OnInit {
   // Edit button click
   edit(itemId: string, item: ItemSliding) {
     console.log('TodoListComponent Edit button, itemId: %s', itemId);
+    setTimeout(() => { item.close(); }, 0); // Post until after swipe is done with its animation, otherwise item will reopen.
     this.editRequest.emit(itemId);
   }
 

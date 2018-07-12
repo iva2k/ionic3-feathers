@@ -20,7 +20,7 @@
         </ion-row>
       </ion-item>
 
-      <ion-item-options side="left" (ionSwipe)="edit(todo._id)">
+      <ion-item-options side="left" (ionSwipe)="edit(todo._id, item)">
         <button ion-button color="primary" expandable (click)="edit(todo._id, item)">
           <ion-icon class="action-hide" name="create"></ion-icon>
           <div class="action-hide">Edit</div>

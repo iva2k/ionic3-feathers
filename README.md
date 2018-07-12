@@ -582,6 +582,7 @@ We can make a lot of small and big improvements. Not in any particular order...
  g. [UX] Rearrange and align column widths in TodosListPage items (use ion-col)
  h. [UX] Rearrange and align elements on TodoDetailPage items
  i. [UX] Make Update button on TodoDetailsPage return to the list if entries are unchanged
+ j. [UX] Close slide drawer upon transition to next view (so the drawer is closed upon returning)
  
  
 # CHECKLIST
@@ -601,7 +602,6 @@ For all additions:
  
 # TODO:
 
- * [UX] close slide drawer upon transition to next view (so upon returning the drawer is closed).
  * Organize models (move from src/providers/todo/todo.ts to /src/models/)
  * forgot password
  * Goolge/FB login?
