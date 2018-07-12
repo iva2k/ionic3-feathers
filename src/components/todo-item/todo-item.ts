@@ -12,7 +12,7 @@ import {
 import cloneDeep from "clone-deep";
 import { diff } from "deep-object-diff";
 
-import { Todo } from "../../providers/todo/todo";
+import { Todo } from "../../models/todo";
 import { FeathersProvider } from "../../providers/feathers/feathers";
 
 @Component({

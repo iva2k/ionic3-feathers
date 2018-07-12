@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { ItemSliding } from "ionic-angular";
 
-import { Todo } from "../../providers/todo/todo";
+import { Todo } from "../../models/todo";
 import { FeathersProvider } from "../../providers/feathers/feathers";
 
 @Component({

@@ -583,6 +583,7 @@ We can make a lot of small and big improvements. Not in any particular order...
  h. [UX] Rearrange and align elements on TodoDetailPage items
  i. [UX] Make Update button on TodoDetailsPage return to the list if entries are unchanged
  j. [UX] Close slide drawer upon transition to next view (so the drawer is closed upon returning)
+ k. [Misc] Organize models (move from src/providers/todo/todo.ts to /src/models/)
  
  
 # CHECKLIST
@@ -602,7 +603,6 @@ For all additions:
  
 # TODO:
 
- * Organize models (move from src/providers/todo/todo.ts to /src/models/)
  * forgot password
  * Goolge/FB login?
  * [UX] Annotate input fields for keyboard domain (e.g. email, password, title->capitalize words, etc.)
