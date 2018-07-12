@@ -5,6 +5,14 @@ todos-list {
     margin-top: -8px;
   }
 
+  div .todo {
+    white-space: normal;
+  }
+  
+  img {
+    pointer-events: none;
+  }
+
   /* TODO: spinner is dropping classes so we have to use ids: https://github.com/ionic-team/ionic/issues/7087 */
   #delete-spinner,
   .deleting .action-hide {

@@ -3,12 +3,21 @@
   <ion-list inset>
     <ion-item-sliding *ngFor="let todo of todos" #item>
       <ion-item>
-        <h2>{{todo.title}}</h2>
-        <p>{{todo.notes}}</p>
-        <p><small>{{todo._id}}</small></p>
-        <ion-note item-end>
-          {{todo.createdAt | date:'short'}}
-        </ion-note>
+        <ion-row>
+          <ion-avatar ion-col col-auto>
+            <img src="{{todo.user.avatar}}">
+          </ion-avatar>
+          <div class="todo" ion-col>
+            <h2>{{todo.title}}</h2>
+            <p>{{todo.notes}}</p>
+          </div>
+          <ion-note ion-col col-3 right>
+            <h3>Created</h3>
+            {{todo.createdAt | date:'M/d/yy h:mm a'}} <br/>
+            {{todo.user.email}} <br/>
+            <small>{{todo._id}}</small> <br/>
+          </ion-note>
+        </ion-row>
       </ion-item>
 
       <ion-item-options side="left" (ionSwipe)="edit(todo._id)">

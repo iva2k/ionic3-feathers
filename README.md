@@ -578,6 +578,8 @@ We can make a lot of small and big improvements. Not in any particular order...
  c. [UX] Implement Toast for completed actions/commands
  d. [UX] Move buttons on TodosListPage into slide drawers / swipe
  e. [UX] Show created  date/time on TasksListPage
+ f. [UX] Show avatar on TasksListPage items, on TaskDetailPage (implemented in underlying components)
+ g. [UX] Rearrange and aligned column widths in TodosListPage items (use ion-col)
  
  
 # CHECKLIST
@@ -597,12 +599,15 @@ For all additions:
  
 # TODO:
 
+ * [UX] TodoDetailsPage Update button does not return to the list if entries are unchanged
+ * [UX] close slide drawer upon transition to next view (so upon returning the drawer is closed).
  * Organize models (move from src/providers/todo/todo.ts to /src/models/)
  * forgot password
  * Goolge/FB login?
  * [UX] Annotate input fields for keyboard domain (e.g. email, password, title->capitalize words, etc.)
  * [UX] Forms should have default button (Enter on keyboard, done on mobile pop up keyboard)
-
+ * [UX] TodoDetailsPage form buttons are not activated upon load.
+ 
  * Revisit: save login persistently (app, browser, desktop)
  * Detect and reconnect Feathers client if connection fails, keep retrying.
  * If persistent login is saved but rejected, show appropriate message (e.g. re-login)
