@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +7,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
+  Output,
+  ViewChild
 } from "@angular/core";
 
 import cloneDeep from "clone-deep";
@@ -20,7 +22,8 @@ import { FeathersProvider } from "../../providers/feathers/feathers";
   selector: 'todo-item',
   templateUrl: 'todo-item.html'
 })
-export class TodoItemComponent implements OnDestroy, OnInit {
+export class TodoItemComponent implements AfterViewInit, OnDestroy, OnInit {
+  @ViewChild('entryFocus') entryFocus: any; // attach to element with #entryFocus property
   @Input('todoId') todoId: string;
   protected newItem: boolean; // True if opened without navParams, so it is an "Add" command.
   @Output('done') doneEvent = new EventEmitter<{action: string, item: Todo}>();
@@ -63,6 +66,13 @@ export class TodoItemComponent implements OnDestroy, OnInit {
           console.error('Error in FeathersProvider.subscribe(): ', err);
         });
     }
+  }
+
+  ngAfterViewInit() {
+    // Good UX: Move cursor to the first form field (marked by #entryFocus property in template).
+    setTimeout(() => {
+      this.entryFocus.setFocus();
+    }, 500);
   }
 
   public ngOnDestroy() {
