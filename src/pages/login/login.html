@@ -22,12 +22,17 @@
       <ion-row>
         <ion-col>
           <ion-list inset>
+
             <ion-item>
-              <ion-input placeholder="Email" name="username" id="usernameField" type="email" required [(ngModel)]="credentials.email" #entryFocus></ion-input>
+              <ion-icon name="person" item-left color="label"></ion-icon>
+              <ion-input placeholder="Email" name="username" id="usernameField" type="email" autocorrect="off" required minlength="5" [(ngModel)]="credentials.email" #entryFocus #username="ngModel"></ion-input>
             </ion-item>
+
             <ion-item>
-              <ion-input placeholder="Password" name="password" id="passwordField" type="password" required [(ngModel)]="credentials.password" #password></ion-input>
+              <ion-icon name="lock" item-left color="label"></ion-icon>
+              <ion-input placeholder="Password" name="password" id="passwordField" type="password" autocorrect="off" required [(ngModel)]="credentials.password" #password="ngModel"></ion-input>
             </ion-item>
+
           </ion-list>
         </ion-col>
       </ion-row>
@@ -38,10 +43,10 @@
       </ion-row>
       <ion-row>
         <ion-col class="login-col">
-          <button ion-button class="login-btn" full type="button" [disabled]="!loginForm.form.valid" (click)="login()">Login</button>
+          <button ion-button class="login-btn" full type="submit" name="login" [disabled]="loginForm.invalid" (click)="login()">Login</button>
         </ion-col>
         <ion-col class="register-col">
-          <button ion-button class="register-btn" block type="button" [disabled]="!loginForm.form.valid" (click)="register()">Register</button>
+          <button ion-button class="register-btn" block type="button" name="register" [disabled]="loginForm.invalid" (click)="register()">Register</button>
         </ion-col>
       </ion-row>
     </form>
