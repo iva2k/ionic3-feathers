@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, Loading, LoadingController, NavController, NavParams } from 'ionic-angular';
 
+import { User } from "../../models/user";
 import { FeathersProvider } from "../../providers/feathers/feathers";
 
 @IonicPage()
@@ -11,14 +12,15 @@ import { FeathersProvider } from "../../providers/feathers/feathers";
 export class LoginPage {
   @ViewChild('email') email: any;
   loading: Loading;
-  credentials = { email: '', password: '' }
+  credentials: User = <User>{ email: '', password: '' };
   protected error: string;
 
   constructor(
-    public feathersProvider: FeathersProvider,
-    public loadingController: LoadingController,
-    public navCtrl: NavController,
-    public navParams: NavParams) {
+    private feathersProvider: FeathersProvider,
+    private loadingController: LoadingController,
+    private navCtrl: NavController,
+    private navParams: NavParams
+  ) {
   }
 
   // Entry guard
