@@ -587,7 +587,7 @@ We can make a lot of small and big improvements. Not in any particular order...
  l. [UX] Annotate input fields for keyboard domain (e.g. type="email", "password", "tel", "date", etc.)
  m. [UX] Focus on first form field upon entry (LoginPage, added #entryFocus)
  n. [UX] Add icons to fields on LoginPage
- o. [UX] Add validators and polish to LoginPage
+ o. [UX] Add validators and polish to LoginPage, TodoDetailPage
 
  
 # CHECKLIST

@@ -9,4 +9,13 @@ todo-item {
     margin-top: -8px;
   }
 
+    ion-item.invalid {
+      //?border: 5px solid #f53d3d !important; // default styling already has border-bottom based on ng-invalid
+      background: #ff8;
+    }
+
+    .alert-invalid {
+      color: #f53d3d;
+    }
+        
 }

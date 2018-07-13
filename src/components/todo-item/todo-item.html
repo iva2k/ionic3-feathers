@@ -11,29 +11,44 @@
       <ion-row>
         <ion-col>
           <ion-list inset>
-            <ion-item>
-              <ion-input placeholder="Title" name="title" id="titleField" type="text" required [(ngModel)]="todo.title" #title></ion-input>
+
+            <ion-item [class.invalid]="title.invalid && (title.dirty && title.touched)">
+              <ion-label floating>Title</ion-label>
+              <ion-input name="title" id="titleField" type="text" required [(ngModel)]="todo.title" #entryFocus #title="ngModel"></ion-input>
             </ion-item>
-            <ion-item>
-              <ion-input placeholder="Notes" name="notes" id="notesField" type="text" required [(ngModel)]="todo.notes" #title></ion-input>
+            <div *ngIf="title.invalid && (title.dirty && title.touched)" class="alert-invalid">
+              <div *ngIf="title.errors.required">
+                Title is required.
+              </div>
+            </div>
+
+            <ion-item [class.invalid]="notes.invalid && (notes.dirty && notes.touched)">
+              <ion-label floating>Notes</ion-label>
+              <ion-input name="notes" id="notesField" type="text" [(ngModel)]="todo.notes" #notes="ngModel"></ion-input>
             </ion-item>
+            <div *ngIf="notes.invalid && (notes.dirty && notes.touched)" class="alert-invalid">
+              <div *ngIf="notes.errors.required">
+                Notes are required.
+              </div>
+            </div>
+
           </ion-list>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+          <div *ngIf="error" class="alert-invalid">{{error}}</div>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="add-col" [hidden]="!newItem">
-          <button ion-button class="add-btn" full type="button" [disabled]="!todoForm.form.valid" (click)="add()">Add</button>
+          <button ion-button class="add-btn" full type="button" [disabled]="todoForm.invalid" (click)="add()">Add</button>
         </ion-col>
         <ion-col class="update-col" [hidden]="newItem">
-          <button ion-button class="update-btn" full type="button" [disabled]="!todoForm.form.valid" (click)="update()">Update</button>
+          <button ion-button class="update-btn" full type="button" [disabled]="todoForm.invalid" (click)="update()">Update</button>
         </ion-col>
         <ion-col class="delete-col" [hidden]="newItem">
-          <button ion-button class="delete-btn" full type="button" [disabled]="!todoForm.form.valid" (click)="remove()">Delete</button>
+          <button ion-button class="delete-btn" full type="button" [disabled]="todoForm.invalid" (click)="remove()">Delete</button>
         </ion-col>
       </ion-row>
     </form>
