@@ -587,7 +587,8 @@ We can make a lot of small and big improvements. Not in any particular order...
  l. [UX] Annotate input fields for keyboard domain (e.g. type="email", "password", "tel", "date", etc.)
  m. [UX] Focus on first form field upon entry (LoginPage, TodoDetailPage, added #entryFocus)
  n. [UX] Add icons to fields on LoginPage
- o. [UX] Add validators and polish to LoginPage, TodoDetailPage
+ o. [UX] Add validators and polish to LoginPage, TodoDetailPage, also fixed form buttons not activated upon load.
+ p. [UX] Form default button on TodoDetailPage
 
  
 # CHECKLIST
@@ -610,8 +611,6 @@ For all additions:
 
  * forgot password
  * Goolge/FB login?
- * [UX] Forms should have default button (Enter on keyboard, done on mobile pop up keyboard)
- * [UX] TodoDetailsPage form buttons are not activated upon load.
  
  * Revisit: save login persistently (app, browser, desktop)
  * Detect and reconnect Feathers client if connection fails, keep retrying.
