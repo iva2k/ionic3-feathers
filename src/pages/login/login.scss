@@ -3,14 +3,12 @@ page-login {
     background: #56CA96;
 
     .logo-row {
-      padding-top: 50px;
-      padding-bottom: 20px;
+      padding: 50px;
     }
 
     .login-box {
       background: #399F8B;
-      padding: 20px 20px 0px 20px;
-      margin-top: 30px;
+      padding: 20px 20px 20px 20px;
     }
 
     ion-row {
@@ -20,33 +18,44 @@ page-login {
 
     ion-item {
       border-radius: 30px !important;
-      padding-left: 30px !important;
-      font-size: 0.9em;
-      margin-bottom: 10px;
-      border: 1px solid #ffffff;
-      border-bottom: 0px !important;
+      padding-left: 12px !important; // squeeze icon into left side
+      //font-size: 0.9em;
+      margin-top: 10px;
+      margin-bottom: 3px;
+      border: 5px solid #ffffff !important;
       box-shadow: none !important;
     }
 
-    .login-col {
-      margin: 0px 16px 0px 16px;
-      padding-bottom: 20px;
+    ion-item ion-icon[item-left] + .item-inner,
+    ion-item ion-icon[item-left] + .item-input,
+    ion-item ion-icon[item-start] + .item-inner,
+    ion-item ion-icon[item-start] + .item-input {
+      margin-left: -8px; // Tighten space between icon and input (use just input padding)
     }
- 
-    .register-col {
+
+    .login-col, .register-col {
       margin: 0px 16px 0px 16px;
-      padding-bottom: 20px;
     }
  
     .item-inner {
       border-bottom-color: #ffffff !important;
       box-shadow: none !important;
+      margin: -5px; // outset inner container to compensate for 5px ion-item border
     }
 
+    ion-item.invalid {
+      border: 5px solid #ea6153 !important;
+      background: #ff8;
+    }
+
+    .alert-invalid {
+      color: #ff8;
+    }
+        
     .login-btn {
       background: #51CFB1;
       border-radius: 30px !important;
-      border: 1px solid #ffffff;
+      border: 1px solid #ffffff; // Default button
     }
  
     .register-btn {

@@ -8,37 +8,47 @@
 
 </ion-header>
 
-
 <ion-content class="login-content" padding>
   <ion-row class="logo-row">
-    <ion-col></ion-col>
-    <ion-col width-67>
+    <ion-col>
       <img src="http://placehold.it/300x200"/>
     </ion-col>
-    <ion-col></ion-col>
   </ion-row>
   <div class="login-box">
     <form #loginForm="ngForm">
       <ion-row>
         <ion-col>
-          <ion-list inset>
+          <ion-list no-lines inset>
 
-            <ion-item>
+            <ion-item [class.invalid]="username.invalid && (username.dirty && username.touched)">
               <ion-icon name="person" item-left color="label"></ion-icon>
               <ion-input placeholder="Email" name="username" id="usernameField" type="email" autocorrect="off" required minlength="5" [(ngModel)]="credentials.email" #entryFocus #username="ngModel"></ion-input>
             </ion-item>
+            <div *ngIf="username.invalid && (username.dirty && username.touched)" class="alert-invalid">
+              <div *ngIf="username.errors.required">
+                Email is required.
+              </div>
+              <div *ngIf="username.errors.minlength && username.touched">
+                Email must be at least 5 characters long.
+              </div>
+            </div>
 
-            <ion-item>
+            <ion-item [class.invalid]="password.invalid && (password.dirty && password.touched)">
               <ion-icon name="lock" item-left color="label"></ion-icon>
               <ion-input placeholder="Password" name="password" id="passwordField" type="password" autocorrect="off" required [(ngModel)]="credentials.password" #password="ngModel"></ion-input>
             </ion-item>
+            <div *ngIf="password.invalid && (password.dirty && password.touched)" class="alert-invalid">
+              <div *ngIf="password.errors.required">
+                Password is required.
+              </div>
+            </div>
 
           </ion-list>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+          <div *ngIf="error" class="alert-invalid">{{error}}</div>
         </ion-col>
       </ion-row>
       <ion-row>
