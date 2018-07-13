@@ -585,6 +585,7 @@ We can make a lot of small and big improvements. Not in any particular order...
  j. [UX] Close slide drawer upon transition to next view (so the drawer is closed upon returning)
  k. [Misc] Organize models (move from src/providers/todo/todo.ts to /src/models/), create src/models/user.ts
  l. [UX] Annotate input fields for keyboard domain (e.g. type="email", "password", "tel", "date", etc.)
+ m. [UX] Focus on first form field upon entry (LoginPage, added #entryFocus)
  
  
 # CHECKLIST

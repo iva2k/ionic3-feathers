@@ -10,7 +10,7 @@ import { FeathersProvider } from "../../providers/feathers/feathers";
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  @ViewChild('email') email: any;
+  @ViewChild('entryFocus') entryFocus: any; // attach to element with #entryFocus property
   loading: Loading;
   credentials: User = <User>{ email: '', password: '' };
   protected error: string;
@@ -31,9 +31,9 @@ export class LoginPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
-    // Good UX: Move cursor to the first form field.
+    // Good UX: Move cursor to the first form field (marked by #entryFocus property in template).
     setTimeout(() => {
-      this.email.setFocus();
+      this.entryFocus.setFocus();
     }, 500);
   }
 
