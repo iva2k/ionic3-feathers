@@ -5,6 +5,10 @@ const cors = require('cors');
 const helmet = require('helmet');
 const logger = require('./logger');
 
+// Load local / private config file into process.env using dotenv:
+//?require('dotenv').config({path: path.resolve(process.cwd(), 'config/private.env')})
+require('dotenv').config({path: path.resolve(__dirname, '../config/private.env')})
+
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');

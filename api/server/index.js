@@ -16,8 +16,11 @@ function run() {
 
 }
 
-logger.info('NODE_ENV = %s', process.env.NODE_ENV);
-logger.info('app.get(\'env\') = %s', app.get('env'));
+logger.info('NODE_ENV: %s', process.env.NODE_ENV);
+logger.info('app.get(\'env\'): %s', app.get('env'));
+logger.info('from: %s', app.get('from'));
+logger.info('host: %s', app.get('host'));
+logger.info('port: %s', app.get('port'));
 
 async function seedDB(args = {dropDB: true, usersCount: 3, todosPerUserCount: 3, createAdmins: true}) {
   // Data seeder. see https://github.com/thosakwe/feathers-seeder
@@ -34,7 +37,7 @@ async function seedDB(args = {dropDB: true, usersCount: 3, todosPerUserCount: 3,
     path: 'todos',
     count: args.todosPerUserCount || 3,
     template: { title: 'Improve {{commerce.productAdjective}} {{commerce.product}}', notes: 'Provision {{name.jobTitle}}, then {{company.bsNoun}}.' },
-  };  
+  };
   const ADMINS = [
     {
       path: 'users',

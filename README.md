@@ -24,6 +24,8 @@ There are two ways to get started (Assuming node/npm and git is already installe
 
 Get complete code from Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
 
+Note: Make sure to setup private info (passwords, API keys, etc.) in file api/config/private.env before starting server ```npm start```.
+
 ```bash
 $ sudo npm install -g ionic cordova
 $ git clone https://github.com/iva2k/ionic3-feathers
@@ -31,6 +33,7 @@ $ cd ionic3-feathers
 $ npm i
 $ cd api
 $ npm i
+$ cp /config/private.env.template config/private.env
 $ npm start
 ```
 
@@ -46,7 +49,7 @@ Create an app from scratch following these steps. See source code edits as you g
 
 ## Step 1. Blank Ionic 3 app
 
-_From https://ionicframework.com/getting-started_
+_From https://ionicframework.com/getting-started ._
 
 First, install [NodeJS](http://nodejs.org/). Then in a terminal / command line:
 
@@ -62,7 +65,7 @@ Fix an error when running without cordova, in src/app/app.component.ts add guard
 
 To debug Ionic 3 app using **VSCode**, see [this link](http://www.damirscorner.com/blog/posts/20161122-DebuggingIonic2AppsInChromeFromVisualStudioCode.html). In summary, add to package.json:
 
-```
+```json
 "config" : {
   "ionic_source_map": "source-map"
 },
@@ -70,7 +73,7 @@ To debug Ionic 3 app using **VSCode**, see [this link](http://www.damirscorner.c
 
 Create ```launch.json``` file for VSCode project in the app directory (use VSCode shortcuts in Debug ribbon):
 
-```
+```json
 {
   "version": "0.2.0",
   "configurations": [
@@ -88,8 +91,8 @@ Create ```launch.json``` file for VSCode project in the app directory (use VSCod
 
 For debugging, first, run in the VSCode terminal:
 
-```
-ionic serve -b
+```bash
+$ ionic serve -b
 ```
 
 Alternatively see Github for setup in tasks.json file that launches ionic app.
@@ -104,7 +107,7 @@ We created minimum functionality Ionic 3 app.
 
 ## Step 2. Add Feathers Client to Ionic 3
 
-_Inspired by https://berndsgn.ch/posts/observables-with-angular-and-feathersjs/_
+_Inspired by https://berndsgn.ch/posts/observables-with-angular-and-feathersjs/ ._
 
 ```bash
 $ npm install --save @feathersjs/client
@@ -134,7 +137,7 @@ With all the source code in place, but no server running, the app fills a few du
 
 ## Step 3. Create Feathers server
 
-_From Feathers guide https://docs.feathersjs.com/guides/chat/readme.html_
+_From Feathers guide https://docs.feathersjs.com/guides/chat/readme.html ._
 
 ```bash
 $ npm install @feathersjs/cli -g
@@ -195,14 +198,14 @@ To debug Feathers server code using VSCode, one issue has to be resolved - see [
 
 In package.json, make a copy and change the start script (to allow VSCode launch.json configuration to insert debug parameter):
 
-```
+```json
     "start:dev"        : "cross-env NODE_ENV=development node server/",
     "start:dev:vscode" : "cross-env NODE_ENV=development node",
 ```
 
 Create ```launch.json``` file for VSCode project in the app's /api directory (use VSCode shortcuts in Debug ribbon):
 
-```
+```json
 {
     "version": "0.2.0",
     "configurations": [
@@ -233,13 +236,13 @@ To debug mocha tests in VSCode, use the following configuration:
 
 in package.json script:
 
-```
+```json
     "test:debug": "npm run clean && cross-env NODE_ENV=test mocha test/ --recursive --exit",
 ```
 
 in launch.json:
 
-```
+```json
 {
     "version": "0.2.0",
     "configurations": [
@@ -317,7 +320,7 @@ With all the added source code in place, the app fetches some todo items from th
 
 ## Step 4. Create user registration and authentication on the server side
 
-_From the Feathers guide https://docs.feathersjs.com/guides/chat/authentication.html_
+_From the Feathers guide https://docs.feathersjs.com/guides/chat/authentication.html ._
 
 Now let's create a backend authentication service using Feathers to respond to the client in the Ionic app. Call the command and answer some questions:
 
@@ -362,7 +365,7 @@ All source are provided on Github, see below summary of changes at the end of th
  
 ### Add a user avatar (using Gravatar)
 
-_From the Feathers guide https://docs.feathersjs.com/guides/chat/processing.html_
+_From the Feathers guide https://docs.feathersjs.com/guides/chat/processing.html ._
 
 ```bash
 $ feathers generate hook
@@ -510,7 +513,7 @@ First, we will remove TodoProvider, and avoid all further individual providers t
 
 Next we will modify TodosListComponent code to look like this:
 
-```
+```ts
   ...
   public ngOnInit(): void {
     this.subscription = this.feathersProvider.subscribe<Todo>('todos', {
@@ -573,24 +576,26 @@ With all the added source code in place, the app has all functions to create, ed
 
 We can make a lot of small and big improvements. Not in any particular order...
 
- a. [UX] Convert "Add" button on TodosListPage to material style FAB (floating action button)
- b. [UX] Add "Delete" button to TodosListPage items
- c. [UX] Implement Toast for completed actions/commands
- d. [UX] Move buttons on TodosListPage into slide drawers / swipe
- e. [UX] Show created  date/time on TasksListPage
- f. [UX] Show avatar on TasksListPage items, on TaskDetailPage (implemented in underlying components)
- g. [UX] Rearrange and align column widths in TodosListPage items (use ion-col)
- h. [UX] Rearrange and align elements on TodoDetailPage items
- i. [UX] Make Update button on TodoDetailsPage return to the list if entries are unchanged
- j. [UX] Close slide drawer upon transition to next view (so the drawer is closed upon returning)
- k. [Misc] Organize models (move from src/providers/todo/todo.ts to /src/models/), create src/models/user.ts
- l. [UX] Annotate input fields for keyboard domain (e.g. type="email", "password", "tel", "date", etc.)
- m. [UX] Focus on first form field upon entry (LoginPage, TodoDetailPage, added #entryFocus)
- n. [UX] Add icons to fields on LoginPage
- o. [UX] Add validators and polish to LoginPage, TodoDetailPage, also fixed form buttons not activated upon load.
- p. [UX] Form default button on TodoDetailPage
+(Check Github commits for changesets)
 
- 
+ 1. [UX] Convert "Add" button on TodosListPage to material style FAB (floating action button)
+ 2. [UX] Add "Delete" button to TodosListPage items
+ 3. [UX] Implement Toast for completed actions/commands
+ 4. [UX] Move buttons on TodosListPage into slide drawers / swipe
+ 5. [UX] Show created  date/time on TasksListPage
+ 6. [UX] Show avatar on TasksListPage items, on TaskDetailPage (implemented in underlying components)
+ 7. [UX] Rearrange and align column widths in TodosListPage items (use ion-col)
+ 8. [UX] Rearrange and align elements on TodoDetailPage items
+ 9. [UX] Make Update button on TodoDetailsPage return to the list if entries are unchanged
+ 10. [UX] Close slide drawer upon transition to next view (so the drawer is closed upon returning)
+ 11. [Misc] Organize models (move from src/providers/todo/todo.ts to /src/models/), create src/models/user.ts
+ 12. [UX] Annotate input fields for keyboard domain (e.g. type="email", "password", "tel", "date", etc.)
+ 13. [UX] Focus on first form field upon entry (LoginPage, TodoDetailPage, added #entryFocus)
+ 14. [UX] Add icons to fields on LoginPage
+ 15. [UX] Add validators and polish to LoginPage, TodoDetailPage, also fixed form buttons not activated upon load.
+ 16. [UX] Form default button on TodoDetailPage
+ 17. [Server] Reorganize config files, use dotenv to load api/config/private.env (copy and customize private.env.template, do not store private.env in git!), see https://codingsans.com/blog/node-config-best-practices
+
 # CHECKLIST
 
 This checklist was created while working on this app code as a guidance for continuing development of the app.
@@ -609,6 +614,7 @@ For all additions:
  
 # TODO:
 
+ * Post host IP address from server to app - help Ionic DevApp, as well as server deployment.
  * forgot password
  * Goolge/FB login?
  
