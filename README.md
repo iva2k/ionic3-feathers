@@ -627,6 +627,7 @@ Enter Gmail login info in api/config/private.env file:
 $ DEV_EMAIL_SERVICE="gmail"
 $ DEV_EMAIL_LOGIN="<youraccount>@gmail.com"
 $ DEV_EMAIL_PASSWORD="<yourapppassword>"
+$ DEV_EMAIL_REPORTS="<youraccount>@gmail.com"
 ```
 
 (Do the same for PROD_ and TEST_)
