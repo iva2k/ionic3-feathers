@@ -8,6 +8,11 @@ module.exports = {
   host:          process.env.DEV_APP_HOST  || 'localhost',
   port: parseInt(process.env.DEV_APP_PORT) || 3030,
   public:        process.env.DEV_PUBLIC    || '../public/',
-  nedb: '../data'
+  nedb:                                       '../data',
+  email_service: process.env.DEV_EMAIL_SERVICE,
+  email_login:   process.env.DEV_EMAIL_LOGIN,
+  email_pass:    process.env.DEV_EMAIL_PASSWORD,
+  email_reports: process.env.DEV_EMAIL_REPORTS,
+
 };
 

@@ -99,12 +99,41 @@ async function seedDB(args = {dropDB: true, usersCount: 3, todosPerUserCount: 3,
   logger.info('Done seeding the database.');
 }
 
+async function sendStartedEmail() {
+  // Use the /emails service
+  const crlf = "\r\n";
+  const email_head = ""
+    + "<!DOCTYPE html>" + crlf
+    + "<html lang=\"en-US\">" + crlf
+    + "  <head>" + crlf
+    + "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + crlf
+    + "  </head>" + crlf
+    + "  <body>" + crlf;
+  const email_tail = "" + crlf
+    + "  </body>" + crlf
+    + "</html>";
+  const url = 'http://' + app.get('host') + ':' + app.get('port') + '/';
+  const email = {
+    from:    app.get('email_login'),
+    to:      app.get('email_reports'),
+    subject: '[ionic3-feathers] ' + app.get('env') + ' server started',
+    html:    email_head + 'This is just to let you know that Feathers ' + app.get('env') + ' server has started for ionic3-feathers app on <a href="' + url + '">' + url + '</a>.' + email_tail
+  };
+  console.log('Email composed: %o', email);
+  return app.service('emails').create(email).then(function (result) {
+    console.log('Sent email', result);
+  }).catch(err => {
+    console.error(err);
+  });
+}
+
 if (app.get('env') === 'production' || app.get('env') === 'test') {
   // 'production', 'test' - No seeding
   run();
 } else {
   // 'development', 'staging' - Seed DB
   seedDB().then( () =>
-    run()
-  ).catch( logger.error );
+    sendStartedEmail().then( () =>
+      run()
+  )).catch( logger.error );
 }

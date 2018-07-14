@@ -596,6 +596,45 @@ We can make a lot of small and big improvements. Not in any particular order...
  16. [UX] Form default button on TodoDetailPage
  17. [Server] Reorganize config files, use dotenv to load api/config/private.env (copy and customize private.env.template, do not store private.env in git!), see https://codingsans.com/blog/node-config-best-practices
 
+## Step 8. Authentication Management
+
+_From https://blog.feathersjs.com/how-to-setup-email-verification-in-feathersjs-72ce9882e744 ._
+
+Modern apps and services require management of user authentication. Some of the necessary features:
+
+- Confirm email
+- Reset forgotten password
+- Change account information
+- Two-factor authentication (2FA)
+
+```bash
+$ cd api/
+$ npm install --save feathers-authentication-management feathers-mailer nodemailer-smtp-transport
+$ feathers generate service
+  ? What kind of service is it? A custom service
+  ? What is the name of the service? emails
+  ? Which path should the service be registered on? /emails
+  ? Does the service require authentication? No
+```
+
+Edit the generated files (see code on Github).
+
+Get app password, see https://myaccount.google.com/apppasswords
+
+Enter Gmail login info in api/config/private.env file:
+
+```bash
+$ DEV_EMAIL_SERVICE="gmail"
+$ DEV_EMAIL_LOGIN="<youraccount>@gmail.com"
+$ DEV_EMAIL_PASSWORD="<yourapppassword>"
+```
+
+(Do the same for PROD_ and TEST_)
+
+When server is started with NODE_ENV=development, server will send an email to DEV_EMAIL_REPORTS.
+
+To be continued...
+
 # CHECKLIST
 
 This checklist was created while working on this app code as a guidance for continuing development of the app.
@@ -612,6 +651,44 @@ For all additions:
  * [ ] All new components should use ChangeDetectionStrategy.OnPush and invoke ChangeDetectorRef.markForCheck() on mutated data.
  * [ ] All UI input fields should be annotated for correct keyboard domain (e.g. type="email", "password", "tel", "date", etc.)
  
+# RANDOM
+
+## Classical signup / registration process with email confirmation
+
+Steps needed in a classical signup / registration process with email verification:
+
+1. Create an account with an email and password
+2. Open Email client (browser or app)
+3. Locate confirmation email (sometimes wait for its arrival for few minutes, go and do something else, return to step #2 later)
+4. Read the Thank you message: "Please confirm your account", locate where to click
+5. Click the "Confirm your email"
+6. Get redirected, read the Thank you message: "Please sign in"
+7. Sign in with email and password
+
+You still there? Now you can actually start using the app...
+
+Summary of annoying inefficiencies:
+
+ - Enter email and password up to 3 times
+ - Open the app at least twice
+ - Open an email client and search for email at least once
+ - If email is delayed, spin through the step or hang waiting
+
+All that adds to a lot of bad UX, and deters users from using the app.
+
+## Signup / registration process without email confirmation
+
+1. Create an account with email and password
+2. ... there's no step 2!
+
+... just start using the app.
+
+But truthfully, email confirmation is just delayed until it is really needed, and user has reasons to confirm the email (e.g. access limited features), so reason is understood.
+
+See https://visible.vc/engineering/signup-flow-without-email-confirmation/
+
+In addition to the linked article, the process can be streamlined without email confirmation, with added lazy confirmation (email is sent anyway, more like a "welcome email" with link to confirm for using advanced / limited features), and forced confirmation when user tries to use limited features.
+
 # TODO:
 
  * Post host IP address from server to app - help Ionic DevApp, as well as server deployment.
