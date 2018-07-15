@@ -598,7 +598,7 @@ We can make a lot of small and big improvements. Not in any particular order...
 
 ## Step 8. Authentication Management
 
-_From https://blog.feathersjs.com/how-to-setup-email-verification-in-feathersjs-72ce9882e744 ._
+_Based on https://blog.feathersjs.com/how-to-setup-email-verification-in-feathersjs-72ce9882e744 ._
 
 Modern apps and services require management of user authentication. Some of the necessary features:
 
@@ -607,9 +607,11 @@ Modern apps and services require management of user authentication. Some of the 
 - Change account information
 - Two-factor authentication (2FA)
 
+First we will setup SMTP email transport on the backend, relying on SMTP to allow using widest variety of email services.
+
 ```bash
 $ cd api/
-$ npm install --save feathers-authentication-management feathers-mailer nodemailer-smtp-transport
+$ npm install --save feathers-mailer nodemailer-smtp-transport
 $ feathers generate service
   ? What kind of service is it? A custom service
   ? What is the name of the service? emails
@@ -619,9 +621,9 @@ $ feathers generate service
 
 Edit the generated files (see code on Github).
 
-Get app password, see https://myaccount.google.com/apppasswords
+Get app password, e.g. for Gmail see https://myaccount.google.com/apppasswords
 
-Enter Gmail login info in api/config/private.env file:
+Enter Gmail login info into api/config/private.env file:
 
 ```bash
 $ DEV_EMAIL_SERVICE="gmail"
@@ -630,9 +632,30 @@ $ DEV_EMAIL_PASSWORD="<yourapppassword>"
 $ DEV_EMAIL_REPORTS="<youraccount>@gmail.com"
 ```
 
-(Do the same for PROD_ and TEST_)
+(Do the same for PROD_ and TEST_, note that it allows using different accounts while developing and testing)
 
 When server is started with NODE_ENV=development, server will send an email to DEV_EMAIL_REPORTS.
+
+Next, let's install and configure backend authentication management:
+
+```bash
+$ cd api/
+$ npm install --save feathers-authentication-management
+```
+
+Add initializers to api/server/app.js, below is essential code additions before ```app.configure(services);``` (see full code on Github).
+
+```js
+const authManagement = require('feathers-authentication-management');
+...
+const options = {
+  identifyUserProps: ['username']
+};
+app.configure( authManagement({ options }) );
+```
+
+Finally, let's add client side features to use authentication management.
+
 
 To be continued...
 
