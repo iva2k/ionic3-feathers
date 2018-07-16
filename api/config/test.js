@@ -5,7 +5,7 @@
 module.exports = {
   from: 'test',
 
-  nedb: '../test/data'
+  nedb: '../test/data',
   email_service: process.env.TEST_EMAIL_SERVICE,
   email_login:   process.env.TEST_EMAIL_LOGIN,
   email_pass:    process.env.TEST_EMAIL_PASSWORD,
