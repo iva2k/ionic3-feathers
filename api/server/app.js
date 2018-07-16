@@ -63,7 +63,7 @@ const options = {
   shortTokenDigits: true, // Short token is digits if true, else alphanumeric. Default is true.
   delay: 5 * 24 * 60 * 60 * 1000, // Duration for sign up email verification token in ms. Default is 5 days.
   resetDelay: 2 * 60 * 60 * 1000, // Duration for password reset token in ms. Default is 2 hours.
-  identifyUserProps: ['username'], // Prop names in user item which uniquely identify the user, e.g. ['username', 'email', 'cellphone']. The default is ['email']. The prop values must be strings. Only these props may be changed with verification by the service. At least one of these props must be provided whenever a short token is used, as the short token alone is too susceptible to brute force attack.
+  identifyUserProps: ['email'], // Prop names in user item which uniquely identify the user, e.g. ['username', 'email', 'cellphone']. The default is ['email']. The prop values must be strings. Only these props may be changed with verification by the service. At least one of these props must be provided whenever a short token is used, as the short token alone is too susceptible to brute force attack.
 };
 app.configure( authManagement({ options }) ); // https://github.com/feathers-plus/feathers-authentication-management/blob/master/docs.md
 // The authManagement service creates and maintains the following properties in the user item:
