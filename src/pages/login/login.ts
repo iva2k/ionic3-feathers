@@ -37,43 +37,67 @@ export class LoginPage {
     }, 500);
   }
 
-  showLoading() {
+  showLoading(activity: string) {
+    this.error = ''; // Clear error
     this.loading = this.loadingController.create({
-      content: 'Please wait...',
+      content: activity + ', Please wait...',
       dismissOnPageChange: true
     });
     this.loading.present();
-    this.error = '';
   }
 
   login() {
-    this.showLoading();
+    this.showLoading('Signing in');
     this.feathersProvider.authenticate(this.credentials)
       .then(() => {
         //this.loading.dismiss();
         this.navCtrl.setRoot('MenuPage', {}, {animate: false});
       })
       .catch((error) => {
-        this.loading.dismiss();
-        console.error('User login error: ', error);
-        this.error = error.message;
+        this.presentServerError(error, 'Signing in', 'authenticate');
       })
     ;
   }
 
   register() {
-    this.showLoading();
-    this.feathersProvider.register(this.credentials)
-      .then(() => {
-        //this.loading.dismiss();
-        console.log('User created.')
-        this.navCtrl.setRoot('MenuPage', {}, {animate: false});
+    this.showLoading('Registering');
+    this.feathersProvider.checkUnique({ email: this.credentials.email })
+      .then(() => { // Email is unique
+        this.feathersProvider.register(this.credentials)
+          .then(() => {
+            //this.loading.dismiss();
+            console.log('User created.');
+            this.navCtrl.setRoot('MenuPage', {}, { animate: false });
+          })
+          .catch(error => {
+            this.presentServerError(error, 'Registering', 'register');
+          })
+          ;
       })
-      .catch(error => {
-        this.loading.dismiss();
-        console.error('User registration error: ', error)
-        this.error = error.message;
+      .catch((err) => { // Email is already registered, or all other errors
+        this.presentServerError(err, 'Registering', 'checkEmailUnique');
       })
-    ;
+      ;
   }
+
+  private presentServerError(error, activity: string, command: string) {
+    this.loading.dismiss();
+
+    // By default pass through unknown errors 
+    let message = error.message; 
+
+    // Translate cryptic/technical messages like 'socket timeout' to messages understandable by users, e.g. 'cannot reach server'.
+
+    if (command == 'checkEmailUnique' && error.message === 'Values already taken.') {
+      message = 'Email "' + this.credentials.email + '" is already registered. Please enter your password and click "Login", or click "Forgot" to recover your password.';
+    }
+
+    if (error.name === 'Timeout' || error.message === 'Socket connection timed out') {
+      message = 'Cannot reach the server. Check your connection and try again.';
+    }
+
+    console.log('translateServerMessageToHuman() result: "%s", activity: \'%s\', command: \'%s\', error: %o', message, activity, command, error);
+    this.error = message;
+  }
+
 }

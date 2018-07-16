@@ -34,6 +34,7 @@
         "clone-deep": "^4.0.0",
         "cordova-plugin-statusbar": "^2.4.2",
         "deep-object-diff": "^1.1.0",
+        "feathers-authentication-management": "^2.0.1",
         "ionic-angular": "3.9.2",
         "ionicons": "3.0.0",
         "rxjs": "5.5.11",

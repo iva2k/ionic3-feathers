@@ -8,6 +8,7 @@ import io from "socket.io-client";
 //import socketio from "@feathersjs/socketio-client";
 //?import feathersAuthClient from '@feathersjs/authentication-client';
 import feathers from "@feathersjs/client";
+import AuthManagement from 'feathers-authentication-management/lib/client';
 
 import { Observable } from "rxjs/Observable";
 import { Observer } from "rxjs/Observer";
@@ -102,6 +103,7 @@ export class FeathersProvider {
 
   private _feathers = feathers();
   private _socket;
+  private authManagement;
 
   private reauth; // Stored login credentials for reauth if session fails.
   private errorHandler = (error) => {
@@ -133,6 +135,7 @@ export class FeathersProvider {
     // Add feathers-reactive plugin
     //?this._feathers.configure(feathersRx({ idField: '_id' }));
 
+    this.authManagement = new AuthManagement(this._feathers);
   }
 
   // Registered callbacks for page entry auth guard and not logged in guard
@@ -144,6 +147,11 @@ export class FeathersProvider {
   // Expose services
   public service(name: string) {
     return this._feathers.service(name);
+  }
+
+  // Expose authentication management
+  public checkUnique(credentials): Promise<any> {
+    return this.authManagement.checkUnique(credentials);
   }
 
   // Expose authentication

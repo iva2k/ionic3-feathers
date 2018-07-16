@@ -45,7 +45,7 @@ $ ionic serve
 
 # Get Started - Step-by-Step Instructions
 
-Create an app from scratch following these steps. See source code edits as you go on Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
+Create an app from scratch following these steps. See source code edits (you can check out commit for the current step) as you go on Github: [github.com/iva2k/ionic3-feathers](https://github.com/iva2k/ionic3-feathers)
 
 ## Step 1. Blank Ionic 3 app
 
@@ -649,12 +649,24 @@ Add initializers to api/server/app.js, below is essential code additions before 
 const authManagement = require('feathers-authentication-management');
 ...
 const options = {
-  identifyUserProps: ['username']
+  identifyUserProps: ['email']
 };
 app.configure( authManagement({ options }) );
 ```
 
-Finally, let's add client side features to use authentication management.
+Finally, let's add client side features to use authentication management. 
+
+In project top directory install feathers-authentication-management in order to use its lib/client for client side:
+
+```bash
+$ npm install --save feathers-authentication-management
+```
+
+First use of authentication management is to check if email is already registered.
+
+Though it is possible to just try to create a new account every time a user clicks "Register", and rely on server returning an error, we will explicitly do a check just to demonstrate authentication management client. Also this feature will be useful on client-side in password recovery.
+
+See code on Github for few edits to src/providers/feathers/feathers.ts, src/pages/login/login.ts, 
 
 
 To be continued...
