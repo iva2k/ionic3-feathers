@@ -101,17 +101,17 @@ async function seedDB(args = {dropDB: true, usersCount: 3, todosPerUserCount: 3,
 
 async function sendStartedEmail() {
   // Use the /emails service
-  const crlf = "\r\n";
-  const email_head = ""
-    + "<!DOCTYPE html>" + crlf
-    + "<html lang=\"en-US\">" + crlf
-    + "  <head>" + crlf
-    + "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + crlf
-    + "  </head>" + crlf
-    + "  <body>" + crlf;
-  const email_tail = "" + crlf
-    + "  </body>" + crlf
-    + "</html>";
+  const crlf = '\r\n';
+  const email_head = ''
+    + '<!DOCTYPE html>' + crlf
+    + '<html lang="en-US">' + crlf
+    + '  <head>' + crlf
+    + '    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' + crlf
+    + '  </head>' + crlf
+    + '  <body>' + crlf;
+  const email_tail = '' + crlf
+    + '  </body>' + crlf
+    + '</html>';
   const url = 'http://' + app.get('host') + ':' + app.get('port') + '/';
   const email = {
     from:    app.get('email_login'),
@@ -135,5 +135,5 @@ if (app.get('env') === 'production' || app.get('env') === 'test') {
   seedDB().then( () =>
     sendStartedEmail().then( () =>
       run()
-  )).catch( logger.error );
+    )).catch( logger.error );
 }

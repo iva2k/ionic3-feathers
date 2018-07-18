@@ -5,7 +5,7 @@
       <ion-item>
         <ion-row>
           <ion-avatar ion-col col-auto>
-            <img src="{{todo.user.avatar}}">
+            <img src="{{todo.user?.avatar ? todo.user.avatar : ''}}">
           </ion-avatar>
           <div class="todo" ion-col>
             <h2>{{todo.title}}</h2>
@@ -14,7 +14,7 @@
           <ion-note ion-col col-3>
             <h3>Created</h3>
             {{todo.createdAt | date:'M/d/yy h:mm a'}} <br/>
-            {{todo.user.email}} <br/>
+            {{todo.user?.email}} <br/>
             <small>{{todo._id}}</small> <br/>
           </ion-note>
         </ion-row>

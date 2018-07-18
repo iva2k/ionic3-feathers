@@ -595,6 +595,7 @@ We can make a lot of small and big improvements. Not in any particular order...
  15. [UX] Add validators and polish to LoginPage, TodoDetailPage, also fixed form buttons not activated upon load.
  16. [UX] Form default button on TodoDetailPage
  17. [Server] Reorganize config files, use dotenv to load api/config/private.env (copy and customize private.env.template, do not store private.env in git!), see https://codingsans.com/blog/node-config-best-practices
+ 18. [Server] Add Gravatar configuration parameters
 
 ## Step 8. Authentication Management
 
@@ -666,8 +667,13 @@ First use of authentication management is to check if email is already registere
 
 Though it is possible to just try to create a new account every time a user clicks "Register", and rely on server returning an error, we will explicitly do a check just to demonstrate authentication management client. Also this feature will be useful on client-side in password recovery.
 
-See code on Github for few edits to src/providers/feathers/feathers.ts, src/pages/login/login.ts, 
+See code on Github for few edits to src/providers/feathers/feathers.ts and src/pages/login/login.ts.
 
+And last we will implement a "forgot password" page in the app:
+
+```bash
+$ ionic generate page ForgotPassword
+```
 
 To be continued...
 
@@ -688,6 +694,158 @@ For all additions:
  * [ ] All UI input fields should be annotated for correct keyboard domain (e.g. type="email", "password", "tel", "date", etc.)
  
 # RANDOM
+
+## Use feathers-plus CLI
+
+Instead of @feathersjs/cli, use @feathers-plus/cli. Adds GraphQL endpoint, TypeScript, roundtrip generator, JSON schema.
+
+```bash
+npm install -g @feathers-plus/cli
+mkdir feathers-app
+cd feathers-app
+feathers-plus generate options
+# choose all defaults, except "Generate TypeScript code?" Yes
+
+feathers-plus generate app
+# choose all defaults, except enter 'server' folder for source files
+
+```
+Fix hardcoded "src" (change to "server") in package.json and tscript.json files (until [f+/cli#12](https://github.com/feathers-plus/cli/issues/12) is fixed).
+
+Fix single quotes to escaped double quotes in package.json "scripts":
+```
+"mocha": "ts-mocha -p tsconfig.test.json \"test/**/*.test.ts\" --timeout 10000 --exit",
+```
+
+Then:
+
+```
+npm start
+# Runs ok
+
+npm test
+# Executes tests, all pass
+
+feathers-plus generate authentication
+# choose all defaults, may adjust authentication providers: Username+Password(Local), Google, Facebook (and Github if so desired)
+npm install --save-dev @types/feathersjs__authentication-oauth2 ;# workaround for [f+/cli#9](https://github.com/feathers-plus/cli/issues/9)
+```
+
+Edit src/services/users/users.schema.?s file, add fields to ```required:``` and ```properties:```
+
+```js
+// Define the model using JSON-schema
+let schema = {
+  // !<DEFAULT> code: schema_header
+  title: 'Users',
+  description: 'Users database.',
+  // !end
+  // !code: schema_definitions // !end
+
+  // Required fields.
+  required: [
+    // !code: schema_required
+    'email',
+    //'firstName',
+    //'lastName',
+    //'roleId'
+    // !end
+  ],
+  // Fields with unique values.
+  uniqueItemProperties: [
+    // !code: schema_unique
+    '_id'
+    // !end
+  ],
+
+  // Fields in the model.
+  properties: {
+    // !code: schema_properties
+    _id: { type: 'ID' },
+    email: {},
+    //firstName: {},
+    //lastName: {},
+    password: {},
+    //roleId: { type: 'ID' }
+    // !end
+  },
+  // !code: schema_more // !end
+};
+```
+
+Run re-generator:
+
+```bash
+feathers-plus generate all ;# current workaround for TypeScript only, regenerates src/typings.d.ts
+# Answer 'Yes' to "Regenerate the entire application?" question.
+```
+
+Any time it is possible to regenerate secret for the authentication:
+```
+feathers-plus generate secret
+```
+(Need to copy-paste it into config/default.json by hand). Also makes sense to remove it from config/default.json and place into .env (not tracked in git) using ```npm i --save nodenv```
+
+
+See:
+
+ * https://github.com/feathers-plus/cli
+ * https://generator.feathers-plus.com/
+
+As of 7/18/2018, has minor issues:
+
+ - Generated code in TypeScript does not compile (missing typings) (simple workaround ``` feathers-plus genearate all``` and to install missing typings)
+ 
+
+## GraphQL
+
+GraphQL counterpoints: https://apihandyman.io/and-graphql-for-all-a-few-things-to-think-about-before-blindly-dumping-rest-for-graphql/
+
+ - cannot join queries like join tables in SQL
+ - cannot select sub-properties or flatten objects
+ - cannot predict names for mutations - have to dig in the documentation to find out, possible different naming conventions
+ - handling errors - no systematic way / no standard
+ - how to cache data?
+ - GraphQL does not ease API provider job 
+ - GraphQL may have unexpected side effects on data volumes and server usage
+ 
+## Consider Swagger
+
+Swagger is RESTful API description format and set of tools.
+
+Alternatives: OpenAPI/Swagger, Blueprint or RAML specification
+
+See:
+
+ * https://github.com/feathersjs-ecosystem/feathers-swagger
+ * https://www.npmjs.com/package/feathers-swagger
+ * https://github.com/yarax/swagger-to-graphql
+ 
+It is possible to have RESTful API, Swagger and add GraphQL endpoint later.
+
+
+## Need a single schema definition [Holy Grail]
+
+Need a single schema definition that would be auto-translated into:
+
+ - Swagger (API docs)
+ - GraphQL (single endpoint API)
+ - Feathers services
+ - Feathers hooks - server
+ - Feathers client (client validation)
+ - ajv (JSON Schema validator)
+
+Looks like most promising path should end in JSON Schema (can use ajv, and there are packages like e.g. feathers-nedb-ajv)
+
+
+Contenders:
+
+- OpenAPI (Swagger)
+- Joi (from HapiJS)
+- typeorm
+- RESTyped https://github.com/rawrmaan/restyped
+- loopback.io
+
 
 ## Classical signup / registration process with email confirmation
 
@@ -734,6 +892,7 @@ In addition to the linked article, the process can be streamlined without email 
  * Revisit: save login persistently (app, browser, desktop)
  * Detect and reconnect Feathers client if connection fails, keep retrying.
  * If persistent login is saved but rejected, show appropriate message (e.g. re-login)
+ * Login should survive server restart. Save JWT to DB? Reissue JWT?
  * Figure out disappearing menu when navigating to .../#/menu/home (not anymore? after changing to setRoot instead of reassigning rootPage)
  * Add :id URL/route for detail page; Add add URL/route for detail page; Redirect to master page when linking to detail page without :id/add URL. WHen no router stack in detail page, use setRoot();
  * [UX] Undo (e.g. Toast: task removed -> undo button). May need to allow "create" with same ID. Or undo on DB backend?

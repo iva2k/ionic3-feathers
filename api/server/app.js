@@ -7,7 +7,7 @@ const logger = require('./logger');
 
 // Load local / private config file into process.env using dotenv:
 //?require('dotenv').config({path: path.resolve(process.cwd(), 'config/private.env')})
-require('dotenv').config({path: path.resolve(__dirname, '../config/private.env')})
+require('dotenv').config({path: path.resolve(__dirname, '../config/private.env')});
 
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
@@ -48,7 +48,7 @@ app.configure(authentication);
 const options = {
   service: '/users', // default: '/users'
   path: 'authManagement', // The path to associate with this service. Default authManagement
-  //notifier: function(type, user, notifierOptions) : Promise => {},
+  // notifier: function(type, user, notifierOptions) : Promise => {},
   //  type: type of notification:
   //    - 'resendVerifySignup' From resendVerifySignup API call
   //    - 'verifySignup' From verifySignupLong and verifySignupShort API calls
@@ -63,9 +63,14 @@ const options = {
   shortTokenDigits: true, // Short token is digits if true, else alphanumeric. Default is true.
   delay: 5 * 24 * 60 * 60 * 1000, // Duration for sign up email verification token in ms. Default is 5 days.
   resetDelay: 2 * 60 * 60 * 1000, // Duration for password reset token in ms. Default is 2 hours.
-  identifyUserProps: ['email'], // Prop names in user item which uniquely identify the user, e.g. ['username', 'email', 'cellphone']. The default is ['email']. The prop values must be strings. Only these props may be changed with verification by the service. At least one of these props must be provided whenever a short token is used, as the short token alone is too susceptible to brute force attack.
+  identifyUserProps: ['email'], // Prop names in user item which uniquely identify the user,
+  // e.g. ['username', 'email', 'cellphone']. The default is ['email']. The prop values must be strings.
+  // Only these props may be changed with verification by the service. At least one of these props must
+  // be provided whenever a short token is used, as the short token alone is too susceptible to brute
+  // force attack.
 };
-app.configure( authManagement({ options }) ); // https://github.com/feathers-plus/feathers-authentication-management/blob/master/docs.md
+app.configure( authManagement({ options }) );
+// https://github.com/feathers-plus/feathers-authentication-management/blob/master/docs.md
 // The authManagement service creates and maintains the following properties in the user item:
 //   - isVerified: If the user's email addr has been verified (boolean)
 //   - verifyToken: The 30-char token generated for email addr verification (string)

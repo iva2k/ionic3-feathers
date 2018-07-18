@@ -9,8 +9,8 @@ module.exports = function (app) {
 
   const options = {
     Model,
+    paginate,
     id: '_id', // Enforce _id usage for consistency, must be used for all services, so they are interchangeable.
-    paginate
   };
 
   // Initialize our service with any options it requires
