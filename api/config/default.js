@@ -18,7 +18,7 @@ module.exports = {
   email_pass       : '',
   email_reports    : '',
   gravatar_only    : true,
-  gravatar_ext     : '.jpg',
+  gravatar_ext     : 'jpg',
   gravatar_size    : 60,
   gravatar_default : 'robohash',
   gravatar_rating  : 'g',

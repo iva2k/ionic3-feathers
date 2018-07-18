@@ -5,13 +5,15 @@
 const crypto = require('crypto');
 
 // The Gravatar image service
-const gravatarUrl = 'https://s.gravatar.com/avatar';
+const gravatarUrl = 'https://s.gravatar.com/avatar/'; // Note trailing slash.
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     const app = context.app;
     if (app.get('gravatar_only') || !context.data.avatar) {
-      const ext = app.get('gravatar_ext') || '.jpg'; // Image type
+      let ext = app.get('gravatar_ext') || 'jpg'; // Image type
+      if (ext) ext = '.' + ext; // Feathers config automatically converts strings starting with dot to absolute paths. As can't start with dot, insert one.
+
       // The query.
       const query = 's=' + (app.get('gravatar_size') || 80) + '&d=' + (app.get('gravatar_default') || 'robohash') + '&r=' + (app.get('gravatar_rating') || 'g');
       // Gravatar URL query parameters
@@ -34,10 +36,15 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
       // The user email
       const { email } = context.data;
-      // Gravatar uses MD5 hashes from an email address (all lowercase) to get the image
-      const hash = crypto.createHash('md5').update(email.toLowerCase().trim()).digest('hex');
+      if (email) {
+        // Gravatar uses MD5 hashes from an email address (all lowercase) to get the image
+        const hash = crypto.createHash('md5').update(email.toLowerCase().trim()).digest('hex');
 
-      context.data.avatar = `${gravatarUrl}/${hash}${ext}?${query}`;
+        context.data.avatar = `${gravatarUrl}${hash}${ext}?${query}`;
+      } else {
+        // If no email given, skip hash. Gravatar will still return default image
+        context.data.avatar = `${gravatarUrl}?${query}`;
+      }
     }
     // Best practice: hooks should always return the context
     return context;
