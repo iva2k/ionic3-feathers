@@ -16,7 +16,7 @@ describe('\'users\' service', function() {
     })
       .then(user => {
         // Verify Gravatar has been set as we'd expect
-        assert.equal(user.avatar, 'https://s.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?s=60');
+        assert.equal(user.avatar, 'https://s.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0.jpg?s=60&d=robohash&r=g');
         // Makes sure the password got encrypted
         assert.ok(user.password !== 'secret');
       });
