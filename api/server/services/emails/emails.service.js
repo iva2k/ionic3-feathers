@@ -6,8 +6,6 @@ const smtpTransport = require('nodemailer-smtp-transport');
 
 module.exports = function (app) {
 
-  const paginate = app.get('paginate');
-
   const options = {
     service: app.get('email_service'),
     auth: {

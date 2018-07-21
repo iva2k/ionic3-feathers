@@ -603,12 +603,29 @@ _Based on https://blog.feathersjs.com/how-to-setup-email-verification-in-feather
 
 Modern apps and services require management of user authentication. Some of the necessary features:
 
-- Confirm email
-- Reset forgotten password
-- Change account information
-- Two-factor authentication (2FA)
+ - Confirm email
+ - Reset forgotten password
+ - Change account information
+ - Two-factor authentication (2FA)
 
-First we will setup SMTP email transport on the backend, relying on SMTP to allow using widest variety of email services.
+Just sending emails requires some of the biggest items for any app:
+
+ - Email service
+ - Email sender
+ - Email formatter
+ - Email templates system
+ - Email styling
+ - Dealing with security restrictions and serious HTML/CSS limitations of all email clients
+
+We will use as much of existing solutions as possible, simplifying the massive job: 
+
+ - SMTP service provider (relying on standard protocol to allow widest variety of email services, with Gmail as default)
+ - Feathers-mailer (Nodemailer based) email sender with SMTP transport
+ - Pug email template files with pug engine (former Jade)
+ - Juice for converting CSS to inline (to support variety of email clients)
+ - Optionally we could use something like ```npm install postcss-css-variables --save-dev``` and setting up build process to convert modern CSS to more compatible older versions
+
+First we will setup a feathers service for SMTP email transport on the backend:
 
 ```bash
 $ cd api/
@@ -635,25 +652,42 @@ $ DEV_EMAIL_REPORTS="<youraccount>@gmail.com"
 
 (Do the same for PROD_ and TEST_, note that it allows using different accounts while developing and testing)
 
-When server is started with NODE_ENV=development, server will send an email to DEV_EMAIL_REPORTS.
+When the server is started with NODE_ENV=development, server will send an email to DEV_EMAIL_REPORTS, helping to verify email transport.
 
-Next, let's install and configure backend authentication management:
+Next, let's install and configure backend authentication management, and implement email templating solution:
 
 ```bash
 $ cd api/
-$ npm install --save feathers-authentication-management
+$ npm install --save feathers-authentication-management feathers-hooks-common
+$ feathers generate service
+  ? What kind of service is it? A custom service
+  ? What is the name of the service? authManagement
+  ? Which path should the service be registered on? /authManagement
+     create server\services\auth-management\auth-management.service.js
+      force server\services\index.js
+     create server\services\auth-management\auth-management.class.js
+     create server\services\auth-management\auth-management.hooks.js
+     create test\services\auth-management.test.js
 ```
 
-Add initializers to api/server/app.js, below is essential code additions before ```app.configure(services);``` (see full code on Github).
+Note: path "/authManagement" is hardcoded in feathers-authentication-management client, so we can't use feathers's proposed "/auth-managaement" or any other path.
 
-```js
-const authManagement = require('feathers-authentication-management');
-...
-const options = {
-  identifyUserProps: ['email']
-};
-app.configure( authManagement({ options }) );
+Modify auth-management code to load feathers-authentication-management (see full code on Github).
+
+We will add pug email templates and a separate styling CSS file (to keep pug templates clean of styling) in api/server/email-templates/account/, 
+and api/server/serviices/auth-management/notifier.js which ties email sending part to auth-management service.
+
+Layout in emails by CSS is very bad, each client has unique limitations, so the main recommendation is to use HTML tables for layout and CSS only for spacing, colors and fonts. See https://www.campaignmonitor.com/dev-resources/guides/coding/
+
+Also, modern CSS (e.g. with variables) won't work in most email clients. We could use CSS processing, but leave it out of this app for now.
+
+```bash
+$ cd api/
+$ npm install --save pug juice
 ```
+
+See added code on Github.
+
 
 Finally, let's add client side features to use authentication management. 
 
@@ -669,11 +703,12 @@ Though it is possible to just try to create a new account every time a user clic
 
 See code on Github for few edits to src/providers/feathers/feathers.ts and src/pages/login/login.ts.
 
-And last we will implement a "forgot password" page in the app:
+Next we will implement a "reset password" button on the LoginPage in the app. 
+The page will be modified to have tabs (using Ionic segments) and a bit of CSS animation.
 
-```bash
-$ ionic generate page ForgotPassword
-```
+See code on Github for few edits to src/providers/feathers/feathers.ts and src/pages/login/login.ts using feathers-authentication-management client.
+
+
 
 To be continued...
 

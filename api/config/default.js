@@ -4,11 +4,13 @@
 
 module.exports = {
   from: 'default',
+  protocol         : 'https',
+  host             : 'localhost',
+  port             : 3030,
+  public           : '../public/',
+  logo             : process.env.LOGO              || 'logo.png', // File in public folder
 
-  host: 'localhost',
-  port: 3030,
-  public: '../public/',
-  paginate: {
+  paginate : {
     default: 10,
     max: 50
   },
@@ -17,6 +19,8 @@ module.exports = {
   email_login      : '',
   email_pass       : '',
   email_reports    : '',
+  email_support    : '',
+  email_from_auth  : '',
   gravatar_only    : true,
   gravatar_ext     : 'jpg',
   gravatar_size    : 60,

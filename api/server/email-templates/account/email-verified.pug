@@ -1,0 +1,38 @@
+doctype html
+html
+ head
+  style
+   include ../../../config/style-email.css
+ body
+
+  table.body
+   tr
+    td.body
+
+     table.box
+      tr
+       td.box
+
+        table.layout
+         tr
+          td.header
+           table
+            tr
+             td.logo
+              img(src=logo)
+             td.banner
+              h1 Account Services
+
+         tr
+          td.content
+           h1 Hi, #{name}
+           p Thank you for signing up and verifying your email.
+           p We can now send you a link to reset your password if you ever need it.
+
+         tr
+          td.footer
+           .feedback
+            p If you need help, please, 
+             span
+              a(href=`mailto:${supportEmail}?subject=I have difficulty using the app&body=`) let us know
+            p Big Company, Ltd.

@@ -149,9 +149,25 @@ export class FeathersProvider {
     return this._feathers.service(name);
   }
 
-  // Expose authentication management
+  // Expose authentication management - check if credentials.email is not registered
   public checkUnique(credentials): Promise<any> {
     return this.authManagement.checkUnique(credentials);
+  }
+
+  // Expose authentication management - request password reset for credentials.email
+  public resetPasswordRequest(credentials): Promise<any> {
+    let options = { preferredComm: 'email' }; // passed to options.notifier, e.g. {preferredComm: 'email'}
+    return this.authManagement.sendResetPwd(credentials, options);
+  }
+
+  // Expose authentication management - reset password to credentials.password using resetToken, received following resetPasswordRequest()
+  public resetPassword(resetToken, credentials): Promise<any> {
+    return this.authManagement.resetPwdLong(resetToken, credentials.password);
+  }
+
+  // Expose authentication management - reset password to credentials.password using short resetToken, received following TODO: resetPasswordRequest()??
+  public resetPasswordShort(resetToken, credentials): Promise<any> {
+    return this.authManagement.resetPwdShort(resetToken, { email: credentials.email}, credentials.password);
   }
 
   // Expose authentication

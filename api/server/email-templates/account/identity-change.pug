@@ -1,0 +1,47 @@
+doctype html
+html
+ head
+  style
+   include ../../../config/style-email.css
+ body
+
+  table.body
+   tr
+    td.body
+
+     table.box
+      tr
+       td.box
+
+        table.layout
+         tr
+          td.header
+           table
+            tr
+             td.logo
+              img(src=logo)
+             td.banner
+              h1 Account Services
+
+         tr
+          td.content
+           h1 Hi, #{name}
+           p Your user information was just changed. Please verify that you made these changes.
+            ul
+             each change, key in changes
+              li #{key}: #{change}
+
+           p Click the button below to confirm the changes:
+            a.reset-btn(href=hashLink) I accept the changes
+           p Or copy and paste the following link into your browser:
+            pre.reset-link #{hashLink}
+           p Or copy and paste the following token into your app:
+            pre.reset-link #{hash}
+
+         tr
+          td.footer
+           .feedback
+            p If you didn't request this change please, 
+             span
+              a(href=`mailto:${supportEmail}?subject=I did not change my account&body=Someone unauthorized changed my account. Can you help me change it back?`) let us know
+            p Big Company, Ltd.

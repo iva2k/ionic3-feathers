@@ -1,0 +1,43 @@
+doctype html
+html
+ head
+  style
+   include ../../../config/style-email.css
+ body
+
+  table.body
+   tr
+    td.body
+
+     table.box
+      tr
+       td.box
+
+        table.layout
+         tr
+          td.header
+           table
+            tr
+             td.logo
+              img(src=logo)
+             td.banner
+              h1 Account Services
+
+         tr
+          td.content
+           h1 Hi, #{name}
+           p Thank you for signing up. Please verify your email so you can reset your password if need be.
+            a.reset-btn(href=hashLink) Verify Email
+           p Or copy and paste the following link into your browser:
+            pre.reset-link #{hashLink}
+           p Or copy and paste the following token into your app:
+            pre.reset-link #{hash}
+           p You may still use the app and website if your email is not verified, but we can't send you emails.
+
+         tr
+          td.footer
+           .feedback
+            p If you need help, please, 
+             span
+              a(href=`mailto:${supportEmail}?subject=I did not sign up at this site&body=Please remove my account.`) let us know
+            p Big Company, Ltd.
