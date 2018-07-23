@@ -7,7 +7,7 @@ module.exports = {
   protocol         :             process.env.TEST_APP_PROTOCOL   || 'https',
   host             :             process.env.TEST_APP_HOST       || 'localhost',
   port             :    parseInt(process.env.TEST_APP_PORT)      || 3030,
-//?  public           :             process.env.TEST_PUBLIC         || '../public/',
+  //?public           :             process.env.TEST_PUBLIC         || '../public/',
   nedb             :             '../test/data',
   email_service    :             process.env.TEST_EMAIL_SERVICE,
   email_login      :             process.env.TEST_EMAIL_LOGIN,

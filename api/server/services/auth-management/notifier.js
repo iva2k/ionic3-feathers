@@ -25,8 +25,8 @@ module.exports = function(app) {
 
   /**
    * Format URL for action link
-   * @param {string} type 
-   * @param {string} token 
+   * @param {string} type
+   * @param {string} token
    * @returns {string}
    */
   function getLink(type, token) {
@@ -39,7 +39,7 @@ module.exports = function(app) {
 
   /**
    * Generate md5 hash for given value
-   * @param {string} value 
+   * @param {string} value
    * @returns {string}
    */
   function getHash(value) {
@@ -86,7 +86,7 @@ module.exports = function(app) {
       console.log(`-- Preparing ${type} email to ${user.email}`);
       const userName = user.name || user.email; // TODO: Implement user.name
       var subject, template, hash, hashLink, changes;
-      
+
       // Insert attachment inline images (URL-based data is blocked by certain clients, e.g. Gmail)
       const cidLogo = getHash('logo@cid');
       var attachments = [formatAttachment(cidLogo, logo)];
@@ -153,8 +153,9 @@ module.exports = function(app) {
       let styledHTML = juice(compiledHTML);
       let email = {
         envelope: {
-          // Special trick: sets 'Return-Path' header to replyEmail during interaction with SMTP server.
-          from: replyEmail, // Should set 'Return-Path: <...>' by sending MAIL FROM command to SMTP server. Does not affect Gmail server.
+          // Special trick: sets 'Return-Path' header to replyEmail by sending MAIL FROM command to SMTP server.
+          // Unfortunately, Gmail server ignores it. // TODO: Some settings in GMail account should be set to include other "from" addresses explicitly.
+          from: replyEmail,
           to: user.email
         },
         from: fromEmail,
@@ -165,6 +166,19 @@ module.exports = function(app) {
         html: styledHTML,
         attachments,
       };
+      if (process.env.NODE_ENV === 'development') { // Writing to 'public' is a security issue. Could be done only in dev, never in production!
+        // Allow inspecting intermediate and end HTML results.
+        var fs = require('fs');
+        const outfile = path.join(app.get('public'), template);
+        fs.writeFile(outfile + '.compiled.html', compiledHTML, function(err) {
+          if (err) console.log(err);
+          else console.log('Saved file %s', outfile + '.compiled.html');
+        });
+        fs.writeFile(outfile + '.styled.html', styledHTML, function(err) {
+          if (err) console.log(err);
+          console.log('Saved file %s', outfile + '.styled.html');
+        });
+      }
       return sendEmail(email);
     }
   };

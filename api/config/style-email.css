@@ -1,18 +1,5 @@
 
-/* style-email.css TODO: postcss to apply color vars*/
-:root {
-  --color_logo_bg      : #4E8EF7; /* Ionic Blue */
-  --color_logo_txt     : #FFFFFF;
-  --color_bg_25        : #3E3E3E;
-  --color_bg_50        : #7D7D7D;
-  --color_bg_75        : #BDBDBD;
-  --color_bg_90        : #E2E2E4;
-  --color_bg_100       : #F9F9F9;
-  --color_txt          : #000000;
-  --color_feedback_txt : grey;
-  --color_btn_act      : #95C71F;
-  --color_btn_act_txt  : #FFFFFF;
-}
+/* style-email.css */
 
 table {
   width: 100%;
@@ -31,14 +18,14 @@ h1 {
 body {
   width: 100%;
   padding: 0;
-  background-color: var(--color_bg_25) #3E3E3E;
+  background-color: #3E3E3E;
 }
 
 table.body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 1.2em;
-  background-color: var(--color_bg_25) #3E3E3E;
-  color: var(--color_txt) #000000;
+  background-color: #3E3E3E;
+  color: #000000;
   text-align: center;
 }
 
@@ -56,13 +43,13 @@ table.box {
 
 td.box {
   padding: 1.2em;
-  background-color: var(--color_bg_75) #BDBDBD;
+  background-color: #BDBDBD;
 }
 
 .header {
   padding: 1em;
-  background-color: var(--color_logo_bg) #4E8EF7;
-  color: var(--color_logo_txt) #FFFFFF;
+  background-color: #4E8EF7;
+  color: #FFFFFF;
 }
 
 .header td.logo {
@@ -82,8 +69,8 @@ td.box {
 
 .content {
   padding: 1em;
-  background-color: var(--color_bg_100) #F9F9F9;
-  color: var(--color_txt) #000000;
+  background-color: #F9F9F9;
+  color: #000000;
 }
 
 .reset-btn, .reset-link, .reset-token {
@@ -91,13 +78,13 @@ td.box {
 }
 
 a.reset-btn {
-  background-color: var(--color_btn_act) #95C71F;
-  color: var(--color_btn_act_txt) #FFFFFF;
+  background-color: #95C71F;
+  color: #FFFFFF;
   display: block;
   text-decoration: none;
   padding: 0.5em;
   font-size: 1.2em;
-  border: 1px solid var(--color_btn_act) #95C71F;
+  border: 1px solid #95C71F;
   border-radius: 6px;
   margin: 1em auto 1em auto;
 }
@@ -108,16 +95,16 @@ pre.reset-link, pre.reset-token {
     word-break: keep-all;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 0.8em;
-    border: 1px solid var(--color_bg_75) #BDBDBD;
+    border: 1px solid #BDBDBD;
     border-radius: 6px;
 }
 
 .footer {
-  background-color: var(--color_bg_75) #BDBDBD;
+  background-color: #BDBDBD;
 }
 
 .feedback {
-  color: var(--color_feedback_txt) grey;
+  color: grey;
   font-size: 0.9em;
   text-align: center;
   margin-bottom: 0;

@@ -745,12 +745,6 @@ feathers-plus generate app
 # choose all defaults, except enter 'server' folder for source files
 
 ```
-Fix hardcoded "src" (change to "server") in package.json and tscript.json files (until [f+/cli#12](https://github.com/feathers-plus/cli/issues/12) is fixed).
-
-Fix single quotes to escaped double quotes in package.json "scripts":
-```
-"mocha": "ts-mocha -p tsconfig.test.json \"test/**/*.test.ts\" --timeout 10000 --exit",
-```
 
 Then:
 
@@ -763,7 +757,6 @@ npm test
 
 feathers-plus generate authentication
 # choose all defaults, may adjust authentication providers: Username+Password(Local), Google, Facebook (and Github if so desired)
-npm install --save-dev @types/feathersjs__authentication-oauth2 ;# workaround for [f+/cli#9](https://github.com/feathers-plus/cli/issues/9)
 ```
 
 Edit src/services/users/users.schema.?s file, add fields to ```required:``` and ```properties:```
@@ -811,7 +804,10 @@ let schema = {
 Run re-generator:
 
 ```bash
-feathers-plus generate all ;# current workaround for TypeScript only, regenerates src/typings.d.ts
+feathers-plus generate service 
+# Then type in the name of the service "users".
+# or:
+feathers-plus generate all 
 # Answer 'Yes' to "Regenerate the entire application?" question.
 ```
 
@@ -827,10 +823,6 @@ See:
  * https://github.com/feathers-plus/cli
  * https://generator.feathers-plus.com/
 
-As of 7/18/2018, has minor issues:
-
- - Generated code in TypeScript does not compile (missing typings) (simple workaround ``` feathers-plus genearate all``` and to install missing typings)
- 
 
 ## GraphQL
 
