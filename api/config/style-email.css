@@ -1,7 +1,7 @@
 
 /* style-email.css TODO: postcss to apply color vars*/
 :root {
-  --color_logo_bg      : #00AEEF;
+  --color_logo_bg      : #4E8EF7; /* Ionic Blue */
   --color_logo_txt     : #FFFFFF;
   --color_bg_25        : #3E3E3E;
   --color_bg_50        : #7D7D7D;
@@ -12,6 +12,10 @@
   --color_feedback_txt : grey;
   --color_btn_act      : #95C71F;
   --color_btn_act_txt  : #FFFFFF;
+}
+
+table {
+  width: 100%;
 }
 
 table, tr, th, td {
@@ -36,7 +40,6 @@ table.body {
   background-color: var(--color_bg_25) #3E3E3E;
   color: var(--color_txt) #000000;
   text-align: center;
-  width: 100%;
 }
 
 td.body {
@@ -58,7 +61,7 @@ td.box {
 
 .header {
   padding: 1em;
-  background-color: var(--color_logo_bg) #00AEEF;
+  background-color: var(--color_logo_bg) #4E8EF7;
   color: var(--color_logo_txt) #FFFFFF;
 }
 
@@ -73,6 +76,7 @@ td.box {
 .logo img {
   display: block;
   width: 100%;
+  max-width: 8em;
   height: auto;
 }
 

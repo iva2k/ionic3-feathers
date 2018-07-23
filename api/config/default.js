@@ -8,7 +8,7 @@ module.exports = {
   host             : 'localhost',
   port             : 3030,
   public           : '../public/',
-  logo             : process.env.LOGO              || 'logo.png', // File in public folder
+  logo             : process.env.LOGO              || 'logo-white.png', // File in public folder
 
   paginate : {
     default: 10,
