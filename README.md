@@ -704,13 +704,61 @@ Though it is possible to just try to create a new account every time a user clic
 See code on Github for few edits to src/providers/feathers/feathers.ts and src/pages/login/login.ts.
 
 Next we will implement a "reset password" button on the LoginPage in the app. 
-The page will be modified to have tabs (using Ionic segments) and a bit of CSS animation.
 
-See code on Github for few edits to src/providers/feathers/feathers.ts and src/pages/login/login.ts using feathers-authentication-management client.
+The page will be modified to have tabs (using Ionic segments) for Sign Up / Sign In / Reset, and a bit of animation.
 
+We can make some transition animations in pure CSS, and some (where elements are removed from DOM) in Angular.
+
+Reset code will only send request for password reset email, but no hookup to actually reset the password yet (it will need a separate page and a new route).
+
+We will also add code for displaying buttons for external login, but no implementation yet.
+
+See the code on Github for few edits:
+
+ - src/pages/login/login.* files (Sign Up / Sign In / Reset, Login with ...)
+ - src/providers/feathers/feathers.ts (using feathers-authentication-management client)
+ - app.module.ts (use Angular animations)
+ - src/models/user.ts (couple fields added to the user model)
+
+
+To complete the password reset, we need one last piece - a deep-linked page that 
+will take the token from email URL and provide a form to enter a new password.
+
+We will start with a separate page, so it can be deep-linked from email URL.
+
+```bash
+$ ionic generate page ResetPassword
+```
+
+The ResetPasswordPage is very similar to the LoginPage, though it does not 
+need segments to select different modes and animations to transition between 
+modes, and the fields are slightly different (no Email but Verification Code).
+
+We will use @IonicPage 'segment' to deliver the token to the page in the app 
+from URL link in an email. There is no other way to navigate to that page in 
+the app, which may be needed to deal with situations when links are not 
+working.
+
+See code on Github for the edits of generated src/pages/reset-password/ files.
+
+### Summary
+
+With all the added source code in place, the app has all functions, including minimal account management.
+
+Some thoughts on the features developed in this step:
+
+ - ResetPasswordPage error handling could be smoother for UX, e.g. navigating to login/reset if verification code was rejected.
+ - Though from technical implementation perspective it makes sense to have ResetPasswordPage separate from LoginPage, the workflow would be much smoother from UX perspective if it was done on a single page with segment selector. However, it will be much more convoluted design with need to hide segments depending on logged in state, and managing page layout.
+
+
+## Step 9. Login with Social Accounts
+
+Social logins are a must of modern apps. Let's implement "login with".
 
 
 To be continued...
+
+
 
 # CHECKLIST
 
@@ -927,5 +975,6 @@ In addition to the linked article, the process can be streamlined without email 
  * Unify eslint/tslint between Ionic and Feathers server parts.
  * Tests for Ionic app.
  * Reorganize folders and scripts so that Ionic app (cordova browser) is built into Feathers api/public folder.
+ * Phone logins, SMS verification. See https://medium.com/@hcbh96/the-how-and-why-of-2fa-using-twilio-and-feathers-js-simple-2fa-tutorial-e64a930a57a8
 
 ##END

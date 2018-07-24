@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, NgZone, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { IonicPage, Loading, LoadingController, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, Loading, LoadingController, NavController, /* NavParams, */ ToastController } from 'ionic-angular';
 
 import { User } from "../../models/user";
 import { FeathersProvider } from "../../providers/feathers/feathers";
@@ -32,15 +32,17 @@ export class LoginPage {
   loading: Loading;
   credentials: User = <User>{ email: '', password: '' };
   protected error: string;
-  protected logins: [] = [
-    //{title: 'Facebook', name: 'facebook', click: this.facebook, icon: 'logo-facebook'},
-    //{title: 'Google', name: 'google', click: this.google, icon: 'logo-google'},
+  protected logins = [
+    //{title: 'Facebook', name: 'facebook', icon: 'logo-facebook', url: '/auth/facebook'},
+    //{title: 'Google', name: 'google', icon: 'logo-google', url: '/auth/google'},
+    //{title: 'Github', name: 'github', icon: '??logo-github', url: '/auth/github'},
   ];
   constructor(
     private feathersProvider: FeathersProvider,
     private loadingController: LoadingController,
     private navCtrl: NavController,
-    private navParams: NavParams,
+    // navParams: NavParams,
+    private ngZone: NgZone,
     private toastCtrl: ToastController
   ) {
   }
@@ -61,11 +63,18 @@ export class LoginPage {
 
   showLoading(activity: string) {
     this.error = ''; // Clear error
-    this.loading = this.loadingController.create({
-      content: activity + ', Please wait...',
-      dismissOnPageChange: true
-    });
-    this.loading.present();
+    let message = 'Please wait,<br/>' + activity + '...';
+    if (this.loading) {
+      this.ngZone.run(() => { // Update
+        this.loading.setContent(message);
+      });
+    } else { // Create new
+      this.loading = this.loadingController.create({
+        content: message,
+        dismissOnPageChange: true
+      });
+      this.loading.present();
+    }
   }
 
   public login() {

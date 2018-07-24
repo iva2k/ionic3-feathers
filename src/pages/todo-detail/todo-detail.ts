@@ -15,7 +15,7 @@ export class TodoDetailPage {
   constructor(
     private feathersProvider: FeathersProvider,
     private navCtrl: NavController,
-    private navParams: NavParams,
+    navParams: NavParams,
     private toastCtrl: ToastController
   ) {
     this.todoId = <string>navParams.get('todoId') || '';

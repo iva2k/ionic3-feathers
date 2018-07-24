@@ -50,7 +50,7 @@ page-login {
       margin-left: -8px; /* Tighten space between icon and input (use just input padding) */
     }
 
-    // Idea from https://codemyui.com/sign-inup-forgot-password-transition/
+    // Animation idea from https://codemyui.com/sign-inup-forgot-password-transition/
     #wrapper, ion-segment, #arrow, button span { transition: all .5s cubic-bezier(.6,0,.4,1); }
     
     //#wrapper { overflow: hidden; }
@@ -93,6 +93,7 @@ page-login {
       min-height: 45px;
       line-height: 1;
       padding: 18px; /* = 13px (margin for input) + 5px (boprder) to visually match button height*/
+      border-radius: 30px;
     }
 
     .facebook-col, .google-col {
@@ -116,7 +117,6 @@ page-login {
         
     .login-btn {
       background-color: #51CFB1;
-      border-radius: 30px !important;
       border: 1px solid #ffffff; // Default button
     }
  
@@ -125,14 +125,12 @@ page-login {
     }
     .register-btn {
       background-color: #51CFB1;
-      border-radius: 30px !important;
       //color: #ffffff;
       //font-size: 0.8em;
     }
 
     .reset-btn {
       background-color: #51CFB1;
-      border-radius: 30px !important;
       //color: #ffffff;
       //font-size: 0.8em;
     }

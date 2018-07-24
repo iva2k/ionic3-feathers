@@ -112,13 +112,19 @@
 
       <ion-row>
         <ion-col [ngClass]="'login-col'" *ngIf="mode === 'login'">
-          <button ion-button class="login-btn" full type="submit" name="login" [disabled]="loginForm.invalid" (click)="login()">Login</button>
+          <button ion-button class="login-btn" full type="submit" name="login" [disabled]="loginForm.invalid" (click)="login()">
+            Login
+          </button>
         </ion-col>
         <ion-col [ngClass]="'register-col'" *ngIf="mode === 'register'">
-          <button ion-button class="register-btn" block type="button" name="register" [disabled]="loginForm.invalid" (click)="register()">Register</button>
+          <button ion-button class="register-btn" block type="button" name="register" [disabled]="loginForm.invalid" (click)="register()">
+            Register
+          </button>
         </ion-col>
         <ion-col [ngClass]="'reset-col'" *ngIf="mode === 'reset'">
-          <button ion-button class="reset-btn" block type="button" name="reset" [disabled]="username.invalid" (click)="reset()">Reset</button>
+          <button ion-button class="reset-btn" block type="button" name="reset" [disabled]="username.invalid" (click)="reset()">
+            Reset
+          </button>
         </ion-col>
       </ion-row>
 
@@ -138,7 +144,6 @@
           </ion-col>
         </ion-row>
       </div>
-
 
     </form>
   </div>

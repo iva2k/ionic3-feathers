@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Nav, NavController, NavParams, Tabs, Tab } from 'ionic-angular';
+import { IonicPage, Nav, NavController, /* NavParams, */ Tabs, Tab } from 'ionic-angular';
 
 import { FeathersProvider } from "../../providers/feathers/feathers";
 
@@ -35,9 +35,9 @@ export class MenuPage {
   public rootPage: any = 'TodosListPage';
 
   constructor(
-    public feathersProvider: FeathersProvider,
-    public navCtrl: NavController,
-    public navParams: NavParams
+    private feathersProvider: FeathersProvider,
+    private navCtrl: NavController,
+    //navParams: NavParams
   ) {
   }
 

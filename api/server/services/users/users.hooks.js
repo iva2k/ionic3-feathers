@@ -4,14 +4,61 @@ const { hashPassword, protect } = require('@feathersjs/authentication-local').ho
 
 const gravatar = require('../../hooks/gravatar');
 
+// How to add email verification
+// From https://blog.feathersjs.com/how-to-setup-email-verification-in-feathersjs-72ce9882e744
+
+//TODO: const verifyHooks = require('feathers-authentication-management').hooks;
+const commonHooks = require('feathers-hooks-common');
+
+// TODO: const globalHooks = require ...
+/*
+import accountService from '../services/authManagement/notifier'
+exports.sendVerificationEmail = options => hook => {
+  if (!hook.params.provider) { return hook; }
+  const user = hook.result
+  if(process.env.GMAIL && hook.data && hook.data.email && user) {
+    accountService(hook.app).notifier('resendVerifySignup', user)
+    return hook
+  }
+  return hook
+}
+*/
+
 module.exports = {
   before: {
     all: [],
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
-    create: [ hashPassword(), gravatar() ],
-    update: [ hashPassword(), authenticate('jwt') ],
-    patch: [ hashPassword(), authenticate('jwt') ],
+    create: [
+      //TODO: verifyHooks.addVerification(), // email verification
+      //TODO: customizeOauthProfile(),
+      hashPassword(), gravatar() ],
+    update: [
+      commonHooks.disallow('external') // disallow any external modifications
+      //TODO: customizeOauthProfile(),
+      // removed: hashPassword(), authenticate('jwt')
+    ],
+    patch: [
+      commonHooks.iff(
+        // feathers-authentication-management does its own hash, add only for external,
+        // see https://github.com/feathers-plus/feathers-authentication-management/issues/96
+        // https://hackernoon.com/setting-up-email-verification-in-feathersjs-ce764907e4f2
+        commonHooks.isProvider('external'),
+        commonHooks.preventChanges(
+          'email',
+          'isVerified',
+          'verifyToken',
+          'verifyShortToken',
+          'verifyExpires',
+          'verifyChanges',
+          'resetToken',
+          'resetShortToken',
+          'resetExpires'
+        ),
+        hashPassword(),
+        authenticate('jwt')
+      )
+    ],
     remove: [ authenticate('jwt') ]
   },
 
@@ -23,7 +70,13 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [],
+    create: [
+
+      // TODO: globalHooks.sendVerificationEmail(),
+      //// removes verification/reset fields other than .isVerified
+      // verifyHooks.removeVerification(),
+
+    ],
     update: [],
     patch: [],
     remove: []
