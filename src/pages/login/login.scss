@@ -1,6 +1,7 @@
 page-login {
   .login-content {
     background: #56CA96;
+    text-align: center;
 
     .logo-row {
       padding: 50px;
@@ -8,7 +9,18 @@ page-login {
 
     .login-box {
       background: #399F8B;
+      color: #fff;
       padding: 20px 20px 20px 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+
+      ion-segment {
+        background-color: #399F8B;
+        ion-segment-button {
+          color: #fff;
+        }
+      }
     }
 
     ion-row {
@@ -18,7 +30,7 @@ page-login {
 
     ion-item {
       border-radius: 30px !important;
-      padding-left: 12px !important; // squeeze icon into left side
+      padding-left: 12px !important; /* squeeze icon into left side */
       //font-size: 0.9em;
       margin-top: 10px;
       margin-bottom: 3px;
@@ -26,14 +38,64 @@ page-login {
       box-shadow: none !important;
     }
 
+    ion-item ion-icon[item-left],
+    ion-item ion-icon[item-start] {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
     ion-item ion-icon[item-left] + .item-inner,
     ion-item ion-icon[item-left] + .item-input,
     ion-item ion-icon[item-start] + .item-inner,
     ion-item ion-icon[item-start] + .item-input {
-      margin-left: -8px; // Tighten space between icon and input (use just input padding)
+      margin-left: -8px; /* Tighten space between icon and input (use just input padding) */
     }
 
-    .login-col, .register-col {
+    // Idea from https://codemyui.com/sign-inup-forgot-password-transition/
+    #wrapper, ion-segment, #arrow, button span { transition: all .5s cubic-bezier(.6,0,.4,1); }
+    
+    //#wrapper { overflow: hidden; }
+    #arrow-contwrap {
+      position: relative; /* this ensures #arrow-container will get width 100% of enclosing ion-col*/
+      left: -10px; /* this shift left compensates for the width of #arrow */
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      margin-top: -8px; /* pull the arrow tip almost to the ion-segment-button */
+    }
+    #arrow-container {
+      position: absolute;
+      width: 100%;
+      padding: 0;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    #arrow.register { left: 16.66%; }
+    #arrow.login    { left: 50%; }
+    #arrow.reset    { left: 83.33%; }
+
+    #arrow {
+      position: relative;
+      left: 16.66%;
+      height: 0;
+      width: 0;
+      /* create a triangle pointing up for arrow effect: */
+      border-bottom: 10px solid #fff;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+    }
+ 
+    .login-col, .register-col, .reset-col {
+      margin: 0px 0px 0px 0px;
+    }
+ 
+    .login-col button, .register-col button, .reset-col button {
+      min-height: 45px;
+      line-height: 1;
+      padding: 18px; /* = 13px (margin for input) + 5px (boprder) to visually match button height*/
+    }
+
+    .facebook-col, .google-col {
       margin: 0px 16px 0px 16px;
     }
  
@@ -53,16 +115,50 @@ page-login {
     }
         
     .login-btn {
-      background: #51CFB1;
+      background-color: #51CFB1;
       border-radius: 30px !important;
       border: 1px solid #ffffff; // Default button
     }
  
+    .register-col {
+      transition: all .2s ease-in-out;
+    }
     .register-btn {
-      background: #51CFB1;
+      background-color: #51CFB1;
       border-radius: 30px !important;
       //color: #ffffff;
       //font-size: 0.8em;
+    }
+
+    .reset-btn {
+      background-color: #51CFB1;
+      border-radius: 30px !important;
+      //color: #ffffff;
+      //font-size: 0.8em;
+    }
+
+    .btn-login-with {
+      ion-icon {
+        margin-right: 6px;
+      }
+    }
+
+    .btn-facebook {
+      color: #fff !important;
+      background-color: #3b5998 !important;
+      border: 1px solid #335190 !important;
+      &:hover, &:focus, &:active {
+        background-color: #294786 !important;
+      }
+    }
+
+    .btn-google {
+      color: #fff !important;
+      background-color: #dd4b39 !important;
+      border: 1px solid #d54331 !important;
+      &:hover, &:focus, &:active {
+        background-color: #cb3927 !important;
+      }
     }
   }
 }

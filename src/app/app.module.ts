@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -14,6 +15,7 @@ import { FeathersProvider } from '../providers/feathers/feathers';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(MyApp, {
       menuType: 'overlay', // 'push' - slide out pushing the page, 'reveal' - slide out pushing the page (iOS), 'overlay' - slide out covering the page (MD and Windows)
       platforms: {

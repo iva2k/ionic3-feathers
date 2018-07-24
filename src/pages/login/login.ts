@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Loading, LoadingController, NavController, NavParams } from 'ionic-angular';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { IonicPage, Loading, LoadingController, NavController, NavParams, ToastController } from 'ionic-angular';
 
 import { User } from "../../models/user";
 import { FeathersProvider } from "../../providers/feathers/feathers";
@@ -8,18 +9,39 @@ import { FeathersProvider } from "../../providers/feathers/feathers";
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
+  animations: [
+    trigger('revealY', [
+      state('*', style({ 'overflow-y': 'hidden' })),
+      state('void', style({ 'overflow-y': 'hidden' })),
+      transition(':enter', [
+        style({height: '0'}),
+        animate('0.5s',
+          style({height: '*'}))
+      ]),
+      transition(':leave', [
+        style({height: '*'}),
+        animate('0.5s',
+          style({height: '0'}))
+      ])
+    ])
+  ]
 })
 export class LoginPage {
   @ViewChild('entryFocus') entryFocus: any; // attach to element with #entryFocus property
+  protected mode = 'login';
   loading: Loading;
   credentials: User = <User>{ email: '', password: '' };
   protected error: string;
-
+  protected logins: [] = [
+    //{title: 'Facebook', name: 'facebook', click: this.facebook, icon: 'logo-facebook'},
+    //{title: 'Google', name: 'google', click: this.google, icon: 'logo-google'},
+  ];
   constructor(
     private feathersProvider: FeathersProvider,
     private loadingController: LoadingController,
     private navCtrl: NavController,
-    private navParams: NavParams
+    private navParams: NavParams,
+    private toastCtrl: ToastController
   ) {
   }
 
@@ -46,7 +68,7 @@ export class LoginPage {
     this.loading.present();
   }
 
-  login() {
+  public login() {
     this.showLoading('Signing in');
     this.feathersProvider.authenticate(this.credentials)
       .then(() => {
@@ -59,7 +81,7 @@ export class LoginPage {
     ;
   }
 
-  register() {
+  public register() {
     this.showLoading('Registering');
     this.feathersProvider.checkUnique({ email: this.credentials.email })
       .then(() => { // Email is unique
@@ -80,11 +102,28 @@ export class LoginPage {
       ;
   }
 
+  public reset() {
+    this.showLoading('Resetting Password');
+    this.feathersProvider.resetPasswordRequest({ email: this.credentials.email })
+      .then((user) => { // sanitized user {_id, email, avatar}
+        this.loading.dismiss();
+        console.log('Password reset request sent to %s', user.email);
+        this.toaster('Password reset request sent to ' + user.email);
+      })
+      .catch((err) => {
+        this.presentServerError(err, 'Resetting Password', 'reset');
+      })
+  }
+
+  public loginWith(social) {
+    console.log('log in with ' + social.name);
+  }
+
   private presentServerError(error, activity: string, command: string) {
     this.loading.dismiss();
 
-    // By default pass through unknown errors 
-    let message = error.message; 
+    // By default pass through unknown errors
+    let message = error.message;
 
     // Translate cryptic/technical messages like 'socket timeout' to messages understandable by users, e.g. 'cannot reach server'.
 
@@ -100,4 +139,11 @@ export class LoginPage {
     this.error = message;
   }
 
+  private toaster(text: string, time: number = 3000) {
+    const toast = this.toastCtrl.create({
+      message: text
+    });
+    toast.present();
+    setTimeout(() => toast.dismiss(), time);
+  }
 }
