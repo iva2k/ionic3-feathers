@@ -747,9 +747,9 @@ With all the added source code in place, the app has all functions, including mi
 
 Some thoughts on the features developed in this step:
 
- - ResetPasswordPage error handling could be smoother for UX, e.g. navigating to login/reset if verification code was rejected.
- - Though from technical implementation perspective it makes sense to have ResetPasswordPage separate from LoginPage, the workflow would be much smoother from UX perspective if it was done on a single page with segment selector. However, it will be much more convoluted design with need to hide segments depending on logged in state, and managing page layout.
-
+ - Error handling on ResetPasswordPage could be smoother for UX, e.g. navigating to login/reset if verification code was rejected.
+ - Though from technical implementation perspective it makes sense to have ResetPasswordPage separate from LoginPage, the workflow would be much smoother from UX perspective if it was done on a single page with segment selector. However, it will be much more convoluted design with hiding segments depending on logged in state, and managing page layout.
+ - Typically there's a separate "change password" form elsewhere, which uses old password and takes new password. This feature is easily replaced by "reset" request followed by "reset password", which also does email confirmation, so is much more secure against compromised passwords.
 
 ## Step 9. Login with Social Accounts
 
