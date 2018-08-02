@@ -1,5 +1,5 @@
-//TODO: const isEnabled = require('../../hooks/is-enabled');
-const { authenticate } = require('@feathersjs/authentication').hooks;
+//TODO: (when needed) const isEnabled = require('../../hooks/is-enabled');
+const auth = require('@feathersjs/authentication').hooks;
 const commonHooks = require('feathers-hooks-common');
 
 const isAction = () => {
@@ -16,8 +16,13 @@ module.exports = {
       commonHooks.iff(
         isAction('passwordChange', 'identityChange'),
         [
-          authenticate('jwt'),
-          //TODO: implement: isEnabled()
+          // TODO: (when needed) per https://blog.feathersjs.com/how-to-setup-email-verification-in-feathersjs-72ce9882e744
+          //? auth.verifyToken(),
+          //? auth.populateUser(),
+          //? auth.restrictToAuthenticated()
+
+          auth.authenticate('jwt'),
+          //TODO: (when needed) implement: isEnabled()
         ]
       ),
     ],
