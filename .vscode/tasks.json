@@ -15,6 +15,36 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "type": "npm",
+            "script": "ionic:serve",
+            "problemMatcher": []
+        },
+        {
+            "label": "Serve Cordova browser app",
+            "type": "shell",
+            "command": "ionic",
+            "args": [
+                "cordova",
+                "run",
+                "browser",
+                "--",
+                "-l"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Build Cordova browser app",
+            "type": "shell",
+            "command": "ionic",
+            "args": [
+                "cordova",
+                "prepare",
+                "--no-build",
+                "browser"
+            ],
+            "group": "build"
         }
     ]
 }
