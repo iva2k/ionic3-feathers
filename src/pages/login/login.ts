@@ -1,6 +1,6 @@
 import { Component, NgZone, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { IonicPage, Loading, LoadingController, NavController, /* NavParams, */ ToastController } from 'ionic-angular';
+import { IonicPage, Loading, LoadingController, NavController, NavParams, ToastController } from 'ionic-angular';
 
 import { User } from "../../models/user";
 import { FeathersProvider } from "../../providers/feathers/feathers";
@@ -32,19 +32,29 @@ export class LoginPage {
   loading: Loading;
   credentials: User = <User>{ email: '', password: '' };
   protected error: string;
-  protected logins = [
-    //{title: 'Facebook', name: 'facebook', icon: 'logo-facebook', url: '/auth/facebook'},
-    //{title: 'Google', name: 'google', icon: 'logo-google', url: '/auth/google'},
-    //{title: 'Github', name: 'github', icon: '??logo-github', url: '/auth/github'},
-  ];
+  protected logins = [];
   constructor(
     private feathersProvider: FeathersProvider,
     private loadingController: LoadingController,
     private navCtrl: NavController,
-    // navParams: NavParams,
+    navParams: NavParams,
     private ngZone: NgZone,
     private toastCtrl: ToastController
   ) {
+    this.logins = this.feathersProvider.getSocialLogins();
+    let error    = navParams.get('error'); // If past login attempt failed, we will get an error.
+    let activity = navParams.get('activity') || '';
+    let command  = navParams.get('command')  || '';
+    if (error) {
+      this.presentServerError(error, activity, command);
+    }
+  }
+
+  private onLoginSuccess(user) {
+    console.log('User %s loggeed in.', user.email);
+    this.hideLoading();
+    // The app will switch pages via Events from provider.
+    // e.g. this.navCtrl.setRoot('MenuPage', {}, {animate: false});
   }
 
   // Entry guard
@@ -61,7 +71,7 @@ export class LoginPage {
     }, 500);
   }
 
-  showLoading(activity: string) {
+  private showLoading(activity: string) {
     this.error = ''; // Clear error
     let message = 'Please wait,<br/>' + activity + '...';
     if (this.loading) {
@@ -76,18 +86,19 @@ export class LoginPage {
       this.loading.present();
     }
   }
+  private hideLoading() {
+    if (this.loading) this.loading.dismiss();
+  }
 
   public login() {
     this.showLoading('Signing in');
     this.feathersProvider.authenticate(this.credentials)
-      .then(() => {
-        //this.loading.dismiss();
-        this.navCtrl.setRoot('MenuPage', {}, {animate: false});
+      .then((user) => {
+        this.onLoginSuccess(user);
       })
       .catch((error) => {
         this.presentServerError(error, 'Signing in', 'authenticate');
-      })
-    ;
+      });
   }
 
   public register() {
@@ -95,41 +106,53 @@ export class LoginPage {
     this.feathersProvider.checkUnique({ email: this.credentials.email })
       .then(() => { // Email is unique
         this.feathersProvider.register(this.credentials)
-          .then(() => {
-            //this.loading.dismiss();
+          .then((user) => {
             console.log('User created.');
-            this.navCtrl.setRoot('MenuPage', {}, { animate: false });
+            this.onLoginSuccess(user);
           })
           .catch(error => {
             this.presentServerError(error, 'Registering', 'register');
-          })
-          ;
+          });
       })
       .catch((err) => { // Email is already registered, or all other errors
         this.presentServerError(err, 'Registering', 'checkEmailUnique');
-      })
-      ;
+      });
   }
 
   public reset() {
     this.showLoading('Resetting Password');
     this.feathersProvider.resetPasswordRequest({ email: this.credentials.email })
       .then((user) => { // sanitized user {_id, email, avatar}
-        this.loading.dismiss();
+        this.hideLoading();
         console.log('Password reset request sent to %s', user.email);
         this.toaster('Password reset request sent to ' + user.email);
       })
       .catch((err) => {
         this.presentServerError(err, 'Resetting Password', 'reset');
-      })
+      });
   }
 
   public loginWith(social) {
-    console.log('log in with ' + social.name);
+    this.showLoading('Signing in with ' + social.title);
+    console.log('log in with ' + social.title);
+    this.feathersProvider.loginWith(social)
+      .then(() => {
+        this.showLoading('Registering app with ' + social.title);
+        // Login will complete in a callback, possibly even with app reload. Event will be delivered to the app, which will switch pages or open us with an error info.
+      })
+      .catch((error) => {
+        this.presentServerError(error, 'Signing in with ' + social.title, 'authenticate');
+      });
   }
 
+  /**
+   * Post error message on UI
+   * @param error Error object
+   * @param activity 'Signing in ...' and similar text, suitable for showing in UI.
+   * @param command 'authenticate', 'validate', 'register', 'reset', 'checkEmailUnique'
+   */
   private presentServerError(error, activity: string, command: string) {
-    this.loading.dismiss();
+    this.hideLoading();
 
     // By default pass through unknown errors
     let message = error.message;

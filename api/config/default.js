@@ -31,7 +31,8 @@ module.exports = {
     secret: '0e12c47d13d3140b3332c844e146c5fda409ec162b27dbf97228556d19ade0b5a7824dc008e604509a476b7db7fffead50248c1b57a34e492935091876219ea54ccebc7c5d65d2b1baa3771993d61d6cfde35e100cffcd59b7ccc787eff087f9a61e2d855b70cc1e73d27c6f123ac05194d6f3bc44ac1cc8f0b9c7db1c700f5bbc34b0cf7d4c67b5b8669684fc27331b4c79cc40263538c73c13710eb65ac157bfab05d3f9f3ce94b3aecb79fd3449048b9087eb9859d8cf60d96d48878f719bb87db70a8e8dc25b11a9c747c8364d155d610ecf977196039d65923f1b34c3ead6b692d0eb7918941adb9034439d3394eb4b0d16ea76e9605a44d50001df0a9f',
     strategies: [
       'jwt',
-      'local'
+      'local',
+      'social_token'
     ],
     path: '/authentication',
     service: 'users',
@@ -84,6 +85,9 @@ module.exports = {
       name: 'feathers-jwt',
       httpOnly: false,
       secure: false
+    },
+    social_token: {
+dummy: 'some data'
     }
   }
 };

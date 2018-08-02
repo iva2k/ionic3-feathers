@@ -110,8 +110,8 @@ We created minimum functionality Ionic 3 app.
 _Inspired by https://berndsgn.ch/posts/observables-with-angular-and-feathersjs/ ._
 
 ```bash
-$ npm install --save @feathersjs/client
-$ npm install --save socket.io-client @types/socket.io-client
+$ npm install --save @feathersjs/client socket.io-client
+$ npm install --save-dev @types/socket.io-client
 ```
 
 Note: What in Angular is called a "service", In Ionic is called a "provider", otherwise they are the same.
@@ -751,9 +751,69 @@ Some thoughts on the features developed in this step:
  - Though from technical implementation perspective it makes sense to have ResetPasswordPage separate from LoginPage, the workflow would be much smoother from UX perspective if it was done on a single page with segment selector. However, it will be much more convoluted design with hiding segments depending on logged in state, and managing page layout.
  - Typically there's a separate "change password" form elsewhere, which uses old password and takes new password. This feature is easily replaced by "reset" request followed by "reset password", which also does email confirmation, so is much more secure against compromised passwords.
 
-## Step 9. Login with Social Accounts
+## Step 9. Login With X
 
-Social logins are a must of modern apps. Let's implement "login with".
+"Login With X" (a.k.a. "Social login") is a must of modern apps. Many users prefer to have single login with one password to remember, and use it across many websites and apps.
+
+There are few ways to use login providers:
+
+ 1. Use FeathersJS backend support (need a plugin for each login provider, opens in Webview and limited to currently implemented Google, Facebook, Github)
+ 2. Use custom clients, like @ionic-native/google-plus (limited to what is implemented, but more smooth native UI)
+ 3. Use client library like Hello.js (unlimited OAuth2 providers, even can do OAuth1, but opens in a popup or navigates to new URL and comes back to the app, so might not work in Electron, TBD)
+
+Each method has its own pluses and minuses.
+
+We will start with Hello.js, followed up by other two, to be flexible.
+
+In the end, we will want to have server-side list of providers, so app does not have to be re-released when adding providers.
+
+### Hello.js Method
+
+_From https://medium.com/@jacobgoh101/social-login-with-feathersjs-back-end-f834e5017230 _.
+
+```bash
+$ npm install --save hellojs
+$ npm install --save-dev @types/hellojs
+$ cd api
+$ npm install --save feathers-authentication-custom passport-custom axios
+```
+
+On the server side we will create new auth strategy 'social_token'.
+
+On the client side we expand src/providers/feathers/feathers.ts, add buttons and click handlers to the LoginPage, remove direct guard callbacks from src/providers/feathers/feathers.ts and use Events for guards and for the app to react to login/logout.
+
+You will need to get CLIENT_ID for each social login provider, see section "Providers" below to get them.
+
+Copy your CLIENT_ID and CLIENT_SECRET into api/config/private.env for server side and into relevant files on client side:
+
+```
+DEV_GOOGLE_OAUTH_CLIENT_ID="987654321012-1234adf1234adf1234adf1234adf1234.apps.googleusercontent.com"
+DEV_GOOGLE_OAUTH_CLIENT_SECRET="abcdefghijk-lmnopqrstuvw"
+```
+
+See the code on Github for few edits:
+
+ - api/server/utility/verifySocialToken.js
+ - api/server/authentication.js
+ - src/pages/login/login.* files ()
+ - src/app/app.component.ts (Events use for login/logout and guards)
+ - src/providers/feathers/feathers.ts
+
+
+### Providers
+
+#### Google
+
+See https://developers.google.com/identity/sign-in/web/sign-in
+
+Short summary:
+
+With google developer account, visit https://console.developers.google.com/ and create a project, name it ionic3-feathers-todos (or any name you plan to use it as), optionally give it custom project id.
+Then open credentials page and create OAuth client ID, and follow instructions. Choose "Website" application type.
+
+Copy your client id and client secret into relevant configuration files.
+
+Add domain names for the app (both request and redirect) into allowed lists.
 
 
 To be continued...
@@ -958,17 +1018,21 @@ See https://visible.vc/engineering/signup-flow-without-email-confirmation/
 
 In addition to the linked article, the process can be streamlined without email confirmation, with added lazy confirmation (email is sent anyway, more like a "welcome email" with link to confirm for using advanced / limited features), and forced confirmation when user tries to use limited features.
 
+## Icons for Social Logins
+
+Zocial CSS http://zocial.smcllns.com/
+
+
 # TODO:
 
  * Post host IP address from server to app - help Ionic DevApp, as well as server deployment.
- * forgot password
  * Goolge/FB login?
  
  * Revisit: save login persistently (app, browser, desktop)
  * Detect and reconnect Feathers client if connection fails, keep retrying.
  * If persistent login is saved but rejected, show appropriate message (e.g. re-login)
  * Login should survive server restart. Save JWT to DB? Reissue JWT?
- * Figure out disappearing menu when navigating to .../#/menu/home (not anymore? after changing to setRoot instead of reassigning rootPage)
+ * Figure out disappearing menu when setting root to MenuPage in some cases but not others. Can be fixed by removing [swipeBackEnabled]="false". See https://github.com/ionic-team/ionic/issues/7417 and https://github.com/ionic-team/ionic/pull/14947 https://github.com/ionic-team/ionic/pull/14948
  * Add :id URL/route for detail page; Add add URL/route for detail page; Redirect to master page when linking to detail page without :id/add URL. WHen no router stack in detail page, use setRoot();
  * [UX] Undo (e.g. Toast: task removed -> undo button). May need to allow "create" with same ID. Or undo on DB backend?
  * Vulnerability - Apply security fix when available, track https://github.com/ionic-team/ionic-app-scripts/issues/1425 and https://github.com/sass/node-sass/issues/2355

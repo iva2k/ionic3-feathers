@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Nav, NavController, /* NavParams, */ Tabs, Tab } from 'ionic-angular';
+import { IonicPage, Nav, /* NavController, /* NavParams, */ Tabs, Tab } from 'ionic-angular';
 
 import { FeathersProvider } from "../../providers/feathers/feathers";
 
@@ -36,13 +36,13 @@ export class MenuPage {
 
   constructor(
     private feathersProvider: FeathersProvider,
-    private navCtrl: NavController,
+    //private navCtrl: NavController,
     //navParams: NavParams
   ) {
   }
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad MenuPage');
+    console.log('ionViewDidLoad MenuPage');
   }
 
   public onClick(menuItem: IMenuItem) {
@@ -90,12 +90,12 @@ export class MenuPage {
   }
 
   public logout() {
-    this.feathersProvider.logout(this.navCtrl)
+    this.feathersProvider.logout()
       .then(() => {
-        this.nav.setRoot('LoginPage'); // return to '/' (TODO: how to return to page defined in app.component.ts?)
+        // app will get 'user:logout' event and return to '/'
       })
       .catch(() => {
-        this.nav.setRoot('LoginPage'); // return to '/' (TODO: how to return to page defined in app.component.ts?)
+        // app will get 'user:logout' event and return to '/'
       })
     ;
   }
