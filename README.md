@@ -596,6 +596,8 @@ We can make a lot of small and big improvements. Not in any particular order...
  16. [UX] Form default button on TodoDetailPage
  17. [Server] Reorganize config files, use dotenv to load api/config/private.env (copy and customize private.env.template, do not store private.env in git!), see https://codingsans.com/blog/node-config-best-practices
  18. [Server] Add Gravatar configuration parameters
+ 19. [Server] In development/testing modes, write local IP address to www/server.json file, and client app reads it for finding server on local netowrk.
+     ```cd api && npm install --save internal-ip```
 
 ## Step 8. Authentication Management
 
@@ -755,17 +757,23 @@ Some thoughts on the features developed in this step:
 
 "Login With X" (a.k.a. "Social login") is a must of modern apps. Many users prefer to have single login with one password to remember, and use it across many websites and apps.
 
-There are few ways to use login providers:
+See this link for a good general overview of the process: https://github.com/feathersjs/docs/blob/master/guides/auth/recipe.oauth-basic.md
+(as well as for steps to implement method #1 below).
+
+There are few methods to implement login with OAuth providers:
 
  1. Use FeathersJS backend support (need a plugin for each login provider, opens in Webview and limited to currently implemented Google, Facebook, Github)
  2. Use custom clients, like @ionic-native/google-plus (limited to what is implemented, but more smooth native UI)
- 3. Use client library like Hello.js (unlimited OAuth2 providers, even can do OAuth1, but opens in a popup or navigates to new URL and comes back to the app, so might not work in Electron, TBD)
+ 3. Use client library like Hello.js (unlimited OAuth2 providers, even can do OAuth1)
 
 Each method has its own pluses and minuses.
 
-We will start with Hello.js, followed up by other two, to be flexible.
+Methods 1 and 3 use Webview, and recently Google stopped allowing OAuth login on mobile devices (it insists on using native methods).
+I tried method 2 with @ionic-native/google-plus - it would not load / has current unfixed bugs.
 
-In the end, we will want to have server-side list of providers, so app does not have to be re-released when adding providers.
+We will use Hello.js in web browser versions, as it works well and gives us most flexibility. On mobile, we have to use native, will try to fix it.
+
+In the end, we will want to have server-side list of providers, so app does not have to be re-released when adding providers. Hello.js supports that goal well (we can implement loading it from CDN, to always have recent updates).
 
 ### Hello.js Method
 
@@ -798,6 +806,12 @@ See the code on Github for few edits:
  - src/pages/login/login.* files ()
  - src/app/app.component.ts (Events use for login/logout and guards)
  - src/providers/feathers/feathers.ts
+
+### Native Method
+
+#### @ionic-native/google-plus
+
+To be continued...
 
 
 ### Providers
@@ -1025,8 +1039,9 @@ Zocial CSS http://zocial.smcllns.com/
 
 # TODO:
 
- * Post host IP address from server to app - help Ionic DevApp, as well as server deployment.
- * Goolge/FB login?
+ * Verify Goolge/FB login on mobile.
+ * Toaster notification upon login / logout.
+ * Fingerprint login
  
  * Revisit: save login persistently (app, browser, desktop)
  * Detect and reconnect Feathers client if connection fails, keep retrying.

@@ -14,6 +14,30 @@ function run() {
     logger.info('Feathers application started on http://%s:%d', app.get('host'), port)
   );
 
+  if (process.env.NODE_ENV === 'development') {
+    // Save local IP address and port to JSON file that client app can read. Simplify development config a bit.
+    const internalIp = require('internal-ip');
+    const path = require('path');
+    const fs = require('fs');
+    const outfile = path.join(app.get('www'), 'server.json');
+    let ip4, ip6;
+    internalIp.v6().then((ip) => {
+      ip6=ip;
+      return internalIp.v4();
+    }).then((ip) => {
+      ip4 = ip;
+      console.log('Internal IP ipv4: ' + ip4 + ' ipv6: ' + ip6);
+      let data = {
+        ip4,
+        ip6,
+        port
+      };
+      fs.writeFile(outfile, JSON.stringify(data), function(err) {
+        if (err) console.log(err);
+        else console.log('Saved file %s', outfile);
+      });
+    });
+  }
 }
 
 logger.info('NODE_ENV: %s', process.env.NODE_ENV);

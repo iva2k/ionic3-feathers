@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
+import { HttpClient } from '@angular/common/http'; // For fetching server.json file in dev mode.
+import 'rxjs/add/operator/toPromise';
 
 import io from "socket.io-client";
 
@@ -124,30 +126,53 @@ export class FeathersProvider {
   };
 
   constructor(
-    public events: Events
+    public events: Events,
+    public http: HttpClient
   ) {
     // Add socket.io plugin
-    this._socket = io(this.apiUrl, {
-      // transports: ['websocket'],
-      // forceNew: true
-    });
-    //this._feathers.configure(feathersSocketIOClient(this._socket));
-    this._feathers.configure(feathers.socketio(this._socket));
+    this.getJsonData('server.json').then(data => {
+      console.log('Loaded "server.json", data: %o', data);
+      this.apiUrl = 'http://' + data.ip4 + ':' + data.port;
+    }).catch((error) => {
+      console.log('Error reading "server.json" file, using default API URL');
+      // ignore error
+    }).then(() => {
+      
+      this._socket = io(this.apiUrl, {
+        // transports: ['websocket'],
+        // forceNew: true
+      });
 
-    // Add authentication plugin
-    //?this._feathers.configure(feathersAuthClient({
-    this._feathers.configure(feathers.authentication({
-      storage: window.localStorage
-    }));
+      //this._feathers.configure(feathersSocketIOClient(this._socket));
+      this._feathers.configure(feathers.socketio(this._socket));
 
-    // Add feathers-reactive plugin
-    //?this._feathers.configure(feathersRx({ idField: '_id' }));
+      // Add authentication plugin
+      //?this._feathers.configure(feathersAuthClient({
+      this._feathers.configure(feathers.authentication({
+        storage: window.localStorage
+      }));
 
-    this.authManagement = new AuthManagement(this._feathers);
+      // Add feathers-reactive plugin
+      //?this._feathers.configure(feathersRx({ idField: '_id' }));
+
+      this.authManagement = new AuthManagement(this._feathers);
+    })
 
     this.initHello();
 
     this.loginState = false;
+  }
+
+  private getJsonData(url: string): Promise<any> {
+    return this.http.get(url).toPromise()
+      .then((data: any) => {
+        console.log('getJsonData() success data:', data);
+        return data;
+     })
+     .catch(err => {
+        console.log('getJsonData() error: %o', err);
+        return err;
+     });
   }
 
   // Expose services
@@ -343,7 +368,7 @@ export class FeathersProvider {
     console.log('[FeathersService] onHelloLogout() data: ', data);
   }
 
-  private loginHello(social, display: hello.HelloJSDisplayType = 'popup'): Promise<any> {
+  private loginHello(social, display: hello.HelloJSDisplayType = 'page'): Promise<any> {
     return new Promise((resolve, reject) => {
       hello(social.name).login({
         scope: 'email',

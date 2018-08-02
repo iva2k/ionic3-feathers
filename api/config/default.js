@@ -8,6 +8,7 @@ module.exports = {
   host             : 'localhost',
   port             : 3030,
   public           : '../public/',
+  www              : '../../www/', // Folder where the client app is being built (and served from). For Ionic+Cordova, should be '../../platforms/browser/www'
   logo             : process.env.LOGO              || 'logo-white.png', // File in public folder
 
   paginate : {
@@ -87,7 +88,7 @@ module.exports = {
       secure: false
     },
     social_token: {
-dummy: 'some data'
+      dummy: 'some data'
     }
   }
 };
