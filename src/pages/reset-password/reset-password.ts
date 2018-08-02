@@ -6,7 +6,7 @@ import { FeathersProvider } from "../../providers/feathers/feathers";
 
 @IonicPage({
   segment: 'reset-password/:vt',
-  //defaultHistory: ['auth/reset'] // TODO: Implement
+  //defaultHistory: ['auth/reset'] // TODO: (later) Implement URL and back history
   priority: 'off'
 })
 @Component({
@@ -21,8 +21,8 @@ export class ResetPasswordPage {
   credentials: User = <User>{ email: '', password: '' };
   protected verificationToken: string;
   protected error: string;
-  //protected showLogin = false; //TODO: Implement link to a login page
-  protected showReset = false; //TODO: Implement link to a reset page, login page
+  //protected showLogin = false; //TODO: (later) Implement link to a login page
+  protected showReset = false; //TODO:(later)  Implement link to a reset page, login page
 
   constructor(
     private feathersProvider: FeathersProvider,

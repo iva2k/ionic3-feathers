@@ -32,5 +32,6 @@
 </ion-menu>
 
 <!-- main navigation -->
-<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<!-- [swipeBackEnabled]="false" (iOS) to disable swipe-to-go-back because it's poor UX to combine STGB with side menus. -->
+<!-- However, ionic issue #7417 hides the menu and related toggleMenu button, see https://github.com/ionic-team/ionic/issues/7417 TODO: remove swipeBackEnabled until #7417 is fixed (PR submitted) -->
 <ion-nav [root]="rootPage" #content [swipeBackEnabled]="false"></ion-nav>

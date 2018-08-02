@@ -23,7 +23,7 @@ export class TodosListComponent implements OnDestroy, OnInit {
   @Output('done') doneEvent = new EventEmitter<{action: string, item: Todo}>();
 
   protected todos: Todo[] = [];
-  private subscription: any; //TODO: DataSubscriber<Todo>;
+  private subscription: any; //TODO: (later) Use type : DataSubscriber<Todo>;
 
   constructor(
     private feathersProvider: FeathersProvider,

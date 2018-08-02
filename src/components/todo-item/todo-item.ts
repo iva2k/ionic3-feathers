@@ -30,7 +30,7 @@ export class TodoItemComponent implements AfterViewInit, OnDestroy, OnInit {
 
   protected todo: Todo = <Todo>{};
   protected oldTodo: Todo; // Saved data for detecting changes
-  private subscription: any; //TODO: DataSubscriber<Todo>;
+  private subscription: any; //TODO: (later) Use type : DataSubscriber<Todo>;
 
   constructor(
     private feathersProvider: FeathersProvider,

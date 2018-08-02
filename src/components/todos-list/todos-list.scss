@@ -13,13 +13,13 @@ todos-list {
     pointer-events: none;
   }
 
-  /* TODO: spinner is dropping classes so we have to use ids: https://github.com/ionic-team/ionic/issues/7087 */
+  /* TODO: (later) spinner is dropping classes so we have to use ids: https://github.com/ionic-team/ionic/issues/7087 */
   #delete-spinner,
   .deleting .action-hide {
     display: none;
   }
 
-  /* TODO: spinner doesn't have a good way to do this yet: https://github.com/ionic-team/ionic/issues/7087 */
+  /* TODO: (later) spinner doesn't have a good way to do this yet: https://github.com/ionic-team/ionic/issues/7087 */
   #delete-spinner.spinner-ios line,
   #delete-spinner.spinner-crescent circle {
     stroke: #fff;
