@@ -17,6 +17,7 @@ import { FeathersProvider } from '../providers/feathers/feathers';
     BrowserModule,
     BrowserAnimationsModule,
     IonicModule.forRoot(MyApp, {
+      preloadModules: true, // Optimize page modules preloading according to their @IonicPage priority (for faster response to deep links)
       menuType: 'overlay', // 'push' - slide out pushing the page, 'reveal' - slide out pushing the page (iOS), 'overlay' - slide out covering the page (MD and Windows)
       platforms: {
         ios: {
