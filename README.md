@@ -598,6 +598,7 @@ We can make a lot of small and big improvements. Not in any particular order...
  18. [Server] Add Gravatar configuration parameters
  19. [Server] In development/testing modes, write local IP address to www/server.json file, and client app reads it for finding server on local netowrk.
      ```cd api && npm install --save internal-ip```
+ 20. [Server] Compact NeDB in seeder and upon start. Add autocompaction interval to config.
 
 ## Step 8. Authentication Management
 
@@ -810,6 +811,7 @@ See the code on Github for few edits:
 ### Native Method
 
 #### @ionic-native/google-plus
+
 
 To be continued...
 

@@ -6,6 +6,7 @@ const hooks = require('./users.hooks');
 module.exports = function (app) {
   const Model = createModel(app);
   const paginate = app.get('paginate');
+  const autocompaction = app.get('autocompaction');
 
   const options = {
     Model,
@@ -18,6 +19,13 @@ module.exports = function (app) {
 
   // Get our initialized service so that we can register hooks
   const service = app.service('users');
+
+  // NeDB-specific:
+  let persistence = service.Model.persistence;
+  if (persistence) {
+    if (autocompaction) { if (persistence.setAutocompactionInterval) persistence.setAutocompactionInterval(autocompaction); }
+    else                { if (persistence.compactDatafile          ) persistence.compactDatafile(); }
+  }
 
   service.hooks(hooks);
 };

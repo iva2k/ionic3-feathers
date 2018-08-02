@@ -110,16 +110,26 @@ async function seedDB(args = {dropDB: true, usersCount: 3, todosPerUserCount: 3,
   services = services.concat(USERS);
 
   // Perform DB operations
-  if (args.dropDB) {
+  if (args.dropDB && app.get('env') !== 'production') {
     logger.info('Erasing the database...');
-    await app.service('todos').remove(null, {}); // Remove all
-    await app.service('users').remove(null, {}); // Remove all
+    for (let path of ['todos', 'users']) {
+      await app.service(path).remove(null, {}); // Remove all
+    }
   }
   logger.info('Seeding the database...');
   await app.configure(seeder({
     delete: false, // This only sets default for 'delete' in root seeder services, but not anything in the seeder callbacks.
     services
   })).seed();
+  // Initiate compaction of NeDB files
+  if (args.dropDB) {
+    for (let path of ['todos', 'users']) {
+      let persistence = app.service(path).Model.persistence;
+      if (persistence && persistence.compactDatafile) {
+        persistence.compactDatafile();
+      }
+    }
+  }
   logger.info('Done seeding the database.');
 }
 
