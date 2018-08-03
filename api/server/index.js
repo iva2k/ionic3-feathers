@@ -19,7 +19,8 @@ function run() {
     const internalIp = require('internal-ip');
     const path = require('path');
     const fs = require('fs');
-    const outfile = path.join(app.get('www'), 'server.json');
+    let targets = app.get('www') || [];
+    if (!Array.isArray(targets)) targets = [targets];
     let ip4, ip6;
     internalIp.v6().then((ip) => {
       ip6=ip;
@@ -32,10 +33,13 @@ function run() {
         ip6,
         port
       };
-      fs.writeFile(outfile, JSON.stringify(data), function(err) {
-        if (err) console.log(err);
-        else console.log('Saved file %s', outfile);
-      });
+      for (let target of targets) {
+        let outfile = path.join(target, 'server.json');
+        fs.writeFile(outfile, JSON.stringify(data), function(err) {
+          if (err) console.log(err);
+          else console.log('Saved file %s', outfile);
+        });
+      }
     });
   }
 }
