@@ -10,6 +10,8 @@ module.exports = (network, socialId, socialToken) => {
     case 'windows' : url = `https://apis.live.net/v5.0/me?access_token=${socialToken}`; break;
     // TODO: (later) Add other social login API endpoints here.
     // TODO: (soon) Implement single table of social logins, including data for client-side (client_id, url, proxy for oauth1, etc.), move data to config.
+    default:
+      reject(new errors.BadRequest('Invalid network.', { network }));
     }
     let socialAuth = await axios.get(url);
     socialAuth = socialAuth.data;
