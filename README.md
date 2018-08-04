@@ -812,6 +812,29 @@ See the code on Github for few edits:
 
 #### @ionic-native/google-plus
 
+See https://ionicframework.com/docs/native/google-plus/
+
+Get WEB_CLIENT_ID and REVERSED_ID (add iOS app on Google and download .plist file):
+
+Note: .plist from Google has iOS CLIENT_ID - don't use it in WEB_CLIENT_ID! Get CLIENT_ID for Web application.
+
+WEB_CLIENT_ID=<your_WEB_CLIENT_ID> 411586170471-cnmvgerljm4f37518sll69omlo7b6h09.apps.googleusercontent.com
+REVERSED_CLIENT_ID=<your_REVERSED_CLIENT_ID> com.googleusercontent.apps.411586170471-cnmvgerljm4f37518sll69omlo7b6h09
+
+```bash
+$ ionic cordova plugin add cordova-plugin-googleplus --variable REVERSED_CLIENT_ID=com.googleusercontent.apps.411586170471-cnmvgerljm4f37518sll69omlo7b6h09 --variable WEB_APPLICATION_CLIENT_ID=411586170471-ijmn4j0hoaote48id4pami5tr3u24t8d.apps.googleusercontent.com
+$ npm install --save @ionic-native/google-plus
+```
+
+We will use backend (social_token strategy) from section on Hello.js method (above).
+
+See the code on Github for few edits:
+
+ - src/providers/feathers/feathers.ts
+ - src/pages/login/login.ts
+ - src/app/app.module.ts
+ - config.xml
+
 
 To be continued...
 
@@ -827,10 +850,23 @@ Short summary:
 With google developer account, visit https://console.developers.google.com/ and create a project, name it ionic3-feathers-todos (or any name you plan to use it as), optionally give it custom project id.
 Then open credentials page and create OAuth client ID, and follow instructions. Choose "Website" application type.
 
-Copy your client id and client secret into relevant configuration files.
+Copy your web client id and client secret into relevant configuration files.
 
 Add domain names for the app (both request and redirect) into allowed lists.
 
+Add Android app, use bundle from config.xml (note that no hyphens in bundle id)
+
+Run keystore command, on linux:
+
+```bash
+$ keytool -exportcert -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
+```
+
+on Windows:
+
+```bash
+$ keytool -exportcert -list -v -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+```
 
 To be continued...
 
@@ -1041,7 +1077,8 @@ Zocial CSS http://zocial.smcllns.com/
 
 # TODO:
 
- * Verify Goolge/FB login on mobile.
+ * Consolidate login providers info on server, remove all client IDs from client side.
+ * Verify Google/FB login on mobile.
  * Toaster notification upon login / logout.
  * Fingerprint login
  
@@ -1056,6 +1093,8 @@ Zocial CSS http://zocial.smcllns.com/
  * Unify eslint/tslint between Ionic and Feathers server parts.
  * Tests for Ionic app.
  * Reorganize folders and scripts so that Ionic app (cordova browser) is built into Feathers api/public folder.
+ * Rename src/providers/feathers/feathers.ts -> src/providers/backend.ts.
  * Phone logins, SMS verification. See https://medium.com/@hcbh96/the-how-and-why-of-2fa-using-twilio-and-feathers-js-simple-2fa-tutorial-e64a930a57a8
+ * Use JSON schema, see e.g. feathers-nedb-ajv
 
 ##END

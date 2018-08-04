@@ -26,11 +26,13 @@
         "@angular/platform-browser-dynamic": "5.2.11",
         "@feathersjs/client": "^3.5.4",
         "@ionic-native/core": "4.7.0",
+        "@ionic-native/google-plus": "^4.11.0",
         "@ionic-native/splash-screen": "4.7.0",
         "@ionic-native/status-bar": "4.7.0",
         "@ionic/pro": "1.0.20",
         "@ionic/storage": "^2.1.3",
         "clone-deep": "^4.0.0",
+        "cordova-plugin-googleplus": "^5.3.0",
         "cordova-plugin-statusbar": "^2.4.2",
         "deep-object-diff": "^1.1.0",
         "feathers-authentication-management": "^2.0.1",
@@ -40,7 +42,12 @@
         "rxjs": "5.5.11",
         "socket.io-client": "^2.1.1",
         "sw-toolbox": "3.6.0",
-        "zone.js": "0.8.26"
+        "zone.js": "0.8.26",
+        "cordova-plugin-device": "2.0.2",
+        "cordova-plugin-ionic-keyboard": "2.0.5",
+        "cordova-plugin-ionic-webview": "1.1.19",
+        "cordova-plugin-splashscreen": "5.0.2",
+        "cordova-plugin-whitelist": "1.3.3"
     },
     "devDependencies": {
         "@ionic/app-scripts": "3.1.10",
@@ -52,7 +59,15 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-splashscreen": {},
-            "cordova-plugin-statusbar": {}
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-googleplus": {
+                "REVERSED_CLIENT_ID": "com.googleusercontent.apps.411586170471-cnmvgerljm4f37518sll69omlo7b6h09",
+                "WEB_APPLICATION_CLIENT_ID": "411586170471-ijmn4j0hoaote48id4pami5tr3u24t8d.apps.googleusercontent.com"
+            },
+            "cordova-plugin-device": {},
+            "cordova-plugin-ionic-keyboard": {},
+            "cordova-plugin-ionic-webview": {},
+            "cordova-plugin-whitelist": {}
         }
     }
 }
