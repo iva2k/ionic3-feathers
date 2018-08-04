@@ -29,7 +29,6 @@
                 "cordova",
                 "run",
                 "browser",
-                "--",
                 "-l"
             ],
             "group": "build"

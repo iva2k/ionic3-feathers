@@ -810,7 +810,7 @@ See the code on Github for few edits:
 
 ### Native Method
 
-#### @ionic-native/google-plus
+#### Google: @ionic-native/google-plus
 
 See https://ionicframework.com/docs/native/google-plus/
 
@@ -856,17 +856,21 @@ Add domain names for the app (both request and redirect) into allowed lists.
 
 Add Android app, use bundle from config.xml (note that no hyphens in bundle id)
 
-Run keystore command, on linux:
+For debug or production app, run keystore command, on linux:
 
 ```bash
 $ keytool -exportcert -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
+$ keytool -exportcert -list -v -alias <your-key-name> -keystore <path-to-production-keystore>
 ```
 
 on Windows:
 
 ```bash
 $ keytool -exportcert -list -v -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+$ keytool -exportcert -list -v -alias <your-key-name> -keystore <path-to-production-keystore>
 ```
+
+Enter the password, by default for "debug.keystore is "android". Copy SHA1 value and paste into Android app field.
 
 To be continued...
 
