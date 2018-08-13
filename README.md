@@ -99,7 +99,62 @@ Alternatively see Github for setup in tasks.json file that launches ionic app.
 
 Next, start debug with "Launch in Chrome" configuration.
 
-For debugging on Android emulator, see [this link](http://www.damirscorner.com/blog/posts/20170113-DebugIonic2AppsInVsEmulatorForAndroid.html), it uses [Microsoft's Android Emulator](https://visualstudio.microsoft.com/vs/msft-android-emulator/).
+#### Android Device
+
+For debugging on Android device/emulator, see [this link](http://www.damirscorner.com/blog/posts/20170113-DebugIonic2AppsInVsEmulatorForAndroid.html),
+it uses [Microsoft's Android Emulator](https://visualstudio.microsoft.com/vs/msft-android-emulator/) and 
+[this link](https://moduscreate.com/blog/ionic-cordova-debug-device-visual-studio-code/).
+
+Install Android Studio, download SDKs and make sure to install:
+
+- Android SDK Build-Tools
+- Android SDK Platform-Tools
+- Android SDK Tools
+- Google USB Driver (adb)
+- Support Repository (Android Support Repository and Google Repository) 
+- Google Play Services
+
+
+```bash
+$ ionic cordova platform add android
+```
+
+To avoid issues in Cordova plugins (e.g. https://github.com/EddyVerbruggen/cordova-plugin-googleplus/issues/478),
+patch file node_modules/cordova-android/bin/templates/project/build.gradle with code
+(required since [11.2.0](https://developers.google.com/android/guides/releases#august_2017_-_version_1120)
+see also [this link](https://developer.android.com/studio/build/dependencies#google-maven)):
+
+```
+        maven {
+            url "https://maven.google.com"
+        }
+```
+
+into sections:
+
+ - buildscript { repositories { ... } }
+ - allprojects { repositories { ... } }
+
+
+Note: this is a package file, will be overwritten upon updates.
+
+To run on Android phone, plug in, and:
+
+```bash
+$ ionic cordova run android
+```
+
+Use  "Run android on device" configuration (in launch.json file) for debugging in VSCode.
+
+
+#### IOS Device
+
+```bash
+$ ionic cordova platform add ios
+```
+
+See https://moduscreate.com/blog/ionic-cordova-debug-device-visual-studio-code/
+
 
 ### Summary
 
@@ -1100,5 +1155,18 @@ Zocial CSS http://zocial.smcllns.com/
  * Rename src/providers/feathers/feathers.ts -> src/providers/backend.ts.
  * Phone logins, SMS verification. See https://medium.com/@hcbh96/the-how-and-why-of-2fa-using-twilio-and-feathers-js-simple-2fa-tutorial-e64a930a57a8
  * Use JSON schema, see e.g. feathers-nedb-ajv
+
+ * Patch needed (https://github.com/EddyVerbruggen/cordova-plugin-googleplus/issues/478), meanwhile manually patch node_modules/cordova-android/bin/templates/project/build.gradle
+
+```bash
+        maven {
+            url "https://maven.google.com"
+        }
+```
+
+into sections:
+
+ - buildscript { repositories { ... } }
+ - allprojects { repositories { ... } }
 
 ##END

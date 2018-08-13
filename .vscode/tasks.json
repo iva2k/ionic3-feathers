@@ -1,49 +1,79 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Serve Ionic app",
-            "type": "shell",
-            "command": "ionic",
-            "args": [
-                "serve",
-                "-b"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "type": "npm",
-            "script": "ionic:serve",
-            "problemMatcher": []
-        },
-        {
-            "label": "Serve Cordova browser app",
-            "type": "shell",
-            "command": "ionic",
-            "args": [
-                "cordova",
-                "run",
-                "browser",
-                "-l"
-            ],
-            "group": "build"
-        },
-        {
-            "label": "Build Cordova browser app",
-            "type": "shell",
-            "command": "ionic",
-            "args": [
-                "cordova",
-                "prepare",
-                "--no-build",
-                "browser"
-            ],
-            "group": "build"
-        }
-    ]
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Serve Ionic app",
+      "type": "shell",
+      "command": "ionic",
+      "args": [
+        "serve",
+        "-b"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "type": "npm",
+      "script": "ionic:serve",
+      "problemMatcher": []
+    },
+    {
+      "label": "Serve Cordova browser app",
+      "type": "shell",
+      "command": "ionic",
+      "args": [
+        "cordova",
+        "run",
+        "browser",
+        "-l",
+        "--address",
+        "localhost"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "Build Cordova browser app",
+      "type": "shell",
+      "command": "ionic",
+      "args": [
+        "cordova",
+        "prepare",
+        "--no-build",
+        "browser"
+      ],
+      "group": "build"
+    },
+
+    {
+      "label": "Serve Cordova android app",
+      "type": "shell",
+      "command": "ionic",
+      "args": [
+        "cordova",
+        "run",
+        "android",
+        "-l",
+        "-c",
+        "--address",
+        "localhost"
+      ],
+      "group": "build"
+  },
+    {
+      "label": "Build Cordova android app",
+      "type": "shell",
+      "command": "ionic",
+      "args": [
+        "cordova",
+        "prepare",
+        "--no-build",
+        "android"
+      ],
+      "group": "build"
+    }
+  ]
 }

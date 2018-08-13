@@ -8,7 +8,12 @@ module.exports = {
   host             : 'localhost',
   port             : 3030,
   public           : '../public/',
-  www              : ['../../www/', '../../platforms/browser/www'], // Folder(s) where the client app is being built (and served from).
+  www              : [
+    '../../www/',
+    '../../platforms/browser/www',
+    '../../platforms/android/assets/www'
+    // Add folder(s) here where the client app is being built (and served from).
+  ],
   logo             : process.env.LOGO              || 'logo-white.png', // File in public folder
 
   paginate : {

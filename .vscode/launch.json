@@ -1,47 +1,83 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch via NPM",
-            "runtimeExecutable": "npm",
-            "runtimeArgs": [
-                "run",
-                "ionic:serve"
-            ],
-            "timeout": 120000,
-            "console": "integratedTerminal",
-            "port": 9229
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "ionic",
-            "args": [
-                "serve"
-            ],
-            "port": 9229
-        },
-        {
-            "name": "Attach in Chrome",
-            "type": "chrome",
-            "request": "attach",
-            "url": "http://localhost:8100/",
-            "sourceMaps": true,
-            "port": 9222
-        },        
-        {
-            "name": "Launch in Chrome",
-            "type": "chrome",
-            "request": "launch",
-            "url": "http://localhost:8100/",
-            "sourceMaps": true,
-            "webRoot": "${workspaceRoot}/www"
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run android on device",
+      "type": "cordova",
+      "request": "launch",
+      "platform": "android",
+      "target": "device",
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "name": "Attach to android on device",
+      "type": "cordova",
+      "request": "attach",
+      "platform": "android",
+      "target": "device",
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "name": "Run android|ios on device|emulator",
+      "type": "cordova",
+      "request": "launch",
+      "platform": "android|ios",
+      "target": "device|emulator",
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "name": "Attach to android|ios on device|emulator",
+      "type": "cordova",
+      "request": "attach",
+      "platform": "android|ios",
+      "target": "device|emulator",
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "name": "Launch via NPM",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "ionic:serve"
+      ],
+      "timeout": 120000,
+      "console": "integratedTerminal",
+      "port": 9229
+    },
+    {
+      "name": "Launch Ionic (no Cordova)",
+      "type": "node",
+      "request": "launch",
+      "program": "ionic",
+      "args": [
+        "serve"
+      ],
+      "port": 9229
+    },
+    {
+      "name": "Attach in Chrome",
+      "type": "chrome",
+      "request": "attach",
+      "url": "http://localhost:8100/",
+      "sourceMaps": true,
+      "port": 9222
+    },
+    {
+      "name": "Launch in Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8100/",
+      "sourceMaps": true,
+      "webRoot": "${workspaceRoot}/www"
+    }
+  ]
 }
