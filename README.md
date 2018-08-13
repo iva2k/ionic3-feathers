@@ -101,9 +101,11 @@ Next, start debug with "Launch in Chrome" configuration.
 
 #### Android Device
 
-For debugging on Android device/emulator, see [this link](http://www.damirscorner.com/blog/posts/20170113-DebugIonic2AppsInVsEmulatorForAndroid.html),
-it uses [Microsoft's Android Emulator](https://visualstudio.microsoft.com/vs/msft-android-emulator/) and 
-[this link](https://moduscreate.com/blog/ionic-cordova-debug-device-visual-studio-code/).
+For debugging in VSCode on Android device, see [this link](https://moduscreate.com/blog/ionic-cordova-debug-device-visual-studio-code/).
+
+For Android emulator, either use Andoid Studio (latest has HW accelerated emulator) or see [this link](http://www.damirscorner.com/blog/posts/20170113-DebugIonic2AppsInVsEmulatorForAndroid.html),
+it uses [Microsoft's Android Emulator](https://visualstudio.microsoft.com/vs/msft-android-emulator/). Windows 7 is not
+supported by Hyper-V, "Hyper-V Platform" option is available only in > Windows 8.
 
 Install Android Studio, download SDKs and make sure to install:
 
